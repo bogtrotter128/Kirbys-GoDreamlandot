@@ -141,6 +141,7 @@ func _process(_delta):
 
 
 func _physics_process(delta):
+	# Please please please stop
 
 
 	if activeAblity != 1:
@@ -319,7 +320,7 @@ func _physics_process(delta):
 
 
 
-	move_and_slide()
+	move_and_slide()# Huh?
 
 
 
@@ -356,6 +357,7 @@ func _physics_process(delta):
 			
 	#handles inhaling A
 	if mouthFull == false && spit == false && $AnimatedSprite2D.animation != "hurt" && crouch == false:
+		# There is no other elig statement after this just put the if statement in the outer if statement bruh
 		if hasAbility == false:
 			if Input.is_action_pressed("a"):
 				inhale()
@@ -391,7 +393,7 @@ func _physics_process(delta):
 	if mouthFull == true or mouthFullAir == true:
 		canInhale = false
 		#handles spitting out air puff while flying
-		if Input.is_action_just_pressed("a"):
+		if Input.is_action_just_pressed("a"): #Lone if statement that could have just been put in the outer if statement
 		#if kirby's mouth is full of air, it will only spit out air
 			if mouthFullAir == true:
 				shootpuff()
@@ -428,14 +430,16 @@ func _physics_process(delta):
 
 
 	if Input.is_action_just_pressed("c"):
-		if mouthFull == true:
+		if mouthFull == true: # Lone if statment that could have been put in the outer
 			swallow()
 			if is_on_floor() and $AnimatedSprite2D.animation != "open":
 				crouch = true
 				overrideX = true
 				$AnimatedSprite2D.play("crouch")
 				velocity.x = 0
-			if crouch == true:
+			if crouch == true: 
+				# ???????????????????????????????????????? This will always run if the previous
+				# If statement is true
 				$normalhitbox.call_deferred("set", "disabled", true)
 				$bodyCollideDetect/CollisionShape2D.call_deferred("set", "disabled", true)
 
