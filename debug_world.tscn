@@ -1,11 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://cjifqchp8rs57"]
+[gd_scene load_steps=11 format=3 uid="uid://cjifqchp8rs57"]
 
 [ext_resource type="Texture2D" uid="uid://b1cfplr7v1evl" path="res://kirbySprites/tiles/debug room tiles.png" id="1_wrelu"]
 [ext_resource type="Texture2D" uid="uid://drgb1krq27qkl" path="res://kirbySprites/bgs/debug bg.png" id="2_eqtpk"]
 [ext_resource type="Script" path="res://debugroomBackground.gd" id="2_st8d3"]
 [ext_resource type="PackedScene" uid="uid://b13j1d6jw0pfk" path="res://player.tscn" id="3_2l3o5"]
 [ext_resource type="PackedScene" uid="uid://dq7wbej2hfcx0" path="res://enemy scenes/waddledee.tscn" id="5_4urw7"]
-[ext_resource type="PackedScene" uid="uid://yrdf0a66x2wg" path="res://hud.tscn" id="5_28nyf"]
 [ext_resource type="PackedScene" uid="uid://blvoc6lsnm5rb" path="res://enemy scenes/gordoball.tscn" id="6_3tm44"]
 [ext_resource type="PackedScene" uid="uid://ilkfwv071ibh" path="res://enemy scenes/mariel.tscn" id="8_1rxm3"]
 [ext_resource type="PackedScene" uid="uid://cim1786ru2uvs" path="res://enemy scenes/galbo.tscn" id="9_28eut"]
@@ -1035,11 +1034,6 @@ texture = ExtResource("2_eqtpk")
 [node name="player" parent="." instance=ExtResource("3_2l3o5")]
 position = Vector2(976, 232)
 floor_max_angle = 0.802851
-
-[node name="CanvasLayer" type="CanvasLayer" parent="player"]
-follow_viewport_scale = 2.0
-
-[node name="HUD" parent="player/CanvasLayer" instance=ExtResource("5_28nyf")]
 
 [node name="mobs" type="Node" parent="."]
 

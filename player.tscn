@@ -1,10 +1,11 @@
-[gd_scene load_steps=104 format=3 uid="uid://b13j1d6jw0pfk"]
+[gd_scene load_steps=105 format=3 uid="uid://b13j1d6jw0pfk"]
 
-[ext_resource type="Script" path="res://player.gd" id="1_2n5f3"]
+[ext_resource type="Script" path="res://playerNew.gd" id="1_7nm4v"]
 [ext_resource type="Texture2D" uid="uid://b7s6l1046f4m8" path="res://kirbySprites/kirby/crouch.png" id="1_17yrx"]
 [ext_resource type="Texture2D" uid="uid://d0gnbhtoke7hx" path="res://kirbySprites/kirby/idle.png" id="1_b52d1"]
 [ext_resource type="Texture2D" uid="uid://dv6jw47ebjvhg" path="res://kirbySprites/kirby/jump.png" id="2_2ehic"]
 [ext_resource type="PackedScene" uid="uid://dl7x73k1kv8g8" path="res://air_puff.tscn" id="2_l4xcj"]
+[ext_resource type="PackedScene" uid="uid://yrdf0a66x2wg" path="res://hud.tscn" id="2_mgqxi"]
 [ext_resource type="Texture2D" uid="uid://c5usaisuocnv8" path="res://kirbySprites/kirby/fat idle.png" id="3_0fybl"]
 [ext_resource type="Texture2D" uid="uid://ek0cu64esja" path="res://kirbySprites/kirby/fat ouch.png" id="3_acobp"]
 [ext_resource type="Texture2D" uid="uid://yej5yk8jijck" path="res://kirbySprites/kirby/run.png" id="3_aorbc"]
@@ -657,12 +658,17 @@ size = Vector2(10, 18)
 [node name="player" type="CharacterBody2D"]
 floor_constant_speed = true
 floor_snap_length = 5.0
-script = ExtResource("1_2n5f3")
-airPuff = ExtResource("2_l4xcj")
+script = ExtResource("1_7nm4v")
+airpuff = ExtResource("2_l4xcj")
 starFire = ExtResource("3_riulb")
 suckScene = ExtResource("4_iq4jt")
-slideHitbox = ExtResource("5_myrd4")
+SlideHitbox = ExtResource("5_myrd4")
 fireAbilityBox = ExtResource("6_irxac")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+follow_viewport_scale = 2.0
+
+[node name="HUD" parent="CanvasLayer" instance=ExtResource("2_mgqxi")]
 
 [node name="Camera2D" type="Camera2D" parent="."]
 limit_smoothed = true

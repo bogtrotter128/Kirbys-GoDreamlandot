@@ -168,16 +168,8 @@ func _physics_process(delta):
 				shootpuff()
 				spit = true
 				canInhale = false
-				overrideX = true
-				$AnimatedSprite2D.play("open")
-				mouthFull = false
-				mouthFullAir = false
-				velocity.x = 0
-				await get_tree().create_timer(0.2).timeout
-				canInhale = true
-				overrideX = false
-				flight = false
-				falling = false
+				
+				
 				spit = false
 
 

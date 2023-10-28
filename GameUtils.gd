@@ -15,7 +15,7 @@ var HELDABILITY = 0
 var mouthValue = 1
 
 
-var enemyHP = 0
+var enemyHP = 8
 #kibs damage (this isnt really used)
 var DAM = 1
 #the direction kirb is facing
