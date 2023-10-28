@@ -1,0 +1,68 @@
+[gd_scene load_steps=10 format=3 uid="uid://cvlekmeh7id7m"]
+
+[ext_resource type="Script" path="res://starshoot.gd" id="1_4ovlv"]
+[ext_resource type="Texture2D" uid="uid://bhhm7kk6alh34" path="res://kirbySprites/effects/starshoot.png" id="1_jx1if"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qhule"]
+atlas = ExtResource("1_jx1if")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kweqq"]
+atlas = ExtResource("1_jx1if")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lkwuc"]
+atlas = ExtResource("1_jx1if")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kl0x2"]
+atlas = ExtResource("1_jx1if")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_kopvp"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qhule")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kweqq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lkwuc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kl0x2")
+}],
+"loop": true,
+"name": &"star",
+"speed": 11.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_abgnb"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jf6a5"]
+size = Vector2(8, 8)
+
+[node name="starshoot" type="Area2D"]
+script = ExtResource("1_4ovlv")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_kopvp")
+animation = &"star"
+autoplay = "star"
+frame_progress = 0.5389
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_abgnb")
+
+[node name="walldetect" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="walldetect"]
+shape = SubResource("RectangleShape2D_jf6a5")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_entered" from="walldetect" to="." method="_on_walldetect_body_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
