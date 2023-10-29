@@ -3,7 +3,7 @@ extends CharacterBody2D
 
 const SPEED = 80.0
 const JUMP_VELOCITY = -340.0
-const JUMP_VELOCITY_STEP = 20
+const JUMP_VELOCITY_STEP = 7
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 @export var airpuff : PackedScene
@@ -70,13 +70,17 @@ func _input(event):
 #handles jump input and calls jump function
 	if Input.is_action_pressed("b") && not Input.is_action_pressed("down"):
 		jump()
+		is_jumping = true
+		if Input.is_action_pressed("b") && is_jumping == true && jump_timer < jump_time_max:
+			jump_power -= JUMP_VELOCITY_STEP
+			apply_jump_force(jump_power)
 
-#handles multijump
-	if Input.is_action_just_pressed("b") && jumpCount < jumpMax && $AnimatedSprite2D.animation != "hurt":
-		mouthFullAir = true
-		flight = true
-		velocity.y = JUMP_VELOCITY + -100 + (40 * jumpCount)
-		jumpCount += 1
+	#handles multijump
+		if Input.is_action_just_pressed("b") && is_jumping == true && jumpCount < jumpMax && $AnimatedSprite2D.animation != "hurt":
+			mouthFullAir = true
+			flight = true
+			velocity.y = JUMP_VELOCITY + -100 + (40 * jumpCount)
+			jumpCount += 1
 
 #handles crouch button input
 	if Input.is_action_pressed("down") and $AnimatedSprite2D.animation != "open":
@@ -101,16 +105,22 @@ func _input(event):
 #||  J  __  K   __  L  ||
 
 #handles inhale input
-	if hasAbility == false:
-		if Input.is_action_pressed("a") && mouthFull == false && $AnimatedSprite2D.animation != "hurt" && crouch == false && canInhale == true:
+	if hasAbility == false && $AnimatedSprite2D.animation != "hurt" && crouch == false:
+		if Input.is_action_pressed("a") && canInhale == true && mouthFull == false:
 			inhale()
-		elif Input.is_action_just_released("a") && canInhale == false:
+		elif canInhale == false or mouthFull == true:
 			GameUtils.Killsuck = true
-			canInhale = true
 			overrideX = false
 			overrideY = false
+			canInhale = true
+			$AnimatedSprite2D.play("idle")
+#handles spitting input
+	if Input.is_action_just_pressed("a") && mouthFull == true:
+		projectShoot(GameUtils.mouthValue)
+		
+#handles ability input
 	elif hasAbility == true:
-		if Input.is_action_just_pressed("a") && overrideX == false && mouthFullAir == false:
+		if Input.is_action_pressed("a") && overrideX == false && mouthFullAir == false:
 			ability(GameUtils.ABILITY)
 		elif Input.is_action_just_released("a"):
 			abilityStop()
@@ -121,7 +131,7 @@ func _input(event):
 	if crouch == true && Input.is_action_just_pressed("b") && slide == false:
 		slidekick()
 
-	if Input.is_action_just_pressed("c") && mouthFull == true:
+	if Input.is_action_just_pressed("c") && mouthFull == true && hasAbility == false:
 		swallow()
 
 #handles debug key inputs
@@ -208,20 +218,20 @@ func _physics_process(delta):
 		velocity.y += gravity * delta
 		velocity.y = velocity.y * 0.97
 
-		if flight && falling == false:
-			falling = true
+		if flight == false && falling == false:
 		#hanldes jump animations
 			if mouthFull == false and $AnimatedSprite2D.animation != "hurt":
 				$AnimatedSprite2D.play("jump")
 			elif mouthFull == true and $AnimatedSprite2D.animation != "fat hurt":
 				$AnimatedSprite2D.play("fat jump")
+			falling = true
 	if flight == true:
 		if Input.is_action_just_pressed("b"):
 			$AnimatedSprite2D.play("flap")
 		velocity.y = velocity.y * 0.86
 		velocity.x = velocity.x * 0.75
 
-	if is_on_floor():
+	if is_on_floor() && $AnimatedSprite2D.animation != "open" :
 		jumpCount = 0
 		flight = false
 		jump_timer = 0.0
@@ -270,7 +280,7 @@ func _physics_process(delta):
 #handles idle and idle velocity
 		else:
 			velocity.x = move_toward(velocity.x, 0, SPEED)
-			if velocity.y == 0:
+			if velocity.y == 0 && $AnimatedSprite2D.animation != "open":
 #maybe need a contingency^ here^ for when inhale animation plays
 				if mouthFull == false:
 					$AnimatedSprite2D.play("idle")
@@ -308,12 +318,8 @@ func jump():
 	if overrideY == false:
 		if is_jumping == false:
 			jump_timer = 0.0
-			is_jumping = true
 			apply_jump_force(jump_power_initial)
 			jump_power = jump_power_initial
-		elif is_jumping && jump_timer < jump_time_max:
-			jump_power -= JUMP_VELOCITY_STEP
-			apply_jump_force(jump_power)
 
 func apply_jump_force(power):
 	velocity.y = power
@@ -324,7 +330,6 @@ func docrouch():
 		overrideX = true
 		$normalhitbox.call_deferred("set", "disabled", true)
 		$bodyCollideDetect/CollisionShape2D.call_deferred("set", "disabled", true)
-		swallow()
 		if slide == false:
 			$AnimatedSprite2D.play("crouch")
 			velocity.x = 0
@@ -337,15 +342,16 @@ func uncrouch():
 		$bodyCollideDetect/CollisionShape2D.call_deferred("set", "disabled", false)
 		crouch = false
 
+#infinite recoursion?
 func swallow():
-	if hasAbility == false:
-		mouthFull = false
-		mouthFullAir = false
-		canInhale = true
-		GameUtils.ABILITY = GameUtils.HELDABILITY
-		abilitycard.update_ability_card(GameUtils.ABILITY)
-		GameUtils.mouthValue = 1
-		docrouch()
+	canInhale = true
+	GameUtils.ABILITY = GameUtils.HELDABILITY
+	abilitycard.update_ability_card(GameUtils.ABILITY)
+	GameUtils.mouthValue = 1
+	docrouch()
+	await get_tree().create_timer(0.1).timeout
+	mouthFull = false
+	mouthFullAir = false
 
 func inhale():
 	GameUtils.Killsuck = false
@@ -376,29 +382,37 @@ func slidekick():
 		uncrouch()
 
 
+func spitCascade():
+	GameUtils.mouthValue = 1
+	canInhale = false
+	overrideX = true
+	$AnimatedSprite2D.play("open")
+	mouthFull = false
+	mouthFullAir = false
+	velocity.x = 0
+	await get_tree().create_timer(0.1).timeout
+	$AnimatedSprite2D.play("idle")
+	canInhale = true
+	overrideX = false
+	flight = false
+	falling = false
+
 func spitOutAirPuff():
 	#shoots an airpuff projectile 1
 	if mouthFullAir == true:
 		projectShoot(1)
-		canInhale = false
-		overrideX = true
-		$AnimatedSprite2D.play("open")
-		mouthFull = false
-		mouthFullAir = false
-		velocity.x = 0
-		await get_tree().create_timer(0.2).timeout
-		canInhale = true
-		overrideX = false
-		flight = false
-		falling = false
+		spitCascade()
 
 #summons projectiles that move independently from player
 func projectShoot(v):
 	var projectS
 	if v == 1:
 		projectS = airpuff.instantiate()
+		spitCascade()
 	if v == 2:
 		projectS = starFire.instantiate()
+		spitCascade()
+		
 	owner.add_child(projectS)
 	projectS.transform = $projectileProducer.global_transform
 

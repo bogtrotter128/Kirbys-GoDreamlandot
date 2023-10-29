@@ -10,7 +10,7 @@ var HEARTSTARS
 #this is kirbs current copy ability (0 is nothing)
 var ABILITY = 0
 #this is the ability that is in kirbs mouth
-var HELDABILITY = 0
+var HELDABILITY = 1
 #mouth value is 1, when it goes over 1, kirby swallows wahtever is in mouth
 var mouthValue = 1
 
