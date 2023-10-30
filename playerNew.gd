@@ -68,7 +68,7 @@ func _ready():
 func _input(event):
 	
 #handles jump input and calls jump function
-	if Input.is_action_pressed("b") && not Input.is_action_pressed("down"):
+	if Input.is_action_pressed("b") && not Input.is_action_pressed("down") && crouch == false:
 		jump()
 		is_jumping = true
 		if Input.is_action_pressed("b") && is_jumping == true && jump_timer < jump_time_max:
@@ -83,11 +83,11 @@ func _input(event):
 			jumpCount += 1
 
 #handles crouch button input
-	if Input.is_action_pressed("down") and $AnimatedSprite2D.animation != "open":
+	if Input.is_action_pressed("down") && crouch == false && $AnimatedSprite2D.animation != "open":
 		docrouch()
 
 #handles crouch release input
-	if Input.is_action_just_released("down"):
+	if Input.is_action_just_released("down") && crouch == true && crouchOverride == false && slide == false:
 		uncrouch()
 
 #handles the long jump release time
@@ -105,7 +105,7 @@ func _input(event):
 #||  J  __  K   __  L  ||
 
 #handles inhale input
-	if hasAbility == false && $AnimatedSprite2D.animation != "hurt" && crouch == false:
+	if hasAbility == false && $AnimatedSprite2D.animation != "hurt" && crouch == false && mouthFullAir == false:
 		if Input.is_action_pressed("a") && canInhale == true && mouthFull == false:
 			inhale()
 		elif canInhale == false or mouthFull == true:
@@ -115,8 +115,9 @@ func _input(event):
 			canInhale = true
 			$AnimatedSprite2D.play("idle")
 #handles spitting input
-	if Input.is_action_just_pressed("a") && mouthFull == true:
-		projectShoot(GameUtils.mouthValue)
+	if Input.is_action_just_pressed("a"):
+		if mouthFull == true or mouthFullAir == true:
+			projectShoot(GameUtils.mouthValue)
 		
 #handles ability input
 	elif hasAbility == true:
@@ -237,11 +238,12 @@ func _physics_process(delta):
 		jump_timer = 0.0
 		is_jumping = false
 	#running animations
-		if run == false and mouthFull == false:
-			$AnimatedSprite2D.play("walk")
-		elif run == true and mouthFull == false:
-			$AnimatedSprite2D.play("run")
-		elif mouthFull == true:
+		if mouthFull == false && crouch == false:
+			if run == false:
+				$AnimatedSprite2D.play("walk")
+			elif run == true:
+				$AnimatedSprite2D.play("run")
+		elif mouthFull == true && crouch == false:
 			$AnimatedSprite2D.play("fat run")
 		
 	#landing rules and animation
@@ -252,7 +254,7 @@ func _physics_process(delta):
 				$AnimatedSprite2D.play("crouch")
 			elif mouthFull == true:
 				$AnimatedSprite2D.play("fat land")
-			await get_tree().create_timer(0.15).timeout
+			#await get_tree().create_timer(0.15).timeout
 			overrideX = false
 			falling = false
 
@@ -275,12 +277,12 @@ func _physics_process(delta):
 			velocity.x = direction * SPEED
 			if run == true:
 				velocity.x = velocity.x * 1.64
-			if mouthFull == true:
+			elif mouthFull == true:
 				velocity.x = velocity.x * 0.75
 #handles idle and idle velocity
 		else:
 			velocity.x = move_toward(velocity.x, 0, SPEED)
-			if velocity.y == 0 && $AnimatedSprite2D.animation != "open":
+			if velocity.y == 0 && crouch == false && $AnimatedSprite2D.animation != "open":
 #maybe need a contingency^ here^ for when inhale animation plays
 				if mouthFull == false:
 					$AnimatedSprite2D.play("idle")
@@ -295,13 +297,13 @@ func dbtap():
 		if Input.is_action_just_released("right"):
 			runCheckR = true
 			$doubletap.start()
-		if Input.is_action_just_released("left"):
+		elif Input.is_action_just_released("left"):
 			runCheckL = true
 			$doubletap.start()
-	if runCheckR == true or runcont == true:
+	elif runCheckR == true or runcont == true:
 		if Input.is_action_pressed("right"):
 			run = true
-	if runCheckL == true or runcont == true:
+	elif runCheckL == true or runcont == true:
 		if Input.is_action_pressed("left"):
 				run = true
 
@@ -324,19 +326,18 @@ func jump():
 func apply_jump_force(power):
 	velocity.y = power
 
+#handles the crouch fucntion
 func docrouch():
-	if is_on_floor():
+	if is_on_floor() && slide == false:
 		crouch = true
 		overrideX = true
 		$normalhitbox.call_deferred("set", "disabled", true)
 		$bodyCollideDetect/CollisionShape2D.call_deferred("set", "disabled", true)
-		if slide == false:
-			$AnimatedSprite2D.play("crouch")
-			velocity.x = 0
-
+		$AnimatedSprite2D.play("crouch")
+		velocity.x = 0
 func uncrouch():
-	if crouch == true && crouchOverride && slide== false:
-		await get_tree().create_timer(0.1).timeout
+	if crouchOverride == false:
+		#await get_tree().create_timer(0.1).timeout
 		overrideX = false
 		$normalhitbox.call_deferred("set", "disabled", false)
 		$bodyCollideDetect/CollisionShape2D.call_deferred("set", "disabled", false)
@@ -349,7 +350,7 @@ func swallow():
 	abilitycard.update_ability_card(GameUtils.ABILITY)
 	GameUtils.mouthValue = 1
 	docrouch()
-	await get_tree().create_timer(0.1).timeout
+	#await get_tree().create_timer(0.1).timeout
 	mouthFull = false
 	mouthFullAir = false
 
@@ -438,15 +439,13 @@ func projectFollow(v):
 
 func _on_wall_collide_detect_body_entered(body):
 	if body.name == "maintiles":
-		crouch = true
 		crouchOverride = true
-		overrideX = true
+		docrouch()
 
 func _on_wall_collide_detect_body_exited(body):
 	if body.name == "maintiles":
-		overrideX = false
-		#crouch = false
-		#crouchOverride = false
+		crouchOverride = false
+		
 func _on_body_collide_detect_body_entered(body):
 	if body.name == "maintiles":
 		collideCheck = true
