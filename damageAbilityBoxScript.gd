@@ -1,7 +1,7 @@
 extends Area2D
 
 func _process(_delta):
-	if GameUtils.Killflame == true:
+	if GameUtils.KillAbility == true:
 		self.queue_free()
 
 func _on_body_entered(body):

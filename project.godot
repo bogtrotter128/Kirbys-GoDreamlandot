@@ -13,6 +13,9 @@ config_version=5
 config/name="Kirbys GoDreamlandot"
 run/main_scene="res://debug_world.tscn"
 config/features=PackedStringArray("4.1", "Mobile")
+boot_splash/bg_color=Color(1, 1, 1, 1)
+boot_splash/image="res://kirbySprites/logos/g1.png"
+boot_splash/use_filter=false
 config/icon="res://icon.svg"
 
 [autoload]
@@ -136,7 +139,7 @@ debug0={
 
 [physics]
 
-2d/default_gravity=700.0
+2d/default_gravity=600.0
 
 [rendering]
 

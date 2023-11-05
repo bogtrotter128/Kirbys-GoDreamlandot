@@ -4,7 +4,7 @@ enum modes {SIMPLE, EMPTY, PARTIAL}
 
 var blank0 = preload("res://kirbySprites/UI/HUD/acard0.png")
 var flame1 = preload("res://kirbySprites/UI/HUD/acard1.png")
-var light2 = preload("res://kirbySprites/UI/HUD/acard2.png")
+var shock2 = preload("res://kirbySprites/UI/HUD/acard2.png")
 var ice3 = preload("res://kirbySprites/UI/HUD/acard3.png")
 var rock4 = preload("res://kirbySprites/UI/HUD/acard4.png")
 var spike5 = preload("res://kirbySprites/UI/HUD/acard5.png")
@@ -19,7 +19,7 @@ func update_ability_card(value):
 	if value == 1:
 		$cardSprite.texture = flame1
 	if value == 2:
-		$cardSprite.texture = light2
+		$cardSprite.texture = shock2
 	if value == 3:
 		$cardSprite.texture = ice3
 	if value == 4:

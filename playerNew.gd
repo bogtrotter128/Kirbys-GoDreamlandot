@@ -3,14 +3,16 @@ extends CharacterBody2D
 
 const SPEED = 80.0
 const JUMP_VELOCITY = -340.0
-const JUMP_VELOCITY_STEP = 7
+const JUMP_VELOCITY_STEP = 2
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 @export var airpuff : PackedScene
 @export var starFire : PackedScene
 @export var suckScene : PackedScene
 @export var SlideHitbox : PackedScene
+
 @export var fireAbilityBox : PackedScene
+@export var shockAbilityBox : PackedScene
 
 @onready var HPHUD = $CanvasLayer/HUD/HPbar
 @onready var Starbar = $CanvasLayer/HUD/Starbar
@@ -22,23 +24,25 @@ var jumpMax = 3
 var jumpCount = 0
 var jump_power_initial = -150
 var jump_power = 0
-var jump_time_max = 0.16
+var jump_time_max = 0.2
 var jump_timer = 0.0
 var is_jumping = false
 ##############################################
 var abilityCooldown = false
 var overrideY = false
 var overrideX = false
+var crouchOverride = false
 var crouch = false
 var canInhale = true
 var mouthFull = false
 var mouthFullAir = false
-var crouchOverride = false
 var collideCheck = false
 ##############################################
-var activeAblity = 0
+var activeAbility = 0
+var canFloat = false
 var frameFlashAni = false
 var abilityAni = false
+var idleAni = false
 var hasAbility = false
 var flight = false
 var falling = false
@@ -66,25 +70,20 @@ func _ready():
 	$abilitySprites.visible=false
 
 func _input(event):
+	#jump input is handled in physics proccess
 	
-#handles jump input and calls jump function
-	if Input.is_action_pressed("b") && not Input.is_action_pressed("down") && crouch == false:
-		jump()
-		is_jumping = true
-		if Input.is_action_pressed("b") && is_jumping == true && jump_timer < jump_time_max:
-			jump_power -= JUMP_VELOCITY_STEP
-			apply_jump_force(jump_power)
-
 	#handles multijump
-		if Input.is_action_just_pressed("b") && is_jumping == true && jumpCount < jumpMax && $AnimatedSprite2D.animation != "hurt":
-			mouthFullAir = true
-			flight = true
-			velocity.y = JUMP_VELOCITY + -100 + (40 * jumpCount)
-			jumpCount += 1
+	if Input.is_action_just_pressed("b") && is_jumping == true && jumpCount < jumpMax && $AnimatedSprite2D.animation != "hurt":
+		mouthFullAir = true
+		flight = true
+		velocity.y = JUMP_VELOCITY + -100 + (40 * jumpCount)
+		jumpCount += 1
 
 #handles crouch button input
 	if Input.is_action_pressed("down") && crouch == false && $AnimatedSprite2D.animation != "open":
 		docrouch()
+		if hasAbility == false:
+			swallow()
 
 #handles crouch release input
 	if Input.is_action_just_released("down") && crouch == true && crouchOverride == false && slide == false:
@@ -94,34 +93,49 @@ func _input(event):
 	if event.is_action_released("b") && is_jumping:
 		jump_timer = jump_time_max
 
+#discription: discerning double tapping done with double diretection determining
 #handles doulbe-tap running
-	if Input.is_action_just_released("right") or Input.is_action_just_released("left"):
-		dbtap()
+	if Input.is_action_just_released("right") && falling == false or Input.is_action_just_released("left") && falling == false:
+		$runCooloff.start()
+		if Input.is_action_just_released("right"):
+			runCheckR = true
+			$doubletap.start()
+		elif Input.is_action_just_released("left"):
+			runCheckL = true
+			$doubletap.start()
+	elif runCheckR == true or runcont == true:
+		if Input.is_action_pressed("right"):
+			run = true
+	elif runCheckL == true or runcont == true:
+		if Input.is_action_pressed("left"):
+				run = true
 
 #action inputs ____ A _____ B _____ C ____ A _____ B _____ C ____ A _____ B _____ C
-#||  A  __  B   __  C  || 
-#|| MB1 __SPACE __ MB2 || 
-#||  Z  __  X   __  C  || 
-#||  J  __  K   __  L  ||
+#||  A  __   B   __  C  || 
+#|| MB1 __ SPACE __ MB2 || 
+#||  Z  __   X   __  C  || 
+#||  J  __   K   __  L  ||
 
 #handles inhale input
 	if hasAbility == false && $AnimatedSprite2D.animation != "hurt" && crouch == false && mouthFullAir == false:
 		if Input.is_action_pressed("a") && canInhale == true && mouthFull == false:
 			inhale()
-		elif canInhale == false or mouthFull == true:
-			GameUtils.Killsuck = true
-			overrideX = false
-			overrideY = false
-			canInhale = true
-			$AnimatedSprite2D.play("idle")
+		
+		elif Input.is_action_pressed("a") && mouthFull == true:
+			inhaleStop()
+		elif Input.is_action_just_released("a") && canInhale == false:
+			inhaleStop()
 #handles spitting input
-	if Input.is_action_just_pressed("a"):
-		if mouthFull == true or mouthFullAir == true:
-			projectShoot(GameUtils.mouthValue)
+	if Input.is_action_just_pressed("a") && mouthFull == true or Input.is_action_just_pressed("a") && mouthFullAir == true:
+	#makes sure you cant multi jump after spitting out air
+		if mouthFullAir == true:
+			jumpCount = 3
+		projectShoot(GameUtils.mouthValue)
+		
 		
 #handles ability input
 	elif hasAbility == true:
-		if Input.is_action_pressed("a") && overrideX == false && mouthFullAir == false:
+		if Input.is_action_pressed("a") && abilityCooldown == false && crouch == false && crouchOverride == false && mouthFullAir == false:
 			ability(GameUtils.ABILITY)
 		elif Input.is_action_just_released("a"):
 			abilityStop()
@@ -131,7 +145,7 @@ func _input(event):
 #handles slidekick input
 	if crouch == true && Input.is_action_just_pressed("b") && slide == false:
 		slidekick()
-
+#handles swallowing
 	if Input.is_action_just_pressed("c") && mouthFull == true && hasAbility == false:
 		swallow()
 
@@ -165,7 +179,6 @@ func _input(event):
 #debugdebugdebugdebugdebugdebugdebugdebugdebugdebugdebugdebugdebug
 
 func _process(_delta):
-	
 #FIX this enemybar breaks a lot of the time, need to fix
 	enemyBar.update_enemy_bar(GameUtils.enemyHP)
 	
@@ -204,7 +217,7 @@ func _process(_delta):
 		$AnimatedSprite2D.visible=true
 		$abilitySprites.visible=false
 
-	if abilityCooldown == false && activeAblity > 0:
+	if abilityCooldown == false && activeAbility > 0:
 		abilityStop()
 
 
@@ -215,58 +228,85 @@ func _physics_process(delta):
 	
 	#add the gravity
 	if not is_on_floor() && overrideY == false:
-		jump_timer += delta
 		velocity.y += gravity * delta
-		velocity.y = velocity.y * 0.97
+		#velocity.y = velocity.y * 0.97
 
 		if flight == false && falling == false:
 		#hanldes jump animations
-			if mouthFull == false and $AnimatedSprite2D.animation != "hurt":
+			if mouthFull == false && $AnimatedSprite2D.animation != "hurt" && GameUtils.ABILITY != 7:
 				$AnimatedSprite2D.play("jump")
-			elif mouthFull == true and $AnimatedSprite2D.animation != "fat hurt":
+			elif mouthFull == true && $AnimatedSprite2D.animation != "fat hurt" && GameUtils.ABILITY != 7:
 				$AnimatedSprite2D.play("fat jump")
+			if GameUtils.ABILITY == 7:
+				$AnimatedSprite2D.play("parajump")
 			falling = true
-	if flight == true:
-		if Input.is_action_just_pressed("b"):
-			$AnimatedSprite2D.play("flap")
-		velocity.y = velocity.y * 0.86
-		velocity.x = velocity.x * 0.75
+		elif flight == true:
+			if Input.is_action_just_pressed("b"):
+				if GameUtils.ABILITY != 7:
+					$AnimatedSprite2D.play("flap")
+				elif GameUtils.ABILITY == 7:
+					$AnimatedSprite2D.play("paraflight")
+			velocity.y = velocity.y * 0.86
+			velocity.x = velocity.x * 0.75
+		elif GameUtils.ABILITY == 7 && jumpCount >= jumpMax && canFloat == true:
+			parasolFloat()
 
 	if is_on_floor() && $AnimatedSprite2D.animation != "open" :
 		jumpCount = 0
 		flight = false
 		jump_timer = 0.0
 		is_jumping = false
+		canFloat = true
 	#running animations
-		if mouthFull == false && crouch == false:
-			if run == false:
-				$AnimatedSprite2D.play("walk")
-			elif run == true:
-				$AnimatedSprite2D.play("run")
-		elif mouthFull == true && crouch == false:
-			$AnimatedSprite2D.play("fat run")
+		if crouch == false && GameUtils.ABILITY != 7 && idleAni == false:
+			if mouthFull == false:
+				if run == false:
+					$AnimatedSprite2D.play("walk")
+				elif run == true:
+					$AnimatedSprite2D.play("run")
+			elif mouthFull == true:
+				$AnimatedSprite2D.play("fat run")
+		elif crouch == false && GameUtils.ABILITY == 7 && idleAni == false:
+			$AnimatedSprite2D.play("pararun")
 		
 	#landing rules and animation
 		if falling == true:
 			spitOutAirPuff()
+			idleAni = false
 			overrideX = true
-			if mouthFull == false:
-				$AnimatedSprite2D.play("crouch")
-			elif mouthFull == true:
-				$AnimatedSprite2D.play("fat land")
+			if GameUtils.ABILITY != 7:
+				if mouthFull == false:
+					$AnimatedSprite2D.play("crouch")
+				elif mouthFull == true:
+					$AnimatedSprite2D.play("fat land")
+			elif GameUtils.ABILITY == 7:
+				$AnimatedSprite2D.play("paraidle")
 			#await get_tree().create_timer(0.15).timeout
 			overrideX = false
 			falling = false
-
+	else:
+		jump_timer += delta
+	
+	#handles jump input and calls jump function
+	if Input.is_action_pressed("b") && is_jumping == false && not Input.is_action_pressed("down") && overrideY == false && crouch == false:
+		jump()
+	#while jump is hed, jumptimer increases
+	elif Input.is_action_pressed("b") && is_jumping == true && overrideY == false && jump_timer < jump_time_max:
+		jump_power -= JUMP_VELOCITY_STEP
+		apply_jump_force(jump_power)
+	
+	
 	var direction = Input.get_axis("left","right")
 	if direction == -1 and $AnimatedSprite2D.animation != "open":
+		GameUtils.DIR = -1
+		idleAni = false
 		$AnimatedSprite2D.flip_h = true
 		$abilitySprites.flip_h = true
-		GameUtils.DIR = -1
 		$projectileProducer.rotation_degrees = 180
 		$projectileProducer.position.x = -8
 	elif direction == 1 and $AnimatedSprite2D.animation != "open":
 		GameUtils.DIR = 1
+		idleAni = false
 		$AnimatedSprite2D.flip_h = false
 		$abilitySprites.flip_h = false
 		$projectileProducer.rotation = 0
@@ -275,37 +315,28 @@ func _physics_process(delta):
 	if overrideX == false:
 		if direction:
 			velocity.x = direction * SPEED
-			if run == true:
+			if run == true && mouthFull == false:
 				velocity.x = velocity.x * 1.64
-			elif mouthFull == true:
+			elif run == true && mouthFull == true:
+				velocity.x = velocity.x * 1.2
+			elif mouthFull == true && run == false:
 				velocity.x = velocity.x * 0.75
 #handles idle and idle velocity
 		else:
 			velocity.x = move_toward(velocity.x, 0, SPEED)
-			if velocity.y == 0 && crouch == false && $AnimatedSprite2D.animation != "open":
-#maybe need a contingency^ here^ for when inhale animation plays
-				if mouthFull == false:
+			if velocity.y == 0 && crouch == false && idleAni == false && $AnimatedSprite2D.animation != "open":
+				GameUtils.Killsuck = true
+				if mouthFull == false && GameUtils.ABILITY != 7:
 					$AnimatedSprite2D.play("idle")
-				elif mouthFull == true:
+					idleAni = true
+					print("idleani")
+				elif mouthFull == true && GameUtils.ABILITY != 7:
 					$AnimatedSprite2D.play("fat idle")
+					idleAni = true
+				elif GameUtils.ABILITY == 7:
+					$AnimatedSprite2D.play("paraidle")
+					idleAni = true
 	move_and_slide()
-
-#discription: discerning double tapping done with double diretection determining
-func dbtap():
-	if falling == false:
-		$runCooloff.start()
-		if Input.is_action_just_released("right"):
-			runCheckR = true
-			$doubletap.start()
-		elif Input.is_action_just_released("left"):
-			runCheckL = true
-			$doubletap.start()
-	elif runCheckR == true or runcont == true:
-		if Input.is_action_pressed("right"):
-			run = true
-	elif runCheckL == true or runcont == true:
-		if Input.is_action_pressed("left"):
-				run = true
 
 func _on_doubletap_timeout():
 	runCheckR = false
@@ -317,11 +348,11 @@ func _on_run_cooloff_timeout():
 
 
 func jump():
-	if overrideY == false:
-		if is_jumping == false:
-			jump_timer = 0.0
-			apply_jump_force(jump_power_initial)
-			jump_power = jump_power_initial
+	if is_jumping == false:
+		jump_timer = 0.0
+		is_jumping = true
+		apply_jump_force(jump_power_initial)
+		jump_power = jump_power_initial
 
 func apply_jump_force(power):
 	velocity.y = power
@@ -343,6 +374,11 @@ func uncrouch():
 		$bodyCollideDetect/CollisionShape2D.call_deferred("set", "disabled", false)
 		crouch = false
 
+#need to write a function here for when kirby crouches with the parasol
+func paragaurd():
+	pass
+
+
 #infinite recoursion?
 func swallow():
 	canInhale = true
@@ -353,16 +389,33 @@ func swallow():
 	#await get_tree().create_timer(0.1).timeout
 	mouthFull = false
 	mouthFullAir = false
+	idleAni = false
 
 func inhale():
+	GameUtils.Killsuck = true
 	GameUtils.Killsuck = false
 	projectFollow(1)
-	$AnimatedSprite2D.play("open")
+	if GameUtils.ABILITY != 7:
+		$AnimatedSprite2D.play("open")
+	elif GameUtils.ABILITY == 7:
+		$AnimatedSprite2D.play("paraopen")
 	velocity.x = 0
 	canInhale = false
 	overrideX = true
 	if is_on_floor():
 		overrideY = true
+		velocity.y = 0
+
+func inhaleStop():
+	GameUtils.Killsuck = true
+	overrideX = false
+	overrideY = false
+	canInhale = true
+	if mouthFull == true:
+		$AnimatedSprite2D.play("fat jump")
+	else:
+		$AnimatedSprite2D.play("jump")
+
 
 func slidekick():
 	if abilityCooldown == false:
@@ -380,19 +433,26 @@ func slidekick():
 		$abilitySprites/abilityCooldown.set_wait_time(0.2)
 		$abilitySprites/abilityCooldown.start()
 		docrouch()
-		uncrouch()
+		if not Input.is_action_pressed("down"):
+			uncrouch()
 
 
 func spitCascade():
 	GameUtils.mouthValue = 1
 	canInhale = false
 	overrideX = true
-	$AnimatedSprite2D.play("open")
+	if GameUtils.ABILITY != 7:
+		$AnimatedSprite2D.play("open")
+	elif GameUtils.ABILITY == 7:
+		$AnimatedSprite2D.play("paraopen")
 	mouthFull = false
 	mouthFullAir = false
 	velocity.x = 0
 	await get_tree().create_timer(0.1).timeout
-	$AnimatedSprite2D.play("idle")
+	if GameUtils.ABILITY != 7:
+		$AnimatedSprite2D.play("idle")
+	elif GameUtils.ABILITY == 7:
+		$AnimatedSprite2D.play("paraidle")
 	canInhale = true
 	overrideX = false
 	flight = false
@@ -401,6 +461,7 @@ func spitCascade():
 func spitOutAirPuff():
 	#shoots an airpuff projectile 1
 	if mouthFullAir == true:
+		await get_tree().create_timer(0.1).timeout
 		projectShoot(1)
 		spitCascade()
 
@@ -410,7 +471,7 @@ func projectShoot(v):
 	if v == 1:
 		projectS = airpuff.instantiate()
 		spitCascade()
-	if v == 2:
+	elif v >= 2:
 		projectS = starFire.instantiate()
 		spitCascade()
 		
@@ -431,8 +492,11 @@ func projectFollow(v):
 	# uses killsuck to queue_free
 	if v == 2:
 		projectF = SlideHitbox.instantiate()
+	# 3 is the fire abiltiy hitbox.
 	if v == 3:
 		projectF = fireAbilityBox.instantiate()
+	if v == 4:
+		projectF = shockAbilityBox.instantiate()
 	add_child(projectF)
 	projectF.transform = $projectileProducer.transform
 
@@ -457,7 +521,7 @@ func _on_body_collide_detect_body_exited(body):
 		collideCheck = false
 
 func bodyEscape():
-	if activeAblity != 1:
+	if activeAbility != 1:
 		overrideX = true
 		overrideY = true
 		$smallHitbox.call_deferred("set", "disabled", true)
@@ -489,14 +553,14 @@ func die():
 
 func _on_damage_detect_body_entered(body):
 	if GameUtils.Iframes == false:
-		if body.is_in_group("mobs") && activeAblity != 1:
+		if body.is_in_group("mobs") && activeAbility != 1:
 			damage()
 		elif body.is_in_group("hazard"):
 			damage()
 
 func damage():
 	print ("OUCH")
-	activeAblity = 0
+	activeAbility = 0
 	GameUtils.Killsuck = true
 	mouthFullAir = false
 	overrideX = false
@@ -563,7 +627,7 @@ func ability(abilityScore):
 	
 	#abilityScore 1 is Fire
 	if abilityScore == 1:
-		activeAblity = 1
+		activeAbility = 1
 		velocity.y = 0
 		set_floor_max_angle(0.05)
 		overrideX = true
@@ -573,13 +637,13 @@ func ability(abilityScore):
 		$abilitySprites/abilityCooldown.start()
 		abilityCooldown = true
 		$abilitySprites.play("fireStart")
-		GameUtils.Killflame = false
+		GameUtils.KillAbility = false
 		projectFollow(3)
 		velocity.x = 230 * GameUtils.DIR
 		await $abilitySprites.animation_finished
 		$abilitySprites.play("fireLoop")
 		await $abilitySprites.animation_finished
-		GameUtils.Killflame = true
+		GameUtils.KillAbility = true
 		$smallHitbox.call_deferred("set", "disabled", false)
 		overrideX = true
 		$AnimatedSprite2D.play("open")
@@ -597,12 +661,56 @@ func ability(abilityScore):
 		abilityCooldown = true
 		set_floor_max_angle(1)
 		abilityAni = false
-		activeAblity = 0
+		activeAbility = 0
 
-
+#ability score 2 is shock
+#this is broken
 	if abilityScore == 2:
+		if activeAbility == 0:
+			velocity.y = 0
+			overrideX = true
+			$abilitySprites.play("shockStart")
+			await $abilitySprites.animation_finished
+			GameUtils.KillAbility = false
+			projectFollow(4)
+			activeAbility = 2
+			print("SHOCK$$$$$$$$$$$$$$$$$$")
+			abilityCooldown = true
+		elif activeAbility == 2:
+			$abilitySprites.play("shockLoop")
+			velocity.x = 0
+			overrideX = true
+		elif activeAbility == 2 && is_on_floor():
+			overrideY = true
+			velocity.y = 0
+	
+	if abilityScore == 3:
 		pass
-
+	
+	if abilityScore == 4:
+		pass
+	
+	if abilityScore == 5:
+		pass
+	
+	if abilityScore == 6:
+		pass
+#abilityscore 7 is the parasol
+#every time this activates kirby gets stuck in the wrong sprite
+#also the umbrella sprites are too big and dont match kirby's og spriteeeeee
+	if abilityScore == 7:
+		activeAbility = 7
+		canFloat = false
+		if is_on_floor():
+			velocity.x = 0
+			overrideX = true
+		$abilitySprites.play("parasol")
+		#create atack projectile
+		await $abilitySprites.animation_finished
+		overrideX = false
+		abilityStop()
+		print("parasol!!!")
+	
 func _on_ability_cooldown_timeout():
 	abilityCooldown = false
 
@@ -610,10 +718,15 @@ func abilityStop():
 	await $abilitySprites.animation_finished
 	$smallHitbox.call_deferred("set", "disabled", false)
 	set_floor_max_angle(1)
-	activeAblity = 0
-	GameUtils.Killflame = true
+	abilityCooldown = false
+	activeAbility = 0
+	GameUtils.KillAbility = true
 	abilityAni = false
 	overrideX = false
 	overrideY = false
 
 
+func parasolFloat():
+	$AnimatedSprite2D.play("parafloat")
+	velocity.y = velocity.y * 0.86
+	velocity.x = velocity.x * 0.75

@@ -6,12 +6,16 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xbpwm"]
 
 [node name="airPuff" type="Area2D"]
+position = Vector2(10, 0)
 script = ExtResource("1_02dr3")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(10.5, -0.5)
+scale = Vector2(1.3125, 1.3125)
 texture = ExtResource("1_anx65")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(10, 0)
 shape = SubResource("RectangleShape2D_xbpwm")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

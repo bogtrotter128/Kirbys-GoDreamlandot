@@ -24,7 +24,7 @@ func _physics_process(delta):
 			velocity.x = (SPEED * dir) + suckedSpeed
 			
 			if run == true:
-				SPEED = 170 
+				SPEED = 140 
 				$AnimatedSprite2D.play("run")
 
 			if run == false:

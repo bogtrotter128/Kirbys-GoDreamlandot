@@ -10,7 +10,7 @@ var HEARTSTARS
 #this is kirbs current copy ability (0 is nothing)
 var ABILITY = 0
 #this is the ability that is in kirbs mouth
-var HELDABILITY = 1
+var HELDABILITY = 0
 #mouth value is 1, when it goes over 1, kirby swallows wahtever is in mouth
 var mouthValue = 1
 
@@ -26,4 +26,4 @@ var IframeHit = false
 
 #this kills the inhale hitbox
 var Killsuck = false
-var Killflame = false
+var KillAbility = false

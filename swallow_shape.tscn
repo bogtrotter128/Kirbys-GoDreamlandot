@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://swallow_shape.gd" id="1_e057f"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rd8e2"]
-size = Vector2(2, 24)
+size = Vector2(2, 12)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3h0ye"]
 atlas = ExtResource("1_233fx")
