@@ -29,6 +29,7 @@ var jump_timer = 0.0
 var is_jumping = false
 ##############################################
 var abilityCooldown = false
+var abilitycanstop = true
 var overrideY = false
 var overrideX = false
 var crouchOverride = false
@@ -137,7 +138,7 @@ func _input(event):
 	elif hasAbility == true:
 		if Input.is_action_pressed("a") && abilityCooldown == false && crouch == false && crouchOverride == false && mouthFullAir == false:
 			ability(GameUtils.ABILITY)
-		elif Input.is_action_just_released("a"):
+		elif Input.is_action_just_released("a") && abilitycanstop == true:
 			abilityStop()
 
 
@@ -217,8 +218,16 @@ func _process(_delta):
 		$AnimatedSprite2D.visible=true
 		$abilitySprites.visible=false
 
-	if abilityCooldown == false && activeAbility > 0:
-		abilityStop()
+	#if abilityCooldown == false && activeAbility > 0:
+	#	abilityStop()
+#this stops kirby from moving while an ability is active and on the floor
+#excludes the fire ability ( > 1)
+#this is mostly for the parasol ability so kirb wont slide while moving
+	if activeAbility > 1 && is_on_floor():
+		velocity.x = 0
+		overrideX = true
+		overrideY = true
+		velocity.y = 0
 
 
 	if collideCheck == true:
@@ -249,7 +258,9 @@ func _physics_process(delta):
 			velocity.y = velocity.y * 0.86
 			velocity.x = velocity.x * 0.75
 		elif GameUtils.ABILITY == 7 && jumpCount >= jumpMax && canFloat == true:
-			parasolFloat()
+			$AnimatedSprite2D.play("parafloat")
+			velocity.y = velocity.y * 0.86
+			velocity.x = velocity.x * 0.75
 
 	if is_on_floor() && $AnimatedSprite2D.animation != "open" :
 		jumpCount = 0
@@ -297,7 +308,7 @@ func _physics_process(delta):
 	
 	
 	var direction = Input.get_axis("left","right")
-	if direction == -1 and $AnimatedSprite2D.animation != "open":
+	if direction == -1 and $AnimatedSprite2D.animation != "open" and activeAbility == 0:
 		GameUtils.DIR = -1
 		idleAni = false
 		$AnimatedSprite2D.flip_h = true
@@ -317,8 +328,10 @@ func _physics_process(delta):
 			velocity.x = direction * SPEED
 			if run == true && mouthFull == false:
 				velocity.x = velocity.x * 1.64
+				$AnimatedSprite2D.set_speed_scale(1.5)
 			elif run == true && mouthFull == true:
 				velocity.x = velocity.x * 1.2
+				$AnimatedSprite2D.set_speed_scale(1.5)
 			elif mouthFull == true && run == false:
 				velocity.x = velocity.x * 0.75
 #handles idle and idle velocity
@@ -329,7 +342,6 @@ func _physics_process(delta):
 				if mouthFull == false && GameUtils.ABILITY != 7:
 					$AnimatedSprite2D.play("idle")
 					idleAni = true
-					print("idleani")
 				elif mouthFull == true && GameUtils.ABILITY != 7:
 					$AnimatedSprite2D.play("fat idle")
 					idleAni = true
@@ -345,6 +357,7 @@ func _on_doubletap_timeout():
 func _on_run_cooloff_timeout():
 	if not Input.is_action_pressed("right") and not Input.is_action_pressed("left"):
 		run = false
+		$AnimatedSprite2D.set_speed_scale(1.0)
 
 
 func jump():
@@ -368,6 +381,7 @@ func docrouch():
 		velocity.x = 0
 func uncrouch():
 	if crouchOverride == false:
+		idleAni = false
 		#await get_tree().create_timer(0.1).timeout
 		overrideX = false
 		$normalhitbox.call_deferred("set", "disabled", false)
@@ -408,6 +422,7 @@ func inhale():
 
 func inhaleStop():
 	GameUtils.Killsuck = true
+	idleAni = false
 	overrideX = false
 	overrideY = false
 	canInhale = true
@@ -424,10 +439,9 @@ func slidekick():
 		$AnimatedSprite2D.play("slide")
 		projectFollow(2)
 		velocity.x = GameUtils.DIR * 200
-		await get_tree().create_timer(0.2).timeout
+		await get_tree().create_timer(0.3).timeout
 		velocity.x = GameUtils.DIR * 200
 		GameUtils.Killsuck = true
-		await get_tree().create_timer(0.1).timeout
 		slide = false
 		abilityCooldown = true
 		$abilitySprites/abilityCooldown.set_wait_time(0.2)
@@ -559,15 +573,15 @@ func _on_damage_detect_body_entered(body):
 			damage()
 
 func damage():
-	print ("OUCH")
 	activeAbility = 0
 	GameUtils.Killsuck = true
 	mouthFullAir = false
+	flight = false
 	overrideX = false
 	overrideY = false
 	abilityAni = false
 	if GameUtils.Iframes == false:
-		print("IFRAMEOUCH")
+		abilityStop()
 		GameUtils.Iframes = true
 		GameUtils.Killsuck = true
 		#makes sure it doesn spam the animation
@@ -627,12 +641,13 @@ func ability(abilityScore):
 	
 	#abilityScore 1 is Fire
 	if abilityScore == 1:
+		abilitycanstop = false
 		activeAbility = 1
 		velocity.y = 0
 		set_floor_max_angle(0.05)
 		overrideX = true
 		overrideY = true
-		$smallHitbox.call_deferred("set", "disabled", true)
+		$smallHitbox.disabled=true
 		$abilitySprites/abilityCooldown.set_wait_time(1.0)
 		$abilitySprites/abilityCooldown.start()
 		abilityCooldown = true
@@ -643,8 +658,9 @@ func ability(abilityScore):
 		await $abilitySprites.animation_finished
 		$abilitySprites.play("fireLoop")
 		await $abilitySprites.animation_finished
+		abilitycanstop = true
 		GameUtils.KillAbility = true
-		$smallHitbox.call_deferred("set", "disabled", false)
+		$smallHitbox.disabled=false
 		overrideX = true
 		$AnimatedSprite2D.play("open")
 		mouthFull = false
@@ -667,22 +683,14 @@ func ability(abilityScore):
 #this is broken
 	if abilityScore == 2:
 		if activeAbility == 0:
-			velocity.y = 0
-			overrideX = true
-			$abilitySprites.play("shockStart")
-			await $abilitySprites.animation_finished
+			abilitycanstop = true
+			GameUtils.KillAbility = true
 			GameUtils.KillAbility = false
 			projectFollow(4)
 			activeAbility = 2
-			print("SHOCK$$$$$$$$$$$$$$$$$$")
-			abilityCooldown = true
 		elif activeAbility == 2:
 			$abilitySprites.play("shockLoop")
-			velocity.x = 0
-			overrideX = true
-		elif activeAbility == 2 && is_on_floor():
-			overrideY = true
-			velocity.y = 0
+
 	
 	if abilityScore == 3:
 		pass
@@ -696,26 +704,24 @@ func ability(abilityScore):
 	if abilityScore == 6:
 		pass
 #abilityscore 7 is the parasol
-#every time this activates kirby gets stuck in the wrong sprite
-#also the umbrella sprites are too big and dont match kirby's og spriteeeeee
 	if abilityScore == 7:
+		abilitycanstop = false
 		activeAbility = 7
 		canFloat = false
-		if is_on_floor():
-			velocity.x = 0
-			overrideX = true
 		$abilitySprites.play("parasol")
 		#create atack projectile
 		await $abilitySprites.animation_finished
 		overrideX = false
+		abilitycanstop = true
 		abilityStop()
 		print("parasol!!!")
+		
 	
 func _on_ability_cooldown_timeout():
 	abilityCooldown = false
 
 func abilityStop():
-	await $abilitySprites.animation_finished
+	await get_tree().create_timer(0.1).timeout
 	$smallHitbox.call_deferred("set", "disabled", false)
 	set_floor_max_angle(1)
 	abilityCooldown = false
@@ -725,8 +731,3 @@ func abilityStop():
 	overrideX = false
 	overrideY = false
 
-
-func parasolFloat():
-	$AnimatedSprite2D.play("parafloat")
-	velocity.y = velocity.y * 0.86
-	velocity.x = velocity.x * 0.75

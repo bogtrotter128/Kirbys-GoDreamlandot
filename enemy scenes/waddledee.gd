@@ -79,8 +79,7 @@ func _on_player_detect_body_exited(body):
 
 func _on_hit_detect_body_entered(body):
 	if body.name == "player":
-		await get_tree().create_timer(0.1).timeout
-		print("HIT KIRBY")
+		await get_tree().create_timer(0.15).timeout
 		if GameUtils.IframeHit == false:
 			damage(1)
 
@@ -109,5 +108,6 @@ func damage(value):
 	$hitDetect.call_deferred("set", "disabled", true)
 	await get_tree().create_timer(0.5).timeout
 	$hitDetect.call_deferred("set", "disabled", false)
+	dir = dir * -1
 	$AnimatedSprite2D.play("run")
 

@@ -1,26 +1,26 @@
-[gd_scene load_steps=166 format=3 uid="uid://b13j1d6jw0pfk"]
+[gd_scene load_steps=163 format=3 uid="uid://b13j1d6jw0pfk"]
 
 [ext_resource type="Script" path="res://playerNew.gd" id="1_7nm4v"]
 [ext_resource type="Texture2D" uid="uid://b7s6l1046f4m8" path="res://kirbySprites/kirby/crouch.png" id="1_17yrx"]
 [ext_resource type="Texture2D" uid="uid://d0gnbhtoke7hx" path="res://kirbySprites/kirby/idle.png" id="1_b52d1"]
 [ext_resource type="Texture2D" uid="uid://dv6jw47ebjvhg" path="res://kirbySprites/kirby/jump.png" id="2_2ehic"]
-[ext_resource type="PackedScene" uid="uid://dl7x73k1kv8g8" path="res://air_puff.tscn" id="2_l4xcj"]
+[ext_resource type="PackedScene" uid="uid://dl7x73k1kv8g8" path="res://projectile scenes/air_puff.tscn" id="2_l4xcj"]
 [ext_resource type="PackedScene" uid="uid://yrdf0a66x2wg" path="res://hud.tscn" id="2_mgqxi"]
 [ext_resource type="Texture2D" uid="uid://c5usaisuocnv8" path="res://kirbySprites/kirby/fat idle.png" id="3_0fybl"]
 [ext_resource type="Texture2D" uid="uid://ek0cu64esja" path="res://kirbySprites/kirby/fat ouch.png" id="3_acobp"]
 [ext_resource type="Texture2D" uid="uid://yej5yk8jijck" path="res://kirbySprites/kirby/run.png" id="3_aorbc"]
 [ext_resource type="Texture2D" uid="uid://dkddgclilkdxg" path="res://kirbySprites/kirby/flap.png" id="3_gvuwh"]
-[ext_resource type="PackedScene" uid="uid://cvlekmeh7id7m" path="res://starshoot.tscn" id="3_riulb"]
+[ext_resource type="PackedScene" uid="uid://cvlekmeh7id7m" path="res://projectile scenes/starshoot.tscn" id="3_riulb"]
 [ext_resource type="Texture2D" uid="uid://dsdf1ryawtl2s" path="res://kirbySprites/kirby/dead.png" id="3_s5gae"]
 [ext_resource type="Texture2D" uid="uid://baj51lpmjgbu" path="res://kirbySprites/kirby/flight.png" id="4_1fqy7"]
-[ext_resource type="PackedScene" uid="uid://dkicwxi7f2nat" path="res://swallow_shape.tscn" id="4_iq4jt"]
+[ext_resource type="PackedScene" uid="uid://dkicwxi7f2nat" path="res://projectile scenes/swallow_shape.tscn" id="4_iq4jt"]
 [ext_resource type="Texture2D" uid="uid://bkbf1mm25eugr" path="res://kirbySprites/kirby/fat walk.png" id="4_ovfur"]
 [ext_resource type="Texture2D" uid="uid://deensamhw8b0f" path="res://kirbySprites/kirby/walk.png" id="4_p1k01"]
 [ext_resource type="Texture2D" uid="uid://bqb68b67d2exi" path="res://kirbySprites/kirby/fat jump.png" id="4_ysta6"]
-[ext_resource type="PackedScene" uid="uid://d1ajijh8vdbvx" path="res://slide_kick.tscn" id="5_myrd4"]
+[ext_resource type="PackedScene" uid="uid://d1ajijh8vdbvx" path="res://projectile scenes/slide_kick.tscn" id="5_myrd4"]
 [ext_resource type="Texture2D" uid="uid://vfxqeqoxq2s3" path="res://kirbySprites/kirby/fat land.png" id="5_o4skh"]
-[ext_resource type="PackedScene" uid="uid://ceyyyy40yxpys" path="res://fireabilitybox.tscn" id="6_irxac"]
-[ext_resource type="PackedScene" uid="uid://da264vcksk715" path="res://shockabilitybox.tscn" id="7_c7fbo"]
+[ext_resource type="PackedScene" uid="uid://ceyyyy40yxpys" path="res://projectile scenes/fireabilitybox.tscn" id="6_irxac"]
+[ext_resource type="PackedScene" uid="uid://da264vcksk715" path="res://projectile scenes/shockabilitybox.tscn" id="7_c7fbo"]
 [ext_resource type="Texture2D" uid="uid://bus4llhwa0ixo" path="res://kirbySprites/kirby/fall.png" id="8_hiend"]
 [ext_resource type="Texture2D" uid="uid://c8ihgacdsn4xt" path="res://kirbySprites/kirby/open.png" id="8_qeas3"]
 [ext_resource type="Texture2D" uid="uid://d270ce3t3j88s" path="res://kirbySprites/kirby/ouch.png" id="10_70cry"]
@@ -528,7 +528,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_y2lru")
 }, {
-"duration": 4.0,
+"duration": 15.0,
 "texture": SubResource("AtlasTexture_6ehel")
 }, {
 "duration": 4.0,
@@ -625,7 +625,7 @@ animations = [{
 "duration": 2.5,
 "texture": SubResource("AtlasTexture_nf4ql")
 }],
-"loop": true,
+"loop": false,
 "name": &"parajump",
 "speed": 8.0
 }, {
@@ -702,7 +702,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"run",
-"speed": 10.0
+"speed": 8.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -898,18 +898,6 @@ region = Rect2(520, 0, 40, 40)
 atlas = ExtResource("27_cup31")
 region = Rect2(80, 0, 40, 40)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_705cn"]
-atlas = ExtResource("27_cup31")
-region = Rect2(0, 0, 40, 40)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_4mqhx"]
-atlas = ExtResource("27_cup31")
-region = Rect2(40, 0, 40, 40)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_2j5xx"]
-atlas = ExtResource("27_cup31")
-region = Rect2(80, 0, 40, 40)
-
 [sub_resource type="SpriteFrames" id="SpriteFrames_i0bqj"]
 animations = [{
 "frames": [{
@@ -1000,7 +988,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"parasol",
-"speed": 8.0
+"speed": 12.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -1039,23 +1027,9 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ywtty")
 }],
-"loop": false,
+"loop": true,
 "name": &"shockLoop",
 "speed": 18.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_705cn")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_4mqhx")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_2j5xx")
-}],
-"loop": false,
-"name": &"shockStart",
-"speed": 7.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_w1ydx"]
@@ -1106,13 +1080,13 @@ self_modulate = Color(0.996078, 0.996078, 0.996078, 1)
 position = Vector2(0, -10)
 scale = Vector2(1.16, 1.16646)
 sprite_frames = SubResource("SpriteFrames_2f0ea")
-animation = &"paraidle"
+animation = &"jump"
 autoplay = "idle"
 
 [node name="abilitySprites" type="AnimatedSprite2D" parent="."]
 scale = Vector2(1.1, 1.1)
 sprite_frames = SubResource("SpriteFrames_i0bqj")
-animation = &"fireLoop"
+animation = &"parasol"
 
 [node name="abilityCooldown" type="Timer" parent="abilitySprites"]
 one_shot = true

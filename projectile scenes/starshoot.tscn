@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=3 uid="uid://cvlekmeh7id7m"]
 
-[ext_resource type="Script" path="res://starshoot.gd" id="1_4ovlv"]
+[ext_resource type="Script" path="res://projectile scenes/starshoot.gd" id="1_7xv8h"]
 [ext_resource type="Texture2D" uid="uid://bhhm7kk6alh34" path="res://kirbySprites/effects/starshoot.png" id="1_jx1if"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qhule"]
@@ -45,7 +45,7 @@ animations = [{
 size = Vector2(8, 8)
 
 [node name="starshoot" type="Area2D"]
-script = ExtResource("1_4ovlv")
+script = ExtResource("1_7xv8h")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_kopvp")
