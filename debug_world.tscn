@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cjifqchp8rs57"]
+[gd_scene load_steps=12 format=3 uid="uid://cjifqchp8rs57"]
 
 [ext_resource type="Texture2D" uid="uid://b1cfplr7v1evl" path="res://kirbySprites/tiles/debug room tiles.png" id="1_wrelu"]
 [ext_resource type="Texture2D" uid="uid://drgb1krq27qkl" path="res://kirbySprites/bgs/debug bg.png" id="2_eqtpk"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://blvoc6lsnm5rb" path="res://enemy scenes/gordoball.tscn" id="6_3tm44"]
 [ext_resource type="PackedScene" uid="uid://ilkfwv071ibh" path="res://enemy scenes/mariel.tscn" id="8_1rxm3"]
 [ext_resource type="PackedScene" uid="uid://cim1786ru2uvs" path="res://enemy scenes/galbo.tscn" id="9_28eut"]
+[ext_resource type="PackedScene" uid="uid://dfvlqombredtv" path="res://level scenes/props/Windbox.tscn" id="9_gwo7p"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_p5wi4"]
 texture = ExtResource("1_wrelu")
@@ -1122,3 +1123,25 @@ position = Vector2(896, 485)
 
 [node name="galbo3" parent="mobs" instance=ExtResource("9_28eut")]
 position = Vector2(648, 616)
+
+[node name="props" type="Node" parent="."]
+
+[node name="windbox" parent="props" instance=ExtResource("9_gwo7p")]
+position = Vector2(728, 320)
+WINDX = 300.0
+
+[node name="windbox2" parent="props" instance=ExtResource("9_gwo7p")]
+position = Vector2(688, 320)
+WINDX = 300.0
+
+[node name="windbox5" parent="props" instance=ExtResource("9_gwo7p")]
+position = Vector2(688, 320)
+WINDX = 300.0
+
+[node name="windbox3" parent="props" instance=ExtResource("9_gwo7p")]
+position = Vector2(784, 240)
+WINDY = -300.0
+
+[node name="windbox4" parent="props" instance=ExtResource("9_gwo7p")]
+position = Vector2(616, 320)
+WINDX = 300.0

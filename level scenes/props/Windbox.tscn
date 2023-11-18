@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://dfvlqombredtv"]
+
+[ext_resource type="Script" path="res://level scenes/props/windbody.gd" id="1_i7wsu"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_l135t"]
+size = Vector2(156, 71)
+
+[node name="windbox" type="Area2D"]
+monitorable = false
+script = ExtResource("1_i7wsu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(68, 25.5)
+shape = SubResource("RectangleShape2D_l135t")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

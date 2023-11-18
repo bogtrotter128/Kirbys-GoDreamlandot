@@ -59,7 +59,7 @@ disabled = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(1.19209e-07, -1.19209e-07)
-scale = Vector2(1.23343, 1.23343)
+scale = Vector2(1.2, 1.2)
 sprite_frames = SubResource("SpriteFrames_m6q3q")
 animation = &"idle"
 autoplay = "idle"

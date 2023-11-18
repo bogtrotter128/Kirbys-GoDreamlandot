@@ -78,7 +78,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_j7704"]
-size = Vector2(48, 44)
+size = Vector2(50, 44)
 
 [node name="swallowShape" type="Area2D"]
 script = ExtResource("1_on113")
@@ -97,7 +97,7 @@ frame_progress = 0.964842
 [node name="pull" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="pull"]
-position = Vector2(25, 0)
+position = Vector2(27, 0)
 shape = SubResource("RectangleShape2D_j7704")
 debug_color = Color(0.545098, 0.533333, 0.533333, 0.419608)
 

@@ -27,7 +27,7 @@ GameUtils="*res://GameUtils.gd"
 window/size/viewport_width=1024
 window/size/viewport_height=720
 window/size/resizable=false
-window/stretch/scale=2.3
+window/stretch/scale=2.5
 
 [input]
 

@@ -1,9 +1,9 @@
 extends Area2D
 
-var speed = 234
+@onready var SPEED = 234
 
 func _physics_process(delta):
-	position += transform.x * speed * delta 
+	position += transform.x * SPEED * delta 
 
 
 func _on_body_entered(body):

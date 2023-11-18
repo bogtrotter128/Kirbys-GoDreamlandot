@@ -210,7 +210,7 @@ galboflame = ExtResource("2_0refu")
 position = Vector2(-40, 2)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-scale = Vector2(1.13636, 1.13636)
+position = Vector2(0, 1)
 sprite_frames = SubResource("SpriteFrames_bj0of")
 animation = &"awake"
 autoplay = "idle"

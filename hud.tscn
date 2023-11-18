@@ -10,18 +10,19 @@
 [ext_resource type="Script" path="res://abilitycard.gd" id="8_wng41"]
 [ext_resource type="Texture2D" uid="uid://djwp8v48w4pld" path="res://kirbySprites/UI/HUD/acard0.png" id="9_3esxq"]
 
-[node name="HUD" type="Node"]
+[node name="HUD" type="CanvasLayer"]
+layer = 128
 
 [node name="Mainhud" type="Sprite2D" parent="."]
-position = Vector2(222, 190)
+position = Vector2(206.604, 167.342)
 scale = Vector2(1.10526, 1.10526)
 texture = ExtResource("1_f5kyg")
 
 [node name="HPbar" type="HBoxContainer" parent="."]
-offset_left = 152.0
-offset_top = 257.0
-offset_right = 270.0
-offset_bottom = 277.0
+offset_left = 135.604
+offset_top = 234.342
+offset_right = 253.604
+offset_bottom = 254.342
 script = ExtResource("1_4615u")
 
 [node name="h1" type="TextureRect" parent="HPbar"]
@@ -50,10 +51,10 @@ texture = ExtResource("3_4tbmr")
 stretch_mode = 2
 
 [node name="Starbar" type="HBoxContainer" parent="."]
-offset_left = 152.0
-offset_top = 278.0
-offset_right = 304.0
-offset_bottom = 292.0
+offset_left = 135.604
+offset_top = 255.342
+offset_right = 287.604
+offset_bottom = 269.342
 theme_override_constants/separation = 11
 script = ExtResource("4_m1kjj")
 
@@ -88,10 +89,10 @@ texture = ExtResource("5_opm7o")
 stretch_mode = 2
 
 [node name="enemybar" type="HBoxContainer" parent="."]
-offset_left = 145.0
-offset_top = 295.0
-offset_right = 301.0
-offset_bottom = 322.0
+offset_left = 128.604
+offset_top = 272.342
+offset_right = 284.604
+offset_bottom = 299.342
 script = ExtResource("6_saj0b")
 
 [node name="enemybar0" type="TextureRect" parent="enemybar"]
@@ -135,10 +136,10 @@ texture = ExtResource("7_e7p4r")
 stretch_mode = 2
 
 [node name="abilitycard" type="HBoxContainer" parent="."]
-offset_left = 94.0
-offset_top = 260.0
-offset_right = 136.0
-offset_bottom = 300.0
+offset_left = 77.6042
+offset_top = 237.342
+offset_right = 119.604
+offset_bottom = 277.342
 scale = Vector2(1.16, 1.12)
 script = ExtResource("8_wng41")
 

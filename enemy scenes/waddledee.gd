@@ -2,11 +2,14 @@ extends CharacterBody2D
 
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var dir = 1
-var SPEED = 70
+var SPEED = 60
+var WINDFORCEX = 0.0
+var WINDFORCEY = 0.0
+
 var run
 var runcheck
 var sucked = false
-var suckedSpeed = 0
+signal pos
 
 @export var copyAbilityScore = 0
 @export var HP = 4
@@ -21,29 +24,32 @@ func _physics_process(delta):
 			velocity.y += gravity * delta
 			velocity.y = velocity.y * 0.97
 		if $AnimatedSprite2D.animation != "hurt":
-			velocity.x = (SPEED * dir) + suckedSpeed
+			velocity.x = (SPEED * dir)
 			
 			if run == true:
 				SPEED = 140 
 				$AnimatedSprite2D.play("run")
 
 			if run == false:
-				SPEED = 70
+				SPEED = 60
 				$AnimatedSprite2D.play("walk")
 		if sucked == false:
-			suckedSpeed = 0
 			if velocity.x < 0:
 				$AnimatedSprite2D.flip_h = false
 			if velocity.x > 0:
 				$AnimatedSprite2D.flip_h = true
 	if sucked == true:
 		print("SUCKED")
-		for i in 200:
-			suckedSpeed = (20 + i) * (GameUtils.DIR * -1)
 		if velocity.x < 0:
 			$AnimatedSprite2D.flip_h = true
 		if velocity.x > 0:
 			$AnimatedSprite2D.flip_h = false
+#adds wind blowing force
+	velocity.x += WINDFORCEX * (delta * 5.9)
+	velocity.y += WINDFORCEY * (delta * 2.5)
+#this if statement makes sure kirby doesnt fall through Y wind
+	if WINDFORCEY != 0 && velocity.y > 90:
+		velocity.y = 50
 	move_and_slide()
 
 func _on_wall_detect_body_entered(body):

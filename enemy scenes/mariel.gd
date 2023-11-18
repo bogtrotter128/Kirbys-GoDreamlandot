@@ -4,6 +4,9 @@ extends CharacterBody2D
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var dir = 1
 var SPEED = 90
+var WINDFORCEX = 0.0
+var WINDFORCEY = 0.0
+
 var runcheckL
 var runcheckR
 var sucked = false
@@ -61,6 +64,12 @@ func _physics_process(delta):
 					$AnimatedSprite2D.flip_h = true
 				else:
 					$AnimatedSprite2D.flip_h = false
+#adds wind blowing force
+	velocity.x += WINDFORCEX * (delta * 5)
+	velocity.y += WINDFORCEY * (delta * 2.5)
+#this if statement makes sure kirby doesnt fall through Y wind
+	if WINDFORCEY != 0 && velocity.y > 90:
+		velocity.y = 50
 	move_and_slide()
 	
 	

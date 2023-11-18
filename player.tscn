@@ -1,4 +1,4 @@
-[gd_scene load_steps=163 format=3 uid="uid://b13j1d6jw0pfk"]
+[gd_scene load_steps=171 format=3 uid="uid://b13j1d6jw0pfk"]
 
 [ext_resource type="Script" path="res://playerNew.gd" id="1_7nm4v"]
 [ext_resource type="Texture2D" uid="uid://b7s6l1046f4m8" path="res://kirbySprites/kirby/crouch.png" id="1_17yrx"]
@@ -19,10 +19,13 @@
 [ext_resource type="Texture2D" uid="uid://bqb68b67d2exi" path="res://kirbySprites/kirby/fat jump.png" id="4_ysta6"]
 [ext_resource type="PackedScene" uid="uid://d1ajijh8vdbvx" path="res://projectile scenes/slide_kick.tscn" id="5_myrd4"]
 [ext_resource type="Texture2D" uid="uid://vfxqeqoxq2s3" path="res://kirbySprites/kirby/fat land.png" id="5_o4skh"]
+[ext_resource type="PackedScene" uid="uid://dhtqv8jigpmji" path="res://projectile scenes/ability_star_drop.tscn" id="6_70uh4"]
 [ext_resource type="PackedScene" uid="uid://ceyyyy40yxpys" path="res://projectile scenes/fireabilitybox.tscn" id="6_irxac"]
 [ext_resource type="PackedScene" uid="uid://da264vcksk715" path="res://projectile scenes/shockabilitybox.tscn" id="7_c7fbo"]
+[ext_resource type="PackedScene" uid="uid://cd37cwjnbtr71" path="res://projectile scenes/iceabilitybox.tscn" id="8_eg3xa"]
 [ext_resource type="Texture2D" uid="uid://bus4llhwa0ixo" path="res://kirbySprites/kirby/fall.png" id="8_hiend"]
 [ext_resource type="Texture2D" uid="uid://c8ihgacdsn4xt" path="res://kirbySprites/kirby/open.png" id="8_qeas3"]
+[ext_resource type="PackedScene" uid="uid://d3g3gio862g2" path="res://projectile scenes/icecube.tscn" id="9_gqu00"]
 [ext_resource type="Texture2D" uid="uid://d270ce3t3j88s" path="res://kirbySprites/kirby/ouch.png" id="10_70cry"]
 [ext_resource type="Texture2D" uid="uid://dtypoajyasy0t" path="res://kirbySprites/kirby/slide.png" id="10_t288l"]
 [ext_resource type="Texture2D" uid="uid://dv4bnufyt5504" path="res://kirbySprites/kirby/victory.png" id="14_yksyh"]
@@ -34,6 +37,7 @@
 [ext_resource type="Texture2D" uid="uid://dagkdwc7kdtgc" path="res://kirbySprites/kirby/parasol/paraIdle.png" id="25_pavfr"]
 [ext_resource type="Texture2D" uid="uid://cttxb0fjgkkxn" path="res://kirbySprites/kirby/abilitySprites/shock.png" id="27_cup31"]
 [ext_resource type="Texture2D" uid="uid://b4xhet50nr74t" path="res://kirbySprites/kirby/parasol/paraWalk.png" id="28_8ciig"]
+[ext_resource type="Texture2D" uid="uid://8uiias8plnu5" path="res://kirbySprites/kirby/abilitySprites/ice.png" id="34_ri0k5"]
 [ext_resource type="Texture2D" uid="uid://bltyo6y2mk8iu" path="res://kirbySprites/kirby/abilitySprites/parasol.png" id="34_urxre"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_g6eas"]
@@ -418,24 +422,27 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_c7elr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_82fic")
 }],
 "loop": true,
 "name": &"fat idle",
 "speed": 8.0
 }, {
 "frames": [{
-"duration": 1.3,
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_8dthb")
 }, {
-"duration": 4.0,
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_m6kdq")
 }, {
-"duration": 4.0,
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_7do61")
 }],
 "loop": false,
 "name": &"fat jump",
-"speed": 6.0
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -522,7 +529,7 @@ animations = [{
 "speed": 7.0
 }, {
 "frames": [{
-"duration": 1.3,
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_rbi6t")
 }, {
 "duration": 1.0,
@@ -536,7 +543,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"jump",
-"speed": 8.0
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -830,6 +837,22 @@ region = Rect2(360, 0, 40, 40)
 atlas = ExtResource("23_uxmgg")
 region = Rect2(400, 0, 40, 40)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_g71nb"]
+atlas = ExtResource("34_ri0k5")
+region = Rect2(40, 0, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xui2a"]
+atlas = ExtResource("34_ri0k5")
+region = Rect2(80, 0, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fw8gq"]
+atlas = ExtResource("34_ri0k5")
+region = Rect2(120, 0, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ywi17"]
+atlas = ExtResource("34_ri0k5")
+region = Rect2(0, 0, 40, 40)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_rkyqa"]
 atlas = ExtResource("34_urxre")
 region = Rect2(0, 0, 56, 40)
@@ -972,6 +995,28 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_g71nb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xui2a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fw8gq")
+}],
+"loop": true,
+"name": &"iceLoop",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ywi17")
+}],
+"loop": false,
+"name": &"iceStart",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_rkyqa")
 }, {
 "duration": 1.0,
@@ -1036,16 +1081,16 @@ animations = [{
 size = Vector2(10, 8)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qkx06"]
-size = Vector2(10, 12)
+size = Vector2(10, 15)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nrj70"]
-size = Vector2(12, 21)
+size = Vector2(12, 17)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_77ako"]
-size = Vector2(10, 4)
+size = Vector2(10, 2)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ydnqk"]
-size = Vector2(10, 18)
+size = Vector2(10, 14)
 
 [node name="player" type="CharacterBody2D"]
 floor_constant_speed = true
@@ -1055,8 +1100,11 @@ airpuff = ExtResource("2_l4xcj")
 starFire = ExtResource("3_riulb")
 suckScene = ExtResource("4_iq4jt")
 SlideHitbox = ExtResource("5_myrd4")
+dropabilitystar = ExtResource("6_70uh4")
 fireAbilityBox = ExtResource("6_irxac")
 shockAbilityBox = ExtResource("7_c7fbo")
+iceAbilityBox = ExtResource("8_eg3xa")
+icecube = ExtResource("9_gqu00")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 follow_viewport_scale = 2.0
@@ -1077,51 +1125,53 @@ position = Vector2(8, 2)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 self_modulate = Color(0.996078, 0.996078, 0.996078, 1)
-position = Vector2(0, -10)
-scale = Vector2(1.16, 1.16646)
+position = Vector2(0, -7)
 sprite_frames = SubResource("SpriteFrames_2f0ea")
-animation = &"jump"
+animation = &"flight"
 autoplay = "idle"
 
 [node name="abilitySprites" type="AnimatedSprite2D" parent="."]
-scale = Vector2(1.1, 1.1)
+position = Vector2(0, 1)
 sprite_frames = SubResource("SpriteFrames_i0bqj")
-animation = &"parasol"
+animation = &"iceLoop"
 
 [node name="abilityCooldown" type="Timer" parent="abilitySprites"]
 one_shot = true
 
+[node name="iceabilityCooldown" type="Timer" parent="abilitySprites"]
+process_callback = 0
+wait_time = 0.2
+
 [node name="smallHitbox" type="CollisionShape2D" parent="."]
 position = Vector2(-1.19209e-07, 8)
-rotation = 3.14159
 shape = SubResource("RectangleShape2D_w1ydx")
 one_way_collision = true
 
 [node name="normalhitbox" type="CollisionShape2D" parent="."]
-position = Vector2(1.24812e-05, -1)
-rotation = -3.14159
+position = Vector2(7.41084e-06, 4.5)
 shape = SubResource("RectangleShape2D_qkx06")
 one_way_collision = true
+one_way_collision_margin = 0.0
 
 [node name="damageDetect" type="Area2D" parent="."]
 collision_layer = 3
 collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="damageDetect"]
-position = Vector2(0, 2.5)
+position = Vector2(0, 4.5)
 shape = SubResource("RectangleShape2D_nrj70")
 
 [node name="wallCollideDetect" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="wallCollideDetect"]
-position = Vector2(0, -5)
+position = Vector2(0, -2)
 shape = SubResource("RectangleShape2D_77ako")
 debug_color = Color(0.843137, 0.376471, 0.121569, 0.419608)
 
 [node name="bodyCollideDetect" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="bodyCollideDetect"]
-position = Vector2(0, 3)
+position = Vector2(0, 5)
 shape = SubResource("RectangleShape2D_ydnqk")
 debug_color = Color(0.996078, 0, 0.172549, 0.419608)
 
@@ -1141,6 +1191,7 @@ one_shot = true
 wait_time = 0.3
 
 [connection signal="timeout" from="abilitySprites/abilityCooldown" to="." method="_on_ability_cooldown_timeout"]
+[connection signal="timeout" from="abilitySprites/iceabilityCooldown" to="." method="_on_iceability_cooldown_timeout"]
 [connection signal="body_entered" from="damageDetect" to="." method="_on_damage_detect_body_entered"]
 [connection signal="body_entered" from="wallCollideDetect" to="." method="_on_wall_collide_detect_body_entered"]
 [connection signal="body_exited" from="wallCollideDetect" to="." method="_on_wall_collide_detect_body_exited"]
