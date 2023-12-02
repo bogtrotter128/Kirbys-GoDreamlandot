@@ -316,8 +316,6 @@ shape = SubResource("RectangleShape2D_sche1")
 [connection signal="body_exited" from="hitDetect" to="." method="_on_hit_detect_body_exited"]
 [connection signal="body_entered" from="playerDetect" to="." method="_on_player_detect_body_entered"]
 [connection signal="body_entered" from="chaseDetect L" to="." method="_on_chase_detect_l_body_entered"]
-[connection signal="body_exited" from="chaseDetect L" to="." method="_on_chase_detect_l_body_exited"]
 [connection signal="body_entered" from="chaseDetect R" to="." method="_on_chase_detect_r_body_entered"]
-[connection signal="body_exited" from="chaseDetect R" to="." method="_on_chase_detect_r_body_exited"]
 [connection signal="body_entered" from="wallDetect" to="." method="_on_wall_detect_body_entered"]
 [connection signal="body_exited" from="wallDetect" to="." method="_on_wall_detect_body_exited"]

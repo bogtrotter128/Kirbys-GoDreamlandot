@@ -1,14 +1,17 @@
-[gd_scene load_steps=10 format=3 uid="uid://yrdf0a66x2wg"]
+[gd_scene load_steps=13 format=3 uid="uid://yrdf0a66x2wg"]
 
 [ext_resource type="Script" path="res://hud.gd" id="1_4615u"]
 [ext_resource type="Texture2D" uid="uid://ceef8n7e7dv5s" path="res://kirbySprites/UI/HUD/MAINHUD.png" id="1_f5kyg"]
 [ext_resource type="Texture2D" uid="uid://cxqclkkw0gada" path="res://kirbySprites/UI/HUD/HPFULL.png" id="3_4tbmr"]
 [ext_resource type="Script" path="res://StarbarHUD.gd" id="4_m1kjj"]
+[ext_resource type="Script" path="res://HPbar2.gd" id="4_peex7"]
+[ext_resource type="Texture2D" uid="uid://dlwp7kqkf63a5" path="res://kirbySprites/UI/HUD/HPFULL2.png" id="5_ljuuf"]
 [ext_resource type="Texture2D" uid="uid://b7stpyodd4l6s" path="res://kirbySprites/UI/HUD/STAR0.png" id="5_opm7o"]
 [ext_resource type="Script" path="res://enemybar.gd" id="6_saj0b"]
 [ext_resource type="Texture2D" uid="uid://d4aanbykerlvf" path="res://kirbySprites/UI/HUD/enemybar0.png" id="7_e7p4r"]
 [ext_resource type="Script" path="res://abilitycard.gd" id="8_wng41"]
 [ext_resource type="Texture2D" uid="uid://djwp8v48w4pld" path="res://kirbySprites/UI/HUD/acard0.png" id="9_3esxq"]
+[ext_resource type="Script" path="res://abilitycard2.gd" id="10_nsmke"]
 
 [node name="HUD" type="CanvasLayer"]
 layer = 128
@@ -17,38 +20,6 @@ layer = 128
 position = Vector2(206.604, 167.342)
 scale = Vector2(1.10526, 1.10526)
 texture = ExtResource("1_f5kyg")
-
-[node name="HPbar" type="HBoxContainer" parent="."]
-offset_left = 135.604
-offset_top = 234.342
-offset_right = 253.604
-offset_bottom = 254.342
-script = ExtResource("1_4615u")
-
-[node name="h1" type="TextureRect" parent="HPbar"]
-layout_mode = 2
-texture = ExtResource("3_4tbmr")
-stretch_mode = 2
-
-[node name="h2" type="TextureRect" parent="HPbar"]
-layout_mode = 2
-texture = ExtResource("3_4tbmr")
-stretch_mode = 2
-
-[node name="h3" type="TextureRect" parent="HPbar"]
-layout_mode = 2
-texture = ExtResource("3_4tbmr")
-stretch_mode = 2
-
-[node name="h4" type="TextureRect" parent="HPbar"]
-layout_mode = 2
-texture = ExtResource("3_4tbmr")
-stretch_mode = 2
-
-[node name="h5" type="TextureRect" parent="HPbar"]
-layout_mode = 2
-texture = ExtResource("3_4tbmr")
-stretch_mode = 2
 
 [node name="Starbar" type="HBoxContainer" parent="."]
 offset_left = 135.604
@@ -86,6 +57,67 @@ stretch_mode = 2
 [node name="s6" type="TextureRect" parent="Starbar"]
 layout_mode = 2
 texture = ExtResource("5_opm7o")
+stretch_mode = 2
+
+[node name="HPbar" type="HBoxContainer" parent="."]
+offset_left = 128.0
+offset_top = 236.0
+offset_right = 228.0
+offset_bottom = 256.0
+theme_override_constants/separation = 0
+script = ExtResource("1_4615u")
+
+[node name="h1" type="TextureRect" parent="HPbar"]
+layout_mode = 2
+texture = ExtResource("3_4tbmr")
+stretch_mode = 2
+
+[node name="h2" type="TextureRect" parent="HPbar"]
+layout_mode = 2
+texture = ExtResource("3_4tbmr")
+stretch_mode = 2
+
+[node name="h3" type="TextureRect" parent="HPbar"]
+layout_mode = 2
+texture = ExtResource("3_4tbmr")
+stretch_mode = 2
+
+[node name="h4" type="TextureRect" parent="HPbar"]
+layout_mode = 2
+texture = ExtResource("3_4tbmr")
+stretch_mode = 2
+
+[node name="h5" type="TextureRect" parent="HPbar"]
+layout_mode = 2
+texture = ExtResource("3_4tbmr")
+stretch_mode = 2
+
+[node name="HPbar2" type="HBoxContainer" parent="."]
+offset_left = 208.0
+offset_top = 236.0
+offset_right = 308.0
+offset_bottom = 256.0
+theme_override_constants/separation = 0
+script = ExtResource("4_peex7")
+
+[node name="h1" type="TextureRect" parent="HPbar2"]
+layout_mode = 2
+texture = ExtResource("5_ljuuf")
+stretch_mode = 2
+
+[node name="h2" type="TextureRect" parent="HPbar2"]
+layout_mode = 2
+texture = ExtResource("5_ljuuf")
+stretch_mode = 2
+
+[node name="h3" type="TextureRect" parent="HPbar2"]
+layout_mode = 2
+texture = ExtResource("5_ljuuf")
+stretch_mode = 2
+
+[node name="h4" type="TextureRect" parent="HPbar2"]
+layout_mode = 2
+texture = ExtResource("5_ljuuf")
 stretch_mode = 2
 
 [node name="enemybar" type="HBoxContainer" parent="."]
@@ -144,5 +176,17 @@ scale = Vector2(1.16, 1.12)
 script = ExtResource("8_wng41")
 
 [node name="cardSprite" type="TextureRect" parent="abilitycard"]
+layout_mode = 2
+texture = ExtResource("9_3esxq")
+
+[node name="abilitycard2" type="HBoxContainer" parent="."]
+offset_left = 289.604
+offset_top = 237.342
+offset_right = 331.604
+offset_bottom = 277.342
+scale = Vector2(1.16, 1.12)
+script = ExtResource("10_nsmke")
+
+[node name="cardSprite" type="TextureRect" parent="abilitycard2"]
 layout_mode = 2
 texture = ExtResource("9_3esxq")

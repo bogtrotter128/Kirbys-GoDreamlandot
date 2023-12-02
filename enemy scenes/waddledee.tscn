@@ -220,7 +220,7 @@ size = Vector2(12.0045, 13.9953)
 size = Vector2(2.74884, 28.8788)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pnpnm"]
-size = Vector2(38.9996, 8.18253)
+size = Vector2(38.9996, 0.0912209)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4wrrp"]
 size = Vector2(119.992, 53.0087)
@@ -266,7 +266,8 @@ debug_color = Color(0.631373, 0.52549, 0.152941, 0.419608)
 [node name="wall detect" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="wall detect"]
-position = Vector2(0, -8)
+position = Vector2(1.86265e-09, -3.95435)
+scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_pnpnm")
 debug_color = Color(0.658824, 0.505882, 0.286275, 0.419608)
 

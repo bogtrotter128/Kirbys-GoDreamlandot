@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://cjifqchp8rs57"]
+[gd_scene load_steps=15 format=3 uid="uid://cjifqchp8rs57"]
 
 [ext_resource type="Texture2D" uid="uid://b1cfplr7v1evl" path="res://kirbySprites/tiles/debug room tiles.png" id="1_wrelu"]
 [ext_resource type="Texture2D" uid="uid://drgb1krq27qkl" path="res://kirbySprites/bgs/debug bg.png" id="2_eqtpk"]
@@ -8,7 +8,10 @@
 [ext_resource type="PackedScene" uid="uid://blvoc6lsnm5rb" path="res://enemy scenes/gordoball.tscn" id="6_3tm44"]
 [ext_resource type="PackedScene" uid="uid://ilkfwv071ibh" path="res://enemy scenes/mariel.tscn" id="8_1rxm3"]
 [ext_resource type="PackedScene" uid="uid://cim1786ru2uvs" path="res://enemy scenes/galbo.tscn" id="9_28eut"]
+[ext_resource type="PackedScene" uid="uid://cffnod8y6bfir" path="res://level scenes/props/hp_bottle.tscn" id="9_cki6w"]
 [ext_resource type="PackedScene" uid="uid://dfvlqombredtv" path="res://level scenes/props/Windbox.tscn" id="9_gwo7p"]
+[ext_resource type="PackedScene" uid="uid://dgm1jnw7hjvym" path="res://level scenes/props/staritem.tscn" id="10_v523t"]
+[ext_resource type="PackedScene" uid="uid://beawese0p28hw" path="res://player/player_2.tscn" id="12_yvhw4"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_p5wi4"]
 texture = ExtResource("1_wrelu")
@@ -1033,8 +1036,11 @@ scale = Vector2(1.84822, 1.84822)
 texture = ExtResource("2_eqtpk")
 
 [node name="player" parent="." instance=ExtResource("3_2l3o5")]
-position = Vector2(976, 232)
+position = Vector2(152, 440)
 floor_max_angle = 0.802851
+
+[node name="Player2" parent="." instance=ExtResource("12_yvhw4")]
+position = Vector2(128, 424)
 
 [node name="mobs" type="Node" parent="."]
 
@@ -1125,6 +1131,129 @@ position = Vector2(896, 485)
 position = Vector2(648, 616)
 
 [node name="props" type="Node" parent="."]
+
+[node name="items" type="Node" parent="props"]
+
+[node name="hpbottles" type="Node2D" parent="props/items"]
+
+[node name="hpBottle13" parent="props/items/hpbottles" instance=ExtResource("9_cki6w")]
+position = Vector2(184, 624)
+
+[node name="hpBottle14" parent="props/items/hpbottles" instance=ExtResource("9_cki6w")]
+position = Vector2(208, 624)
+
+[node name="hpBottle15" parent="props/items/hpbottles" instance=ExtResource("9_cki6w")]
+position = Vector2(40, 592)
+
+[node name="hpBottle16" parent="props/items/hpbottles" instance=ExtResource("9_cki6w")]
+position = Vector2(64, 592)
+
+[node name="hpBottle17" parent="props/items/hpbottles" instance=ExtResource("9_cki6w")]
+position = Vector2(88, 592)
+
+[node name="hpBottle18" parent="props/items/hpbottles" instance=ExtResource("9_cki6w")]
+position = Vector2(112, 592)
+
+[node name="hpBottle5" parent="props/items/hpbottles" instance=ExtResource("9_cki6w")]
+position = Vector2(48, 384)
+
+[node name="hpBottle6" parent="props/items/hpbottles" instance=ExtResource("9_cki6w")]
+position = Vector2(80, 384)
+
+[node name="hpBottle" parent="props/items/hpbottles" instance=ExtResource("9_cki6w")]
+position = Vector2(40, 472)
+gravityCheck = true
+
+[node name="hpBottle2" parent="props/items/hpbottles" instance=ExtResource("9_cki6w")]
+position = Vector2(64, 472)
+gravityCheck = true
+
+[node name="hpBottle3" parent="props/items/hpbottles" instance=ExtResource("9_cki6w")]
+position = Vector2(88, 472)
+gravityCheck = true
+
+[node name="hpBottle4" parent="props/items/hpbottles" instance=ExtResource("9_cki6w")]
+position = Vector2(112, 472)
+
+[node name="hpBottle7" parent="props/items/hpbottles" instance=ExtResource("9_cki6w")]
+position = Vector2(40, 624)
+
+[node name="hpBottle8" parent="props/items/hpbottles" instance=ExtResource("9_cki6w")]
+position = Vector2(64, 624)
+
+[node name="hpBottle9" parent="props/items/hpbottles" instance=ExtResource("9_cki6w")]
+position = Vector2(88, 624)
+
+[node name="hpBottle10" parent="props/items/hpbottles" instance=ExtResource("9_cki6w")]
+position = Vector2(112, 624)
+
+[node name="hpBottle11" parent="props/items/hpbottles" instance=ExtResource("9_cki6w")]
+position = Vector2(136, 624)
+
+[node name="hpBottle12" parent="props/items/hpbottles" instance=ExtResource("9_cki6w")]
+position = Vector2(160, 624)
+
+[node name="starpoints" type="Node2D" parent="props/items"]
+
+[node name="staritem" parent="props/items/starpoints" instance=ExtResource("10_v523t")]
+position = Vector2(288, 416)
+
+[node name="staritem2" parent="props/items/starpoints" instance=ExtResource("10_v523t")]
+position = Vector2(304, 416)
+starValue = 2
+
+[node name="staritem3" parent="props/items/starpoints" instance=ExtResource("10_v523t")]
+position = Vector2(320, 416)
+starValue = 2
+
+[node name="staritem4" parent="props/items/starpoints" instance=ExtResource("10_v523t")]
+position = Vector2(336, 416)
+
+[node name="staritem5" parent="props/items/starpoints" instance=ExtResource("10_v523t")]
+position = Vector2(352, 416)
+starValue = 2
+
+[node name="staritem6" parent="props/items/starpoints" instance=ExtResource("10_v523t")]
+position = Vector2(368, 416)
+starValue = 3
+
+[node name="staritem7" parent="props/items/starpoints" instance=ExtResource("10_v523t")]
+position = Vector2(384, 416)
+
+[node name="staritem8" parent="props/items/starpoints" instance=ExtResource("10_v523t")]
+position = Vector2(400, 416)
+starValue = 2
+
+[node name="staritem9" parent="props/items/starpoints" instance=ExtResource("10_v523t")]
+position = Vector2(416, 416)
+starValue = 3
+
+[node name="staritem10" parent="props/items/starpoints" instance=ExtResource("10_v523t")]
+position = Vector2(136, 720)
+
+[node name="staritem11" parent="props/items/starpoints" instance=ExtResource("10_v523t")]
+position = Vector2(152, 720)
+
+[node name="staritem12" parent="props/items/starpoints" instance=ExtResource("10_v523t")]
+position = Vector2(168, 720)
+
+[node name="staritem13" parent="props/items/starpoints" instance=ExtResource("10_v523t")]
+position = Vector2(184, 720)
+
+[node name="staritem14" parent="props/items/starpoints" instance=ExtResource("10_v523t")]
+position = Vector2(200, 720)
+
+[node name="staritem15" parent="props/items/starpoints" instance=ExtResource("10_v523t")]
+position = Vector2(216, 720)
+
+[node name="staritem16" parent="props/items/starpoints" instance=ExtResource("10_v523t")]
+position = Vector2(232, 720)
+
+[node name="staritem17" parent="props/items/starpoints" instance=ExtResource("10_v523t")]
+position = Vector2(248, 720)
+
+[node name="staritem18" parent="props/items/starpoints" instance=ExtResource("10_v523t")]
+position = Vector2(264, 720)
 
 [node name="windbox" parent="props" instance=ExtResource("9_gwo7p")]
 position = Vector2(728, 320)

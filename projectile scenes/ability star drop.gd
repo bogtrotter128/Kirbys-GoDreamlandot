@@ -11,8 +11,12 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 
 func _ready():
-	dir = GameUtils.DIR * -1
-	copyAbilityScore  = GameUtils.ABILITY
+	if get_parent().name == "Player2":
+		dir = GameUtils.DIRP2 * -1
+		copyAbilityScore  = GameUtils.ABILITYP2
+	if get_parent().name == "player":
+		dir = GameUtils.DIR * -1
+		copyAbilityScore  = GameUtils.ABILITY
 
 func _physics_process(delta):
 	if not is_on_floor():

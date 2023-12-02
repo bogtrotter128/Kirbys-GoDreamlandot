@@ -146,14 +146,14 @@ func _on_chase_detect_l_body_entered(body):
 		await get_tree().create_timer(0.2).timeout
 		direction = -1
 
-func _on_chase_detect_l_body_exited(body):
-	if body.name == "player":
-		await get_tree().create_timer(3).timeout
-		runcheckL = false
-		await get_tree().create_timer(2).timeout
-		if runcheckR && runcheckL == false:
-			chase = false
-			direction = 0
+#func _on_chase_detect_l_body_exited(body):
+#	if body.name == "player":
+#		await get_tree().create_timer(3).timeout
+#		runcheckL = false
+#		await get_tree().create_timer(2).timeout
+#		if runcheckR && runcheckL == false:
+#			chase = false
+#			direction = 0
 
 
 func _on_chase_detect_r_body_entered(body):
@@ -164,11 +164,11 @@ func _on_chase_detect_r_body_entered(body):
 		direction = 1
 
 
-func _on_chase_detect_r_body_exited(body):
-	if body.name == "player":
-		await get_tree().create_timer(3).timeout
-		runcheckR = false
-		await get_tree().create_timer(2).timeout
-		if runcheckR && runcheckL == false:
-			chase = false
-			direction = 0
+#func _on_chase_detect_r_body_exited(body):
+#	if body.name == "player":
+#		await get_tree().create_timer(3).timeout
+#		runcheckR = false
+#		await get_tree().create_timer(2).timeout
+#		if runcheckR && runcheckL == false:
+#			chase = false
+#			direction = 0

@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://cffnod8y6bfir"]
+
+[ext_resource type="Script" path="res://level scenes/props/hp_bottle.gd" id="1_mvtum"]
+[ext_resource type="Texture2D" uid="uid://5wf1u2fed6hb" path="res://kirbySprites/props/hpdrink.png" id="2_adtok"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mg5un"]
+size = Vector2(8, 12)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cfyod"]
+size = Vector2(16, 20)
+
+[node name="hpBottle" type="CharacterBody2D"]
+script = ExtResource("1_mvtum")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 2)
+shape = SubResource("RectangleShape2D_mg5un")
+one_way_collision = true
+one_way_collision_margin = 0.0
+
+[node name="areaDetect" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="areaDetect"]
+shape = SubResource("RectangleShape2D_cfyod")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_adtok")
+
+[connection signal="body_entered" from="areaDetect" to="." method="_on_area_detect_body_entered"]

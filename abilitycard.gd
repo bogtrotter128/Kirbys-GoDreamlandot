@@ -1,7 +1,5 @@
 extends HBoxContainer
 
-enum modes {SIMPLE, EMPTY, PARTIAL}
-
 var blank0 = preload("res://kirbySprites/UI/HUD/acard0.png")
 var flame1 = preload("res://kirbySprites/UI/HUD/acard1.png")
 var shock2 = preload("res://kirbySprites/UI/HUD/acard2.png")
@@ -12,7 +10,6 @@ var cut6 = preload("res://kirbySprites/UI/HUD/acard6.png")
 var para7 = preload("res://kirbySprites/UI/HUD/acard7.png")
 var sweep8 = preload("res://kirbySprites/UI/HUD/acard8.png")
 
-@export var mode : modes
 func update_ability_card(value):
 	if value == 0:
 		$cardSprite.texture = blank0

@@ -1,4 +1,4 @@
-[gd_scene load_steps=171 format=3 uid="uid://b13j1d6jw0pfk"]
+[gd_scene load_steps=182 format=3 uid="uid://b13j1d6jw0pfk"]
 
 [ext_resource type="Script" path="res://playerNew.gd" id="1_7nm4v"]
 [ext_resource type="Texture2D" uid="uid://b7s6l1046f4m8" path="res://kirbySprites/kirby/crouch.png" id="1_17yrx"]
@@ -39,6 +39,8 @@
 [ext_resource type="Texture2D" uid="uid://b4xhet50nr74t" path="res://kirbySprites/kirby/parasol/paraWalk.png" id="28_8ciig"]
 [ext_resource type="Texture2D" uid="uid://8uiias8plnu5" path="res://kirbySprites/kirby/abilitySprites/ice.png" id="34_ri0k5"]
 [ext_resource type="Texture2D" uid="uid://bltyo6y2mk8iu" path="res://kirbySprites/kirby/abilitySprites/parasol.png" id="34_urxre"]
+[ext_resource type="Texture2D" uid="uid://2hmbtqn55u4k" path="res://kirbySprites/kirby/abilitySprites/rockidle.png" id="39_10pba"]
+[ext_resource type="Texture2D" uid="uid://d052cl07cosys" path="res://kirbySprites/kirby/abilitySprites/rockroll.png" id="40_l78cc"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_g6eas"]
 atlas = ExtResource("1_17yrx")
@@ -535,7 +537,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_y2lru")
 }, {
-"duration": 15.0,
+"duration": 8.0,
 "texture": SubResource("AtlasTexture_6ehel")
 }, {
 "duration": 4.0,
@@ -873,6 +875,42 @@ region = Rect2(168, 0, 56, 40)
 atlas = ExtResource("34_urxre")
 region = Rect2(224, 0, 56, 40)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_plrcu"]
+atlas = ExtResource("39_10pba")
+region = Rect2(0, 0, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_insvq"]
+atlas = ExtResource("40_l78cc")
+region = Rect2(0, 0, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ushj5"]
+atlas = ExtResource("40_l78cc")
+region = Rect2(40, 0, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jwhs8"]
+atlas = ExtResource("40_l78cc")
+region = Rect2(80, 0, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cxxs2"]
+atlas = ExtResource("40_l78cc")
+region = Rect2(120, 0, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_048wi"]
+atlas = ExtResource("40_l78cc")
+region = Rect2(160, 0, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4r4xs"]
+atlas = ExtResource("40_l78cc")
+region = Rect2(200, 0, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rj87n"]
+atlas = ExtResource("40_l78cc")
+region = Rect2(240, 0, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5i4nv"]
+atlas = ExtResource("40_l78cc")
+region = Rect2(280, 0, 40, 40)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_qql6w"]
 atlas = ExtResource("27_cup31")
 region = Rect2(120, 0, 40, 40)
@@ -1037,6 +1075,43 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_plrcu")
+}],
+"loop": true,
+"name": &"rock",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_insvq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ushj5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jwhs8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cxxs2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_048wi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4r4xs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rj87n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5i4nv")
+}],
+"loop": true,
+"name": &"rockroll",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_qql6w")
 }, {
 "duration": 1.0,
@@ -1093,6 +1168,8 @@ size = Vector2(10, 2)
 size = Vector2(10, 14)
 
 [node name="player" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 3
 floor_constant_speed = true
 floor_snap_length = 5.0
 script = ExtResource("1_7nm4v")
@@ -1118,7 +1195,7 @@ position_smoothing_speed = 10.0
 drag_horizontal_enabled = true
 drag_vertical_enabled = true
 drag_horizontal_offset = 0.3
-drag_vertical_offset = 0.6
+drag_vertical_offset = 1.0
 
 [node name="projectileProducer" type="Marker2D" parent="."]
 position = Vector2(8, 2)
@@ -1127,13 +1204,15 @@ position = Vector2(8, 2)
 self_modulate = Color(0.996078, 0.996078, 0.996078, 1)
 position = Vector2(0, -7)
 sprite_frames = SubResource("SpriteFrames_2f0ea")
-animation = &"flight"
+animation = &"jump"
 autoplay = "idle"
 
 [node name="abilitySprites" type="AnimatedSprite2D" parent="."]
+visible = false
 position = Vector2(0, 1)
 sprite_frames = SubResource("SpriteFrames_i0bqj")
-animation = &"iceLoop"
+animation = &"rockroll"
+frame_progress = 0.885054
 
 [node name="abilityCooldown" type="Timer" parent="abilitySprites"]
 one_shot = true
@@ -1164,6 +1243,7 @@ shape = SubResource("RectangleShape2D_nrj70")
 [node name="wallCollideDetect" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="wallCollideDetect"]
+visible = false
 position = Vector2(0, -2)
 shape = SubResource("RectangleShape2D_77ako")
 debug_color = Color(0.843137, 0.376471, 0.121569, 0.419608)
@@ -1171,6 +1251,7 @@ debug_color = Color(0.843137, 0.376471, 0.121569, 0.419608)
 [node name="bodyCollideDetect" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="bodyCollideDetect"]
+visible = false
 position = Vector2(0, 5)
 shape = SubResource("RectangleShape2D_ydnqk")
 debug_color = Color(0.996078, 0, 0.172549, 0.419608)

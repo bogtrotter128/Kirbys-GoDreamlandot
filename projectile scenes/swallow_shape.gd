@@ -5,18 +5,31 @@ extends Area2D
 @export var WINDY = 0.0
 
 func _process(_delta):
-	if GameUtils.Killsuck == true:
-		self.queue_free()
+	if get_parent().name == "Player2":
+		if GameUtils.KillsuckP2 == true:
+			self.queue_free()
+	if get_parent().name == "player":
+		if GameUtils.Killsuck == true:
+			self.queue_free()
 
 func _on_body_entered(body):
 	if body.is_in_group("mobs") or body.is_in_group("suckable"):
-		GameUtils.HELDABILITY = body.copyAbilityScore
-		GameUtils.mouthValue = 2
+		if get_parent().name == "Player2":
+			GameUtils.HELDABILITYP2 = body.copyAbilityScore
+			GameUtils.mouthValueP2 = 2
+		if get_parent().name == "player":
+			GameUtils.HELDABILITY = body.copyAbilityScore
+			GameUtils.mouthValue = 2
 		print("MOUTH VALUE: ", GameUtils.mouthValue)
 		print("EATEN SCORE: ", body.copyAbilityScore)
 		print("GAINED SCORE: ", GameUtils.ABILITY)
 		body.queue_free()
-		GameUtils.Killsuck = true
+		if get_parent().name == "Player2":
+			if GameUtils.KillsuckP2 == true:
+				self.queue_free()
+		if get_parent().name == "player":
+			if GameUtils.Killsuck == true:
+				self.queue_free()
 #swallowshape should have a function to create a 2nd swallow shape that will
 #check for when a 2nd enemy is swallowed. setting mouthValue = 3
 

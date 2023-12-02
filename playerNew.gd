@@ -2,11 +2,13 @@ extends CharacterBody2D
 
 
 const SPEED = 80.0
-const JUMP_VELOCITY = -340.0
+#const JUMP_VELOCITY = -340.0 - JUMPPOWERINITAL ISNTEAD
 const JUMP_VELOCITY_STEP = 1
 var WINDFORCEX = 0.0
 var WINDFORCEY = 0.0
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
+
+#@export var GOOEY : PackedScene
 
 @export var airpuff : PackedScene
 @export var starFire : PackedScene
@@ -36,6 +38,7 @@ var jump_timer = 0.0
 var is_jumping = false
 ##############################################
 var activeAbility = 0
+var rocktrue = false
 var abilityCooldown = false
 var abilitycanstop = true
 var iceabilityready = true
@@ -90,16 +93,16 @@ func _input(event):
 	#jump input is handled in physics proccess
 	
 	#handles multijump
-	if Input.is_action_just_pressed("b") && is_jumping == true && jumpCount < jumpMax && abilityCooldown == false && canInhale == true && $AnimatedSprite2D.animation != "hurt":
+	if Input.is_action_just_pressed("jump") && is_jumping == true && jumpCount < jumpMax && abilityCooldown == false && canInhale == true && $AnimatedSprite2D.animation != "hurt":
 		mouthFullAir = true
 		flight = true
 		if jumpMax < 999:
-			velocity.y = JUMP_VELOCITY + -100 + (40 * jumpCount)
+			velocity.y = jump_power_initial + (20 * jumpCount)
 		else:
-			velocity.y = JUMP_VELOCITY + -60
+			velocity.y = jump_power_initial * 2
 		jumpCount += 1
 		abilityCooldown = true
-		$abilitySprites/abilityCooldown.set_wait_time(0.2)
+		$abilitySprites/abilityCooldown.set_wait_time(0.15)
 		$abilitySprites/abilityCooldown.start()
 
 #handles up button input
@@ -124,7 +127,7 @@ func _input(event):
 		uncrouch()
 
 #handles the long jump release time
-	if event.is_action_released("b") && is_jumping:
+	if event.is_action_released("jump") && is_jumping:
 		jump_timer = jump_time_max
 
 #discription: discerning double tapping done with double diretection determining
@@ -153,12 +156,15 @@ func _input(event):
 	if Input.is_action_just_pressed("debug9"):
 		hasAbility = false
 		GameUtils.ABILITY = 0
+		GameUtils.ABILITYP2 = 0
 		abilitycard.update_ability_card(GameUtils.ABILITY)
-		mouthFull = true
+		GameUtils.mouthValue = 2
+		GameUtils.mouthValueP2 = 2
 		GameUtils.STARS += 1
 		Starbar.update_stars(GameUtils.STARS)
 		print("FULL")
 		GameUtils.HEALTH += 1
+		GameUtils.HEALTHP2 += 1
 		#this calls the HUD to update and display the new current HP
 		HPHUD.update_health(GameUtils.HEALTH)
 		
@@ -206,7 +212,7 @@ func _process(_delta):
 
 
 #handles slidekick input
-	if crouch == true && Input.is_action_just_pressed("b") && slide == false:
+	if crouch == true && Input.is_action_just_pressed("jump") && slide == false:
 		slidekick()
 #handles swallowing
 	if Input.is_action_just_pressed("c") && mouthFull == true && hasAbility == false:
@@ -223,9 +229,9 @@ func _process(_delta):
 	
 	
 	
-#sets kirby's max health at 10
-	if GameUtils.HEALTH > 10:
-		GameUtils.HEALTH = 10
+#sets kirby's health from going over max hp
+	if GameUtils.HEALTH > GameUtils.MAXHP:
+		GameUtils.HEALTH = GameUtils.MAXHP
 	if GameUtils.HEALTH <= 0:
 		die()
 		
@@ -292,7 +298,7 @@ func _physics_process(delta):
 				$AnimatedSprite2D.play("parajump")
 			falling = true
 		elif flight == true:
-			if Input.is_action_just_pressed("b"):
+			if Input.is_action_just_pressed("jump"):
 				if GameUtils.ABILITY != 7:
 					$AnimatedSprite2D.play("flap")
 				elif GameUtils.ABILITY == 7:
@@ -340,10 +346,10 @@ func _physics_process(delta):
 		jump_timer += delta
 	
 	#handles jump input and calls jump function
-	if Input.is_action_pressed("b") && mouthFullAir == false && is_jumping == false && canJump == true && overrideY == false && crouch == false && canInhale == true && not Input.is_action_pressed("down"):
+	if Input.is_action_pressed("jump") && mouthFullAir == false && is_jumping == false && canJump == true && overrideY == false && crouch == false && canInhale == true && not Input.is_action_pressed("down"):
 		jump()
-	#while jump is hed, jumptimer increases
-	elif Input.is_action_pressed("b") && is_jumping == true && overrideY == false && jump_timer < jump_time_max && canInhale == true:
+	#while jump is held, jumptimer increases
+	elif Input.is_action_pressed("jump") && is_jumping == true && overrideY == false && jump_timer < jump_time_max && canInhale == true:
 		jump_power -= JUMP_VELOCITY_STEP
 		apply_jump_force(jump_power)
 	
@@ -413,7 +419,7 @@ func _on_run_cooloff_timeout():
 
 
 func jump():
-	if is_jumping == false:
+	if is_jumping == false :
 		jump_timer = 0.0
 		is_jumping = true
 		apply_jump_force(jump_power_initial)
@@ -501,6 +507,7 @@ func inhaleStop():
 func slidekick():
 	if abilityCooldown == false:
 		slide = true
+		
 		GameUtils.Killsuck = false
 		$AnimatedSprite2D.play("slide")
 		projectFollow(2)
@@ -546,6 +553,7 @@ func spitCascade():
 	falling = false
 	await get_tree().create_timer(0.2).timeout
 	abilityCooldown = false
+	canJump = true
 	canInhale = true
 
 func spitOutAirPuff():
@@ -664,6 +672,7 @@ func damage():
 	GameUtils.IframeHit = true
 	mouthFullAir = false
 	flight = false
+	canJump = true
 	overrideX = false
 	overrideY = false
 	abilityAni = false
@@ -789,16 +798,33 @@ func ability(abilityScore):
 			#4 is the score for ice
 			projectShoot(4)
 			iceabilityready = false
-		
-	
+#ability score 4 is stone,
 	elif abilityScore == 4:
-		pass
-	
+		if Input.is_action_just_pressed("a"):
+			if rocktrue == true:
+				#ability start
+				abilitycanstop = false
+				velocity.x = 10 * GameUtils.DIR
+				activeAbility = 4
+				print("rockstart")
+				overrideX = true
+				$abilitySprites.play("rock")
+				set_floor_max_angle(0.0)
+				rocktrue = false
+
+			elif rocktrue == false:
+				#abilitystop
+				print("rockstop")
+				abilitycanstop = true
+				abilityStop()
+				rocktrue = true
+
 	elif abilityScore == 5:
 		pass
-	
+
 	elif abilityScore == 6:
 		pass
+
 #abilityscore 7 is the parasol
 	elif abilityScore == 7:
 		abilitycanstop = false

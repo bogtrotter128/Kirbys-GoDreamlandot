@@ -1,7 +1,5 @@
 extends HBoxContainer
 
-enum modes {SIMPLE, EMPTY, PARTIAL}
-
 var star0 = preload("res://kirbySprites/UI/HUD/STAR0.png")
 var star1 = preload("res://kirbySprites/UI/HUD/STAR1.png")
 var star2 = preload("res://kirbySprites/UI/HUD/STAR2.png")
@@ -9,8 +7,6 @@ var star3 = preload("res://kirbySprites/UI/HUD/STAR3.png")
 var star4 = preload("res://kirbySprites/UI/HUD/STAR4.png")
 var star5 = preload("res://kirbySprites/UI/HUD/STAR5.png")
 
-
-@export var mode : modes
 func update_stars(value):
 	update_partial(value)
 	
