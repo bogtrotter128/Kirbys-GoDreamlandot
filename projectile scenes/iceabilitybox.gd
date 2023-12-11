@@ -1,13 +1,14 @@
 extends Area2D
 
-var speed = 70
-
+var speed = 50
+var rng = RandomNumberGenerator.new()
+var ranint = rng.randi_range(-40,40)
+var changedY = false
 @export var icecube : PackedScene
 
+
 func _physics_process(delta):
-	if GameUtils.DIR == -1:
-		$AnimatedSprite2D.flip_v = true
-		
+	position += transform.y * ranint/100
 	position += transform.x * speed * delta
 	#put a random transform.y function here
 	await get_tree().create_timer(0.6).timeout

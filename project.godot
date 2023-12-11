@@ -21,6 +21,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 GameUtils="*res://GameUtils.gd"
+Hud="*res://UI/HUD/hud.gd"
 
 [display]
 
@@ -143,5 +144,5 @@ debug0={
 
 [rendering]
 
-textures/canvas_textures/default_texture_filter=2
+textures/canvas_textures/default_texture_filter=3
 renderer/rendering_method="mobile"

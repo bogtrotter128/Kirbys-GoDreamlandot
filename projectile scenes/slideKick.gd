@@ -4,7 +4,7 @@ func _process(_delta):
 	if get_parent().name == "Player2":
 		if GameUtils.KillsuckP2 == true:
 			self.queue_free()
-	if get_parent().name == "player":
+	if get_parent().name == "Player1":
 		if GameUtils.Killsuck == true:
 			self.queue_free()
 

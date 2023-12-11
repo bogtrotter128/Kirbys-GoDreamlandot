@@ -72,6 +72,8 @@ animations = [{
 }]
 
 [node name="staritem" type="CharacterBody2D"]
+collision_layer = 3
+collision_mask = 3
 script = ExtResource("1_0bqeh")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -81,6 +83,8 @@ one_way_collision = true
 one_way_collision_margin = 0.0
 
 [node name="areaDetect" type="Area2D" parent="."]
+collision_layer = 3
+collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="areaDetect"]
 shape = SubResource("RectangleShape2D_cfyod")

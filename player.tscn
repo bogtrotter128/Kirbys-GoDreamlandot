@@ -1,11 +1,10 @@
-[gd_scene load_steps=182 format=3 uid="uid://b13j1d6jw0pfk"]
+[gd_scene load_steps=181 format=3 uid="uid://b13j1d6jw0pfk"]
 
 [ext_resource type="Script" path="res://playerNew.gd" id="1_7nm4v"]
 [ext_resource type="Texture2D" uid="uid://b7s6l1046f4m8" path="res://kirbySprites/kirby/crouch.png" id="1_17yrx"]
 [ext_resource type="Texture2D" uid="uid://d0gnbhtoke7hx" path="res://kirbySprites/kirby/idle.png" id="1_b52d1"]
 [ext_resource type="Texture2D" uid="uid://dv6jw47ebjvhg" path="res://kirbySprites/kirby/jump.png" id="2_2ehic"]
 [ext_resource type="PackedScene" uid="uid://dl7x73k1kv8g8" path="res://projectile scenes/air_puff.tscn" id="2_l4xcj"]
-[ext_resource type="PackedScene" uid="uid://yrdf0a66x2wg" path="res://hud.tscn" id="2_mgqxi"]
 [ext_resource type="Texture2D" uid="uid://c5usaisuocnv8" path="res://kirbySprites/kirby/fat idle.png" id="3_0fybl"]
 [ext_resource type="Texture2D" uid="uid://ek0cu64esja" path="res://kirbySprites/kirby/fat ouch.png" id="3_acobp"]
 [ext_resource type="Texture2D" uid="uid://yej5yk8jijck" path="res://kirbySprites/kirby/run.png" id="3_aorbc"]
@@ -1167,9 +1166,8 @@ size = Vector2(10, 2)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ydnqk"]
 size = Vector2(10, 14)
 
-[node name="player" type="CharacterBody2D"]
+[node name="player" type="CharacterBody2D" groups=["player"]]
 collision_layer = 2
-collision_mask = 3
 floor_constant_speed = true
 floor_snap_length = 5.0
 script = ExtResource("1_7nm4v")
@@ -1182,11 +1180,6 @@ fireAbilityBox = ExtResource("6_irxac")
 shockAbilityBox = ExtResource("7_c7fbo")
 iceAbilityBox = ExtResource("8_eg3xa")
 icecube = ExtResource("9_gqu00")
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-follow_viewport_scale = 2.0
-
-[node name="HUD" parent="CanvasLayer" instance=ExtResource("2_mgqxi")]
 
 [node name="Camera2D" type="Camera2D" parent="."]
 limit_smoothed = true
@@ -1211,15 +1204,14 @@ autoplay = "idle"
 visible = false
 position = Vector2(0, 1)
 sprite_frames = SubResource("SpriteFrames_i0bqj")
-animation = &"rockroll"
-frame_progress = 0.885054
+animation = &"fireLoop"
 
 [node name="abilityCooldown" type="Timer" parent="abilitySprites"]
 one_shot = true
 
 [node name="iceabilityCooldown" type="Timer" parent="abilitySprites"]
 process_callback = 0
-wait_time = 0.2
+wait_time = 0.15
 
 [node name="smallHitbox" type="CollisionShape2D" parent="."]
 position = Vector2(-1.19209e-07, 8)

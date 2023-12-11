@@ -58,12 +58,12 @@ func _process(_delta):
 	#determines if walking or idling
 	if $"..".falling == false && $"..".inhaling == false:
 		if direction:
-			if $"..".mouthFull == false && $"..".crouch == false:
+			if $"..".mouthFull == false && $"..".overrideX == false:
 				if parasolsprite == false:
 					$".".play("walk")
 				else:
 					$".".play("pararun")
-			elif $"..".mouthFull == true && $"..".crouch == false:
+			elif $"..".mouthFull == true && $"..".overrideX == false:
 				$".".play("fat run")
 		else:
 			if $"..".crouch == false && $"..".inhaling == false:
@@ -75,7 +75,7 @@ func _process(_delta):
 				elif $"..".mouthFull == true:
 					$".".play("fat idle")
 
-	if $"..".run == true:
+	if $"..".run == true && $"..".squish== false:
 		$".".set_speed_scale(1.5)
 	elif $"..".run == false:
 		$".".set_speed_scale(1.0)
@@ -105,3 +105,10 @@ func _process(_delta):
 	elif $"..".inhaling == false:
 		$".".position.x = 0
  
+	if $"..".squish == true:
+		$".".play("squish")
+		await get_tree().create_timer(0.1).timeout
+		$"..".squish = false
+	
+	if $"..".hurt == true:
+		$".".play("hurt")

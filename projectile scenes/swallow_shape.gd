@@ -8,7 +8,7 @@ func _process(_delta):
 	if get_parent().name == "Player2":
 		if GameUtils.KillsuckP2 == true:
 			self.queue_free()
-	if get_parent().name == "player":
+	if get_parent().name == "Player1":
 		if GameUtils.Killsuck == true:
 			self.queue_free()
 
@@ -17,7 +17,7 @@ func _on_body_entered(body):
 		if get_parent().name == "Player2":
 			GameUtils.HELDABILITYP2 = body.copyAbilityScore
 			GameUtils.mouthValueP2 = 2
-		if get_parent().name == "player":
+		if get_parent().name == "Player1":
 			GameUtils.HELDABILITY = body.copyAbilityScore
 			GameUtils.mouthValue = 2
 		print("MOUTH VALUE: ", GameUtils.mouthValue)
@@ -27,7 +27,7 @@ func _on_body_entered(body):
 		if get_parent().name == "Player2":
 			if GameUtils.KillsuckP2 == true:
 				self.queue_free()
-		if get_parent().name == "player":
+		if get_parent().name == "Player1":
 			if GameUtils.Killsuck == true:
 				self.queue_free()
 #swallowshape should have a function to create a 2nd swallow shape that will

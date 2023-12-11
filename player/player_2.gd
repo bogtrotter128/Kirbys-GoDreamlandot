@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 
-const SPEED = 80.0
+var SPEED = 80.0
 
 var WINDFORCEX = 0.0
 var WINDFORCEY = 0.0
@@ -20,6 +20,7 @@ var jump_power_initial = -150
 var jump_power = 0
 var jump_time_max = 0.2
 var jump_timer = 0.0
+var jumpCooldown = false
 
 ###r##u###n###n##i##n##g####
 var runCheckR = false
@@ -29,6 +30,7 @@ var run = false
 
 var falling = false
 var flight = false
+var squish = false
 
 var spit = false
 var inhaling = false
@@ -41,6 +43,7 @@ var crouch = false
 var crouchOverride = false
 var slide = false
 
+var abilitycanstop = true
 var hasAbility = false
 var activeAbility = 0
 var abilityCooldown = false
@@ -52,9 +55,9 @@ func _ready():
 	#this is jsut to tell the game gooey is here
 	#should be put it in his summon function
 	GameUtils.SECONDPLAYER = true
+	#Hud.updatehp2()
 
 func _input(event):
-	
 		#handles spit inpit
 	if Input.is_action_just_pressed("a") && mouthFull == true or Input.is_action_just_pressed("a") && mouthFullAir == true:
 		$projectileProducer.projectShoot(GameUtils.mouthValueP2)
@@ -68,7 +71,7 @@ func _input(event):
 		jump_timer = jump_time_max
 		
 #handles multijump
-	if Input.is_action_just_pressed("jump") && is_jumping == true && jumpCount < jumpMax && abilityCooldown == false && canInhale == true&& $AnimatedSprite2D.animation != "hurt":
+	if Input.is_action_just_pressed("jump") && is_jumping == true && jumpCount < jumpMax && jumpCooldown == false && canInhale == true&& $AnimatedSprite2D.animation != "hurt":
 		mouthFullAir = true
 		flight = true
 		if jumpMax < 999:
@@ -76,10 +79,10 @@ func _input(event):
 		else:
 			velocity.y = jump_power_initial * 2
 		jumpCount += 1
-		abilityCooldown = true
-		$AbilitySprites/abilityCooldown.set_wait_time(0.15)
-		$AbilitySprites/abilityCooldown.start()
-	
+		jumpCooldown = true
+		$jumpcooldown.set_wait_time(0.15)
+		$jumpcooldown.start()
+
 #double tap to run checker
 	if Input.is_action_just_released("right") && falling == false or Input.is_action_just_released("left") && falling == false:
 		$runCooloff.start()
@@ -105,9 +108,16 @@ func _on_run_cooloff_timeout():
 
 func _process(_delta):
 	
+	print("gooey!!!!")
+	print(GameUtils.posXP2)
+	
 	if GameUtils.HEALTHP2 > GameUtils.MAXHPP2:
 		GameUtils.HEALTHP2 = GameUtils.MAXHPP2
 	
+	if GameUtils.ABILITYP2 > 0:
+		hasAbility = true
+	else:
+		hasAbility = false
 	#rules for when something enters kirby's mouth
 #BEFORE swallowing
 #after inhaling
@@ -118,6 +128,14 @@ func _process(_delta):
 		canInhale = false
 		GameUtils.KillsuckP2 = true
 
+#this stops kirby from moving while an ability is active and on the floor
+#excludes the fire ability ( > 1)
+#this is mostly for the parasol ability so kirb wont slide while moving
+	if activeAbility > 0 && is_on_floor():
+		velocity.x = move_toward(velocity.x, 0, 5)
+		overrideX = true
+		velocity.y = 0
+		canJump = false
 #############################################################################
 #i n p u t p r o c e s s e s
 
@@ -137,10 +155,18 @@ func _process(_delta):
 			uncrouch()
 
 	#inhale input and function call
-	if Input.is_action_pressed("a") && canInhale == true && abilityCooldown == false:
-		$projectileProducer.inhale()
-# C button input
+	##ability input call
+	if Input.is_action_pressed("a") && abilityCooldown == false && crouch == false:
+		if canInhale == true && hasAbility == false:
+			$projectileProducer.inhale()
+		elif hasAbility == true:
+			$projectileProducer.ability(GameUtils.ABILITYP2)
+	if Input.is_action_just_released("a") && abilitycanstop == true:
+		GameUtils.KillAbilityP2 = true
+		GameUtils.KillAbilityP2 = false
+		$projectileProducer.abilityStop()
 
+# C button input
 	if Input.is_action_just_pressed("c"):
 		#handles swallowing
 		if mouthFull == true && hasAbility == false:
@@ -149,6 +175,7 @@ func _process(_delta):
 		
 		#+ door interaction
 
+#stop inhaling
 	elif Input.is_action_just_released("a") && GameUtils.KillsuckP2 == false:
 		$AbilitySprites/abilityCooldown.set_wait_time(0.43)
 		$AbilitySprites/abilityCooldown.start()
@@ -156,6 +183,8 @@ func _process(_delta):
 		$projectileProducer.inhaleStop()
 	elif Input.is_action_pressed("a") && mouthFull == true:
 			$projectileProducer.inhaleStop()
+	elif inhaling == true && mouthFull == true:
+		$projectileProducer.inhaleStop()
 
 func _physics_process(delta):
 	# Add the gravity.
@@ -171,7 +200,7 @@ func _physics_process(delta):
 			velocity.y += gravity * delta
 		if flight ==  true:
 			velocity.y = velocity.y * 0.86
-			velocity.x = velocity.x * 0.75
+			#velocity.x = velocity.x * 0.75
 
 #landing parameters
 	if is_on_floor() && falling == true && crouch == false && slide == false:
@@ -198,24 +227,34 @@ func _physics_process(delta):
 		$projectileProducer.position.x = 8
 	if direction:
 		if overrideX == false && slide == false:
-			velocity.x = direction * SPEED
+			velocity.x = move_toward(velocity.x, SPEED * direction, 7)
 	else:
 		#this line will be contingecnies where kirby should not stop moving while idle
-		if slide == false:
-			velocity.x = move_toward(velocity.x, 0, SPEED)
+		if slide == false && activeAbility == 0:
+			velocity.x = move_toward(velocity.x, 0, 7)
+			if not Input.is_action_pressed("right") and not Input.is_action_pressed("left"):
+				run = false
+
 
 	#speed parameters run / mouthful / etc
-	if run == true && mouthFull == false:
-		velocity.x = velocity.x * 1.54
-	elif run == true && mouthFull == true:
-		velocity.x = velocity.x * 1.2
-	elif mouthFull == true && run == false:
-		velocity.x = velocity.x * 0.75
+	if overrideX == false: #this stops the whole override x form breaking
+		if run == true && mouthFull == false:
+			SPEED = 123
+		elif run == true && mouthFull == true:
+			SPEED = 96
+		elif mouthFull == true && run == false:
+			SPEED = 60
+	if run == false:
+		SPEED = 80
 
-
+#squishes/boucnes when hits wall. 
+#max angle was set to 50' so to not collide with slopes
+	if is_on_wall() && falling == false && run == true:
+		run = false
+		squish = true
 
 #adds wind blowing force
-	velocity.x += WINDFORCEX * (delta * 5)
+	velocity.x += WINDFORCEX * (delta * 1.4)
 	velocity.y += WINDFORCEY * (delta * 2.5) #add fire contingency later\/\/\/\/
 	#if activeAbility != 1: #contingency to make the fireability undisturbed during wind
 	#	velocity.y += WINDFORCEY * (delta * 2.5)
@@ -261,3 +300,7 @@ func swallow():
 	GameUtils.mouthValueP2 = 1
 	mouthFull = false
 	mouthFullAir = false
+
+func heal(v):
+	GameUtils.HEALTHP2 += v
+	Hud.updatehp2()

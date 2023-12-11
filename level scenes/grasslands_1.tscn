@@ -1,12 +1,14 @@
-[gd_scene load_steps=15 format=3 uid="uid://fu60xjrgvvaj"]
+[gd_scene load_steps=17 format=3 uid="uid://fu60xjrgvvaj"]
 
 [ext_resource type="Texture2D" uid="uid://bw2h61mhse7ps" path="res://kirbySprites/tiles/grassland1.png" id="1_app8o"]
 [ext_resource type="Script" path="res://level scenes/grasslands_1.gd" id="1_ndhpu"]
-[ext_resource type="PackedScene" uid="uid://b13j1d6jw0pfk" path="res://player.tscn" id="2_m47u4"]
 [ext_resource type="Texture2D" uid="uid://cud3rujhhv08j" path="res://kirbySprites/bgs/grass1 bg.png" id="3_v0208"]
 [ext_resource type="Texture2D" uid="uid://coucksciavre8" path="res://kirbySprites/bgs/grass1 foreground.png" id="4_jselp"]
 [ext_resource type="PackedScene" uid="uid://dwlgh5abfpira" path="res://level scenes/props/semipermi_platform.tscn" id="6_7ffmy"]
+[ext_resource type="PackedScene" uid="uid://d1h66nvbwgp4o" path="res://player/player_1.tscn" id="6_gmgah"]
+[ext_resource type="Script" path="res://player/player_2.gd" id="7_e2848"]
 [ext_resource type="PackedScene" uid="uid://beawese0p28hw" path="res://player/player_2.tscn" id="7_udnqo"]
+[ext_resource type="PackedScene" uid="uid://yrdf0a66x2wg" path="res://UI/HUD/hud.tscn" id="8_jepg4"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tapac"]
 texture = ExtResource("1_app8o")
@@ -497,7 +499,10 @@ sprite_frames = SubResource("SpriteFrames_slpsn")
 autoplay = "default"
 
 [node name="Player2" parent="." instance=ExtResource("7_udnqo")]
-position = Vector2(811, 65)
+position = Vector2(814.5, 66)
 
-[node name="player" parent="." instance=ExtResource("2_m47u4")]
-position = Vector2(775, -21)
+[node name="Player1" parent="." instance=ExtResource("6_gmgah")]
+position = Vector2(796, 39)
+script = ExtResource("7_e2848")
+
+[node name="HUD" parent="." instance=ExtResource("8_jepg4")]

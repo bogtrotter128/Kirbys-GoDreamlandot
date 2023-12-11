@@ -1,6 +1,8 @@
 extends Node
 #var that checks if gooey is present
 var SECONDPLAYER = false
+#used for recall function
+var secondplayerrecall = false
 #this is kirbs HP
 var HEALTH = 10
 #this is goos HP
@@ -11,6 +13,8 @@ var MAXHP = 10
 var MAXHPP2 = 8
 #these are the star points kirb has
 var STARS = 0
+# 1 ups
+var SCORES1UP = 0
 #this is the number of hertstars collected
 var HEARTSTARS
 
@@ -54,3 +58,10 @@ var KillAbility = false
 
 var KillsuckP2 = false
 var KillAbilityP2 = false
+
+#player 1 positions
+var posX = 0
+var posY = 0
+#player 2 positions
+var posXP2 = 0
+var posYP2 = 0

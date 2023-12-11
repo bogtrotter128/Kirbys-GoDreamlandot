@@ -5,11 +5,11 @@ extends Area2D
 @export var WINDY = 0.0
 
 func _on_body_entered(body):
-	if body.name == "player" or body.is_in_group("mobs"):
+	if body.is_in_group("player") or body.is_in_group("mobs"):
 		body.WINDFORCEX = WINDX
 		body.WINDFORCEY = WINDY
 
 func _on_body_exited(body):
-	if body.name == "player" or body.is_in_group("mobs"):
+	if body.is_in_group("player") or body.is_in_group("mobs"):
 		body.WINDFORCEX = 0
 		body.WINDFORCEY = 0

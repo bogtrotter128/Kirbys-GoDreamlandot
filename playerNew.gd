@@ -21,12 +21,6 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @export var iceAbilityBox : PackedScene
 @export var icecube : PackedScene
 
-
-@onready var HPHUD = $CanvasLayer/HUD/HPbar
-@onready var Starbar = $CanvasLayer/HUD/Starbar
-@onready var enemyBar = $CanvasLayer/HUD/enemybar
-@onready var abilitycard = $CanvasLayer/HUD/abilitycard
-
 #####j###u###m###p###i###n###g#######################
 var canJump = true
 var jumpMax = GameUtils.JUMPMAX
@@ -151,30 +145,37 @@ func _input(event):
 #debugdebugdebugdebugdebugdebugdebugdebugdebugdebugdebugdebugdebug
 	if event.as_text() in uiInputs:
 		GameUtils.ABILITY = hashTable[event.as_text()]
-		abilitycard.update_ability_card(GameUtils.ABILITY)
+		GameUtils.ABILITYP2 = hashTable[event.as_text()]
+		Hud.updateability()
+		Hud.updateability2()
+		GameUtils.SCORES1UP = 80
 
-	if Input.is_action_just_pressed("debug9"):
+	if Input.is_action_pressed("debug9"):
 		hasAbility = false
 		GameUtils.ABILITY = 0
 		GameUtils.ABILITYP2 = 0
-		abilitycard.update_ability_card(GameUtils.ABILITY)
+		Hud.updateability()
+		Hud.updateability2()
 		GameUtils.mouthValue = 2
 		GameUtils.mouthValueP2 = 2
 		GameUtils.STARS += 1
-		Starbar.update_stars(GameUtils.STARS)
+		Hud.updatestarbar()
 		print("FULL")
 		GameUtils.HEALTH += 1
 		GameUtils.HEALTHP2 += 1
 		#this calls the HUD to update and display the new current HP
-		HPHUD.update_health(GameUtils.HEALTH)
+		Hud.updatehp()
+		Hud.updatehp2()
 		
 		GameUtils.mouthValue = 2
 
 	if Input.is_action_just_pressed("debug0"):
 		GameUtils.HEALTH = 1
-		HPHUD.update_health(GameUtils.HEALTH)
+		GameUtils.HEALTHP2 = 1
+		Hud.updatehp()
+		Hud.updatehp2()
 		GameUtils.STARS = 1
-		Starbar.update_stars(GameUtils.STARS)
+		Hud.updatestarbar()
 #debugdebugdebugdebugdebugdebugdebugdebugdebugdebugdebugdebugdebug
 
 func _process(_delta):
@@ -217,12 +218,6 @@ func _process(_delta):
 #handles swallowing
 	if Input.is_action_just_pressed("c") && mouthFull == true && hasAbility == false:
 		swallow()
-	
-	
-	
-	
-#FIX this enemybar breaks a lot of the time, need to fix
-	enemyBar.update_enemy_bar(GameUtils.enemyHP)
 	
 	#if GameUtils.icecubespawn == true:
 	#	summonice()
@@ -459,7 +454,7 @@ func dropstar():
 	if hasAbility == true:
 		projectShoot(6)
 		GameUtils.ABILITY = 0
-		abilitycard.update_ability_card(GameUtils.ABILITY)
+		#abilitycard.update_ability_card(GameUtils.ABILITY)
 		hasAbility = false
 
 
@@ -467,7 +462,7 @@ func dropstar():
 func swallow():
 	canInhale = true
 	GameUtils.ABILITY = GameUtils.HELDABILITY
-	abilitycard.update_ability_card(GameUtils.ABILITY)
+	#abilitycard.update_ability_card(GameUtils.ABILITY)
 	GameUtils.mouthValue = 1
 	docrouch()
 	#await get_tree().create_timer(0.1).timeout
@@ -689,7 +684,7 @@ func damage():
 		#updates the player's actual HP
 		GameUtils.HEALTH -= 1
 		#this calls the HUD to update and display the new current HP
-		HPHUD.update_health(GameUtils.HEALTH)
+		#HPHUD.update_health(GameUtils.HEALTH)
 		if mouthFull == false:
 			$AnimatedSprite2D.play("hurt")
 		elif mouthFull == true:
@@ -804,6 +799,7 @@ func ability(abilityScore):
 			if rocktrue == true:
 				#ability start
 				abilitycanstop = false
+				$".".jumpCount = $".".jumpMax
 				velocity.x = 10 * GameUtils.DIR
 				activeAbility = 4
 				print("rockstart")

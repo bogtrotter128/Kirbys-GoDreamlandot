@@ -1,0 +1,230 @@
+[gd_scene load_steps=18 format=3 uid="uid://yrdf0a66x2wg"]
+
+[ext_resource type="Texture2D" uid="uid://ceef8n7e7dv5s" path="res://kirbySprites/UI/HUD/MAINHUD.png" id="1_fveks"]
+[ext_resource type="Script" path="res://UI/HUD/StarbarHUD.gd" id="2_uf0wp"]
+[ext_resource type="Texture2D" uid="uid://b7stpyodd4l6s" path="res://kirbySprites/UI/HUD/STAR0.png" id="3_3qbfe"]
+[ext_resource type="Script" path="res://UI/HUD/hud.gd" id="4_ag0vo"]
+[ext_resource type="Script" path="res://UI/HUD/HPbar.gd" id="4_v51j2"]
+[ext_resource type="Texture2D" uid="uid://cxqclkkw0gada" path="res://kirbySprites/UI/HUD/HPFULL.png" id="5_1mr52"]
+[ext_resource type="Texture2D" uid="uid://by1neumemb0qj" path="res://kirbySprites/UI/HUD/starSPACE.png" id="5_hp8mn"]
+[ext_resource type="Script" path="res://UI/HUD/HPbar2.gd" id="6_af4nt"]
+[ext_resource type="Texture2D" uid="uid://dlwp7kqkf63a5" path="res://kirbySprites/UI/HUD/HPFULL2.png" id="7_qekpk"]
+[ext_resource type="Script" path="res://UI/HUD/enemybar.gd" id="8_4gs5g"]
+[ext_resource type="Texture2D" uid="uid://d4aanbykerlvf" path="res://kirbySprites/UI/HUD/enemybar0.png" id="9_cleeg"]
+[ext_resource type="Texture2D" uid="uid://djwp8v48w4pld" path="res://kirbySprites/UI/HUD/acard0.png" id="11_20qq5"]
+[ext_resource type="Script" path="res://UI/HUD/abilitycard.gd" id="12_nty5n"]
+[ext_resource type="Script" path="res://UI/HUD/abilitycard2.gd" id="14_g8yml"]
+[ext_resource type="Script" path="res://UI/HUD/Score.gd" id="15_jep07"]
+[ext_resource type="Texture2D" uid="uid://dyacumdtu83tc" path="res://kirbySprites/UI/HUD/0.png" id="16_6d7p2"]
+[ext_resource type="Script" path="res://UI/HUD/updatetimer.gd" id="17_gmakq"]
+
+[node name="HUD" type="CanvasLayer"]
+layer = 128
+script = ExtResource("4_ag0vo")
+
+[node name="Mainhud" type="Sprite2D" parent="."]
+position = Vector2(207, 169)
+scale = Vector2(1.10526, 1.10526)
+texture = ExtResource("1_fveks")
+
+[node name="Starbar" type="HBoxContainer" parent="."]
+offset_left = 141.0
+offset_top = 256.0
+offset_right = 275.0
+offset_bottom = 270.0
+theme_override_constants/separation = 3
+script = ExtResource("2_uf0wp")
+
+[node name="s1" type="TextureRect" parent="Starbar"]
+layout_mode = 2
+texture = ExtResource("3_3qbfe")
+stretch_mode = 2
+
+[node name="s2" type="TextureRect" parent="Starbar"]
+layout_mode = 2
+texture = ExtResource("3_3qbfe")
+stretch_mode = 2
+
+[node name="s3" type="TextureRect" parent="Starbar"]
+layout_mode = 2
+texture = ExtResource("3_3qbfe")
+stretch_mode = 2
+
+[node name="starSkip" type="TextureRect" parent="Starbar"]
+layout_mode = 2
+texture = ExtResource("5_hp8mn")
+
+[node name="s4" type="TextureRect" parent="Starbar"]
+layout_mode = 2
+texture = ExtResource("3_3qbfe")
+stretch_mode = 2
+
+[node name="s5" type="TextureRect" parent="Starbar"]
+layout_mode = 2
+texture = ExtResource("3_3qbfe")
+stretch_mode = 2
+
+[node name="s6" type="TextureRect" parent="Starbar"]
+layout_mode = 2
+texture = ExtResource("3_3qbfe")
+stretch_mode = 2
+
+[node name="HPbar" type="HBoxContainer" parent="."]
+offset_left = 138.0
+offset_top = 238.0
+offset_right = 227.0
+offset_bottom = 258.0
+theme_override_constants/separation = 1
+script = ExtResource("4_v51j2")
+
+[node name="h1" type="TextureRect" parent="HPbar"]
+layout_mode = 2
+texture = ExtResource("5_1mr52")
+stretch_mode = 2
+
+[node name="h2" type="TextureRect" parent="HPbar"]
+layout_mode = 2
+texture = ExtResource("5_1mr52")
+stretch_mode = 2
+
+[node name="h3" type="TextureRect" parent="HPbar"]
+layout_mode = 2
+texture = ExtResource("5_1mr52")
+stretch_mode = 2
+
+[node name="h4" type="TextureRect" parent="HPbar"]
+layout_mode = 2
+texture = ExtResource("5_1mr52")
+stretch_mode = 2
+
+[node name="h5" type="TextureRect" parent="HPbar"]
+layout_mode = 2
+texture = ExtResource("5_1mr52")
+stretch_mode = 2
+
+[node name="HPbar2" type="HBoxContainer" parent="."]
+offset_left = 210.0
+offset_top = 238.0
+offset_right = 281.0
+offset_bottom = 258.0
+theme_override_constants/separation = 1
+script = ExtResource("6_af4nt")
+
+[node name="h1" type="TextureRect" parent="HPbar2"]
+layout_mode = 2
+texture = ExtResource("7_qekpk")
+stretch_mode = 2
+
+[node name="h2" type="TextureRect" parent="HPbar2"]
+layout_mode = 2
+texture = ExtResource("7_qekpk")
+stretch_mode = 2
+
+[node name="h3" type="TextureRect" parent="HPbar2"]
+layout_mode = 2
+texture = ExtResource("7_qekpk")
+stretch_mode = 2
+
+[node name="h4" type="TextureRect" parent="HPbar2"]
+layout_mode = 2
+texture = ExtResource("7_qekpk")
+stretch_mode = 2
+
+[node name="enemybar" type="HBoxContainer" parent="."]
+offset_left = 140.0
+offset_top = 272.0
+offset_right = 282.0
+offset_bottom = 299.0
+theme_override_constants/separation = 1
+script = ExtResource("8_4gs5g")
+
+[node name="enemybar0" type="TextureRect" parent="enemybar"]
+layout_mode = 2
+texture = ExtResource("9_cleeg")
+stretch_mode = 2
+
+[node name="enemybar1" type="TextureRect" parent="enemybar"]
+layout_mode = 2
+texture = ExtResource("9_cleeg")
+stretch_mode = 2
+
+[node name="enemybar2" type="TextureRect" parent="enemybar"]
+layout_mode = 2
+texture = ExtResource("9_cleeg")
+stretch_mode = 2
+
+[node name="enemybar3" type="TextureRect" parent="enemybar"]
+layout_mode = 2
+texture = ExtResource("9_cleeg")
+stretch_mode = 2
+
+[node name="enemybar4" type="TextureRect" parent="enemybar"]
+layout_mode = 2
+texture = ExtResource("9_cleeg")
+stretch_mode = 2
+
+[node name="enemybar5" type="TextureRect" parent="enemybar"]
+layout_mode = 2
+texture = ExtResource("9_cleeg")
+stretch_mode = 2
+
+[node name="enemybar6" type="TextureRect" parent="enemybar"]
+layout_mode = 2
+texture = ExtResource("9_cleeg")
+stretch_mode = 2
+
+[node name="enemybar7" type="TextureRect" parent="enemybar"]
+layout_mode = 2
+texture = ExtResource("9_cleeg")
+stretch_mode = 2
+
+[node name="abilitycard" type="HBoxContainer" parent="."]
+offset_left = 78.6042
+offset_top = 237.342
+offset_right = 120.604
+offset_bottom = 277.342
+scale = Vector2(1.16, 1.12)
+script = ExtResource("12_nty5n")
+
+[node name="cardSprite" type="TextureRect" parent="abilitycard"]
+layout_mode = 2
+texture = ExtResource("11_20qq5")
+
+[node name="abilitycard2" type="HBoxContainer" parent="."]
+offset_left = 289.604
+offset_top = 237.342
+offset_right = 331.604
+offset_bottom = 277.342
+scale = Vector2(1.16, 1.12)
+script = ExtResource("14_g8yml")
+
+[node name="cardSprite" type="TextureRect" parent="abilitycard2"]
+layout_mode = 2
+texture = ExtResource("11_20qq5")
+
+[node name="Score" type="HBoxContainer" parent="."]
+layout_direction = 3
+offset_left = 185.0
+offset_top = 256.0
+offset_right = 217.0
+offset_bottom = 296.0
+theme_override_constants/separation = 0
+alignment = 2
+script = ExtResource("15_jep07")
+
+[node name="num1" type="TextureRect" parent="Score"]
+layout_mode = 2
+texture = ExtResource("16_6d7p2")
+stretch_mode = 2
+
+[node name="num2" type="TextureRect" parent="Score"]
+layout_mode = 2
+texture = ExtResource("16_6d7p2")
+stretch_mode = 2
+
+[node name="updatetimer" type="Timer" parent="."]
+wait_time = 0.15
+autostart = true
+script = ExtResource("17_gmakq")
+
+[connection signal="timeout" from="updatetimer" to="updatetimer" method="_on_timeout"]

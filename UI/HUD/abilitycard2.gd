@@ -10,7 +10,12 @@ var cut6 = preload("res://kirbySprites/UI/HUD/acard6.png")
 var para7 = preload("res://kirbySprites/UI/HUD/acard7.png")
 var sweep8 = preload("res://kirbySprites/UI/HUD/acard8.png")
 
-func update_ability_card(value):
+func _process(_delta):
+	if Hud.upability2 == true:
+		update_ability_card2(GameUtils.ABILITYP2)
+		Hud.upability2 = false
+
+func update_ability_card2(value):
 	if value == 0:
 		$cardSprite.texture = blank0
 	if value == 1:

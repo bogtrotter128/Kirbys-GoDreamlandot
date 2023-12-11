@@ -14,12 +14,10 @@ func _ready():
 
 #functions that DOES THE THINGGGGG
 func _on_area_detect_body_entered(body):
-	if body.name == "player":
+	if body.is_in_group("player"):
 		self.queue_free()
-		#for 2p change this to body.whateverhealthfunctionImake
 		GameUtils.STARS += starValue
-		body.Starbar.update_stars(GameUtils.STARS)
-
+		Hud.updatestarbar()
 
 func _physics_process(delta):
 	if gravityCheck == true:
