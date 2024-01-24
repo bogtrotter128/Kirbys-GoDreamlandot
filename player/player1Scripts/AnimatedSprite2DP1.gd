@@ -4,11 +4,6 @@ extends AnimatedSprite2D
 
 var parasolsprite = false
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	if GameUtils.ABILITY == 7:
@@ -22,24 +17,27 @@ func _process(_delta):
 		$".".visible=true
 	
 #jump ani
-	if $"..".is_jumping == true && $"..".flight == false && $"..".inhaling == false:
+	if $"..".is_jumping == true && $"..".flight == false && $"..".inhaling == false: 
 		if parasolsprite == false:
 			if $"..".mouthFull == false:
-					$".".play("jump")
+				$".".play("jump")
 			elif $"..".mouthFull == true:
 				$".".play("fat jump")
-		else:
-			if $"..".mouthFull == false:
-					$".".play("parajump")
+		elif parasolsprite == true && $"..".mouthFull == false:
+			$".".play("parajump")
+
 #flight ani
 	if $"..".flight == true:
-		if $".".animation != "flap":
+		if $".".animation != "flap" && $".".animation != "paraFlap" && turn == false:
 			if parasolsprite == false:
 				$".".play("flight")
 			else:
 				$".".play("paraflight")
 		if Input.is_action_just_pressed("jump"):
-			$".".play("flap")
+			if parasolsprite == false:
+				$".".play("flap")
+			elif parasolsprite == true:
+				$".".play("paraFlap")
 			await $".".animation_finished
 			if parasolsprite == false:
 				$".".play("flight")
@@ -47,16 +45,18 @@ func _process(_delta):
 				$".".play("paraflight")
 	
 #directional animation parameters
-	if GameUtils.DIR == -1:
+	if $"..".DIR == -1 && $"..".inhaling == false && $"../AbilitySprites".flip_h == false:
 		$".".flip_h = true
+		turnframe()
 		$"../AbilitySprites".flip_h = true
-	if GameUtils.DIR == 1:
+	if $"..".DIR == 1 && $"..".inhaling == false && $"../AbilitySprites".flip_h == true:
 		$".".flip_h = false
+		turnframe()
 		$"../AbilitySprites".flip_h = false
 	
 	var direction = Input.get_axis("left", "right")
 	#determines if walking or idling
-	if $"..".falling == false && $"..".inhaling == false:
+	if $"..".falling == false && $"..".inhaling == false && turn == false:
 		if direction:
 			if $"..".mouthFull == false && $"..".overrideX == false:
 				if parasolsprite == false && $"..".run == false:
@@ -66,7 +66,7 @@ func _process(_delta):
 			elif $"..".mouthFull == true && $"..".overrideX == false:
 				$".".play("fat run")
 		else:
-			if $"..".crouch == false && $"..".inhaling == false && $"..".run == false:
+			if $"..".crouch == false && $"..".inhaling == false && $"..".run == false && turn == false:
 				if $"..".mouthFull == false:
 					if parasolsprite == false:
 						$".".play("idle")
@@ -78,7 +78,8 @@ func _process(_delta):
 	#run ani
 	if $"..".run == true && $"..".squish== false && $"..".crouch == false && $"..".falling == false:
 		$".".set_speed_scale(1.5)
-		$".".play("run")
+		if $"..".mouthFull == false && parasolsprite == false && turn == false:
+			$".".play("run")
 	elif $"..".run == false:
 		$".".set_speed_scale(1.0)
 		
@@ -113,3 +114,22 @@ func _process(_delta):
 	
 	if $"..".hurt == true:
 		$".".play("hurt")
+
+var turn = false
+func turnframe():
+	$".".stop()
+	turn = true
+	if $"..".mouthFull == false:
+		if parasolsprite == false:
+			$".".play("turn")
+		if parasolsprite == true:
+			$".".play("para turn")
+	if $"..".mouthFull == true:
+		$".".play("fat turn")
+	if $"..".flight == true:
+		if parasolsprite == false:
+			$".".play("flight turn")
+		if parasolsprite == true:
+			$".".play("para flight turn")
+	await get_tree().create_timer(0.13).timeout
+	turn = false

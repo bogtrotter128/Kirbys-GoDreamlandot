@@ -2,8 +2,6 @@ extends CharacterBody2D
 @export var gravityCheck = false
 @export var starValue = 1
 
-var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
-
 func _ready():
 	if starValue == 1:
 		$AnimatedSprite2D.play("small")
@@ -19,9 +17,8 @@ func _on_area_detect_body_entered(body):
 		GameUtils.STARS += starValue
 		Hud.updatestarbar()
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if gravityCheck == true:
 		if not is_on_floor():
-			if velocity.y < 200:
-				velocity.y += gravity * delta
+			velocity.y = move_toward(velocity.y, 200, 7)
 		move_and_slide()

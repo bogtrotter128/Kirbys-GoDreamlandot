@@ -1,0 +1,62 @@
+[gd_scene load_steps=9 format=3 uid="uid://bawynx155hv0l"]
+
+[ext_resource type="Script" path="res://enemy scenes/hazardenemies/shotzo_bullet.gd" id="1_od2uw"]
+[ext_resource type="Texture2D" uid="uid://cyj2jmujdqx87" path="res://kirbySprites/enemy/shotzobullet.png" id="2_pq7tj"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iy5d2"]
+atlas = ExtResource("2_pq7tj")
+region = Rect2(0, 0, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e6xun"]
+atlas = ExtResource("2_pq7tj")
+region = Rect2(20, 0, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1f2i0"]
+atlas = ExtResource("2_pq7tj")
+region = Rect2(40, 0, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rlxrm"]
+atlas = ExtResource("2_pq7tj")
+region = Rect2(60, 0, 20, 20)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ec214"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iy5d2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e6xun")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1f2i0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rlxrm")
+}],
+"loop": true,
+"name": &"default",
+"speed": 14.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_l2nr8"]
+size = Vector2(8, 8)
+
+[node name="ShotzoBullet" type="Area2D" groups=["hazard"]]
+script = ExtResource("1_od2uw")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(17, 0)
+sprite_frames = SubResource("SpriteFrames_ec214")
+autoplay = "default"
+frame_progress = 0.966865
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(17, 0)
+shape = SubResource("RectangleShape2D_l2nr8")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(17, 0)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

@@ -3,9 +3,11 @@
 [ext_resource type="Script" path="res://projectile scenes/slideKick.gd" id="1_1yhqh"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_o6m7f"]
-size = Vector2(20, 28)
+size = Vector2(20, 18)
 
 [node name="slideKick" type="Area2D"]
+collision_layer = 3
+collision_mask = 3
 script = ExtResource("1_1yhqh")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

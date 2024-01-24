@@ -1,0 +1,90 @@
+[gd_scene load_steps=14 format=3 uid="uid://1w80ctw6hxq6"]
+
+[ext_resource type="Script" path="res://enemy scenes/1abilityenemiees/skud/skudrocket.gd" id="1_nhwla"]
+[ext_resource type="Script" path="res://enemy scenes/1abilityenemiees/skud/skudrocketparent.gd" id="1_wsm0r"]
+[ext_resource type="Texture2D" uid="uid://shoalgttdc4k" path="res://kirbySprites/enemy/skud.png" id="2_w2qfo"]
+[ext_resource type="PackedScene" uid="uid://hfhsgmg3phv" path="res://projectile scenes/explosion.tscn" id="3_4k0ga"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nlfrh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kvi37"]
+size = Vector2(17, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k3ahi"]
+atlas = ExtResource("2_w2qfo")
+region = Rect2(96, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4wq1a"]
+atlas = ExtResource("2_w2qfo")
+region = Rect2(120, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qhk6f"]
+atlas = ExtResource("2_w2qfo")
+region = Rect2(144, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kclou"]
+atlas = ExtResource("2_w2qfo")
+region = Rect2(168, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0sfyo"]
+atlas = ExtResource("2_w2qfo")
+region = Rect2(192, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o032v"]
+atlas = ExtResource("2_w2qfo")
+region = Rect2(216, 0, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_rrr0p"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k3ahi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4wq1a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qhk6f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kclou")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0sfyo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o032v")
+}],
+"loop": true,
+"name": &"default",
+"speed": 9.0
+}]
+
+[node name="skudrocket" type="StaticBody2D" groups=["suckable"]]
+collision_layer = 2
+script = ExtResource("1_wsm0r")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_nlfrh")
+
+[node name="Marker2D" type="Marker2D" parent="."]
+gizmo_extents = 30.0
+
+[node name="Area2D" type="Area2D" parent="." groups=["suckable"]]
+collision_layer = 7
+collision_mask = 7
+priority = 1
+script = ExtResource("1_nhwla")
+splode = ExtResource("3_4k0ga")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-1.5, 0)
+shape = SubResource("RectangleShape2D_kvi37")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Area2D"]
+rotation = -1.5708
+sprite_frames = SubResource("SpriteFrames_rrr0p")
+autoplay = "default"
+frame_progress = 0.31301
+
+[connection signal="body_entered" from="Area2D" to="Area2D" method="_on_body_entered"]

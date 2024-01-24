@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://8nm7pwt6bdog"]
+
+[sub_resource type="Gradient" id="Gradient_600gj"]
+offsets = PackedFloat32Array(0, 0.474453)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_o0qpc"]
+gradient = SubResource("Gradient_600gj")
+width = 8
+fill_from = Vector2(1, 1)
+
+[node name="Node2D" type="Node2D"]
+
+[node name="pupabod" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="pupabod"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="pupabod"]
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_left = -4.0
+offset_right = 4.0
+offset_bottom = 64.0
+texture = SubResource("GradientTexture2D_o0qpc")
+expand_mode = 1
+stretch_mode = 1

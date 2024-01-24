@@ -1,43 +1,61 @@
 extends Area2D
 #
-@export var WINDX = -2000.0 * GameUtils.DIR
-#a good wind force is -300.0
-@export var WINDY = 0.0
+var playerval
+var spritevisible = true
+func _ready():
+	if spritevisible == false:
+		$AnimatedSprite2D.visible=false
+	if is_in_group("player1"):
+		GameUtils.Killsuck = true
+		GameUtils.Killsuck = false
+		playerval = 1
+	if is_in_group("player2"):
+		GameUtils.KillsuckP2 = true
+		GameUtils.KillsuckP2 = false
+		playerval = 2
 
+var target
+var canpull = false
 func _process(_delta):
-	if get_parent().name == "Player2":
-		if GameUtils.KillsuckP2 == true:
-			self.queue_free()
-	if get_parent().name == "Player1":
-		if GameUtils.Killsuck == true:
-			self.queue_free()
+	if GameUtils.Killsuck == true && playerval == 1:
+		self.queue_free()
+	if GameUtils.KillsuckP2 == true && playerval == 2:
+		self.queue_free()
+func _physics_process(_delta):
+	if canpull == true:
+		pull()
 
 func _on_body_entered(body):
 	if body.is_in_group("mobs") or body.is_in_group("suckable"):
-		if get_parent().name == "Player2":
+		target = null
+		canpull = false
+		if playerval == 2:
 			GameUtils.HELDABILITYP2 = body.copyAbilityScore
 			GameUtils.mouthValueP2 = 2
-		if get_parent().name == "Player1":
+			GameUtils.KillsuckP2 = true
+		if playerval == 1:
 			GameUtils.HELDABILITY = body.copyAbilityScore
 			GameUtils.mouthValue = 2
+			GameUtils.Killsuck = true
 		print("MOUTH VALUE: ", GameUtils.mouthValue)
 		print("EATEN SCORE: ", body.copyAbilityScore)
-		print("GAINED SCORE: ", GameUtils.ABILITY)
 		body.queue_free()
-		if get_parent().name == "Player2":
-			if GameUtils.KillsuckP2 == true:
-				self.queue_free()
-		if get_parent().name == "Player1":
-			if GameUtils.Killsuck == true:
-				self.queue_free()
 #swallowshape should have a function to create a 2nd swallow shape that will
 #check for when a 2nd enemy is swallowed. setting mouthValue = 3
 
 func _on_pull_body_entered(body):
 	if body.is_in_group("mobs") or body.is_in_group("suckable"):
-		body.WINDFORCEX = WINDX
+		$pull/CollisionPolygon2D.call_deferred("set","disabled",true)
+		print(body)
+		target = body
+		canpull = true
 
+#func _on_pull_body_exited(body):
+#	if body.is_in_group("mobs") or body.is_in_group("suckable"):
+#		canpull = false
+#	if body.is_in_group("powblock") && body.is_in_group("suckable"):
+#		body.blockbreak()
 
-func _on_pull_body_exited(body):
-	if body.is_in_group("mobs"):
-		body.WINDFORCEX = 0.0
+func pull():
+	target.global_position.x = move_toward(target.global_position.x, get_parent().global_position.x, 1.3)
+	target.global_position.y = move_toward(target.global_position.y, get_parent().global_position.y, 1.3)

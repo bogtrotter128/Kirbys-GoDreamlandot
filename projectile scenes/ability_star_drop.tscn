@@ -108,8 +108,7 @@ size = Vector2(13, 14)
 size = Vector2(18, 5)
 
 [node name="ability star drop" type="CharacterBody2D" groups=["suckable"]]
-collision_layer = 3
-collision_mask = 3
+collision_layer = 2
 script = ExtResource("1_nb2ni")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -122,7 +121,6 @@ frame_progress = 1.0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 rotation = -3.14159
 shape = SubResource("RectangleShape2D_tgv0d")
-one_way_collision = true
 one_way_collision_margin = 0.0
 
 [node name="deathTimer" type="Timer" parent="."]
@@ -131,6 +129,8 @@ one_shot = true
 autostart = true
 
 [node name="wall detect" type="Area2D" parent="."]
+collision_layer = 3
+collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="wall detect"]
 position = Vector2(0, -0.5)

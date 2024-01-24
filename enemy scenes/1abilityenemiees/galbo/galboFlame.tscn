@@ -1,0 +1,43 @@
+[gd_scene load_steps=6 format=3 uid="uid://bj3rabfwv1v4o"]
+
+[ext_resource type="Script" path="res://enemy scenes/1abilityenemiees/galbo/galboFlame.gd" id="1_ivv86"]
+[ext_resource type="Texture2D" uid="uid://on2ec07see1r" path="res://kirbySprites/enemy/galboFlame.png" id="1_momwo"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_efcw6"]
+atlas = ExtResource("1_momwo")
+region = Rect2(0, 0, 26, 19)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_e0bao"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_efcw6")
+}],
+"loop": false,
+"name": &"flame",
+"speed": 1.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5bjfn"]
+size = Vector2(15.5, 5)
+
+[node name="galboFlame" type="Area2D" groups=["hazard"]]
+position = Vector2(-46, 0)
+collision_layer = 3
+collision_mask = 3
+priority = 1
+script = ExtResource("1_ivv86")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-9, 0)
+sprite_frames = SubResource("SpriteFrames_e0bao")
+animation = &"flame"
+autoplay = "flame"
+frame_progress = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-8.25, 0.5)
+shape = SubResource("RectangleShape2D_5bjfn")
+debug_color = Color(0.807843, 0.403922, 0.235294, 0.117647)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

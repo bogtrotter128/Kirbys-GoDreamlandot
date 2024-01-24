@@ -11,12 +11,14 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 
 func _ready():
-	if get_parent().name == "Player2":
+	if get_parent().name == "Player2": #it doesnt know what these parents are, because the players are its siblings
 		dir = GameUtils.DIRP2 * -1
 		copyAbilityScore  = GameUtils.ABILITYP2
-	if get_parent().name == "player":
+		GameUtils.ABILITYP2 = 0
+	if get_parent().name == "Player1":
 		dir = GameUtils.DIR * -1
 		copyAbilityScore  = GameUtils.ABILITY
+		GameUtils.ABILITY = 0
 
 func _physics_process(delta):
 	if not is_on_floor():

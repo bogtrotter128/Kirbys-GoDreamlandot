@@ -52,7 +52,8 @@ func _process(_delta):
 		$".".play("spikeloop")
 
 # cutter ability animations
-
+	if $"../projectileProducer".cutterstart == true:
+		play("cutter")
 #parasol
 
 #broom

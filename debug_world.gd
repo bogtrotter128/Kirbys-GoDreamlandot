@@ -19,8 +19,8 @@ func _input(event):
 		Hud.updateability()
 		Hud.updateability2()
 	
-	if Input.is_action_just_pressed("debug9"):
-		await get_tree().create_timer(0.2).timeout
+	if Input.is_action_pressed("debug9"):
+#		await get_tree().create_timer(0.2).timeout
 		GameUtils.ABILITY = 0
 		GameUtils.ABILITYP2 = 0
 		Hud.updateability()
@@ -32,10 +32,11 @@ func _input(event):
 		
 		GameUtils.mouthValue = 2
 		GameUtils.mouthValueP2 = 2
-		await get_tree().create_timer(0.2).timeout
+#		await get_tree().create_timer(0.2).timeout
 		
 	if Input.is_action_just_pressed("debug0"):
 		GameUtils.HEALTH = 1
+		GameUtils.HEALTHP2 = 1
 		Hud.updatehp()
 		Hud.updatehp2()
 		GameUtils.STARS = 1

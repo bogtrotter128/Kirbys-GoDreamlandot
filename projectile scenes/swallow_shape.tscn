@@ -1,10 +1,10 @@
-[gd_scene load_steps=15 format=3 uid="uid://dkicwxi7f2nat"]
+[gd_scene load_steps=14 format=3 uid="uid://dkicwxi7f2nat"]
 
 [ext_resource type="Texture2D" uid="uid://d3y72k3e3dqjc" path="res://kirbySprites/effects/suck.png" id="1_233fx"]
 [ext_resource type="Script" path="res://projectile scenes/swallow_shape.gd" id="1_on113"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rd8e2"]
-size = Vector2(2, 14)
+size = Vector2(3, 18)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3h0ye"]
 atlas = ExtResource("1_233fx")
@@ -77,34 +77,30 @@ animations = [{
 "speed": 14.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_j7704"]
-size = Vector2(38, 37)
-
 [node name="swallowShape" type="Area2D"]
 collision_layer = 3
 collision_mask = 3
 script = ExtResource("1_on113")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(1, 0)
+position = Vector2(0.5, 0)
 shape = SubResource("RectangleShape2D_rd8e2")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(12, 0)
+position = Vector2(16.5, 4.76837e-07)
+scale = Vector2(1.46875, 0.9375)
 sprite_frames = SubResource("SpriteFrames_2iojf")
 animation = &"suck"
 autoplay = "suck"
-frame_progress = 0.964842
+frame_progress = 0.501214
 
 [node name="pull" type="Area2D" parent="."]
 collision_layer = 3
 collision_mask = 3
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="pull"]
-position = Vector2(21, -0.5)
-shape = SubResource("RectangleShape2D_j7704")
-debug_color = Color(0.545098, 0.533333, 0.533333, 0.419608)
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="pull"]
+build_mode = 1
+polygon = PackedVector2Array(0, 0, 0, 8, 40, 17, 40, -18, 0, -7)
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_entered" from="pull" to="." method="_on_pull_body_entered"]
-[connection signal="body_exited" from="pull" to="." method="_on_pull_body_exited"]

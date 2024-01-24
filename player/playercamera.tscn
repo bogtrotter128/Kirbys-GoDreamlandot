@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://t2l75xuywtt3"]
+
+[ext_resource type="Script" path="res://player/Camera2D.gd" id="1_qhvcs"]
+
+[node name="Camera2D" type="Camera2D"]
+limit_smoothed = true
+position_smoothing_enabled = true
+position_smoothing_speed = 10.0
+drag_horizontal_enabled = true
+drag_vertical_enabled = true
+drag_horizontal_offset = 0.3
+drag_vertical_offset = 1.0
+script = ExtResource("1_qhvcs")

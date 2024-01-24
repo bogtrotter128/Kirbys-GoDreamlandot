@@ -1,0 +1,131 @@
+[gd_scene load_steps=15 format=3 uid="uid://dfagltxyeko4d"]
+
+[ext_resource type="Texture2D" uid="uid://cf4aspftqjbv8" path="res://kirbySprites/stageselect/stageSelectMenu.png" id="1_4ldmg"]
+[ext_resource type="Script" path="res://selectScreen/stageSelect.gd" id="2_co43t"]
+[ext_resource type="Texture2D" uid="uid://54xctp1x0dil" path="res://kirbySprites/stageselect/iceberg title.png" id="3_2mlxc"]
+[ext_resource type="Texture2D" uid="uid://bnrwdbfsw1eg0" path="res://kirbySprites/stageselect/grasslands.png" id="4_7hhkx"]
+[ext_resource type="Texture2D" uid="uid://bm8gkh8fqmr2p" path="res://kirbySprites/stageselect/11.png" id="4_cjcu6"]
+[ext_resource type="Texture2D" uid="uid://26rxw5gsg83i" path="res://kirbySprites/stageselect/whipsytitle.png" id="6_aqw5a"]
+[ext_resource type="Texture2D" uid="uid://bjkhfjt11l1rr" path="res://kirbySprites/stageselect/selectbig.png" id="6_hetvm"]
+[ext_resource type="Texture2D" uid="uid://bqbtl12yvw02b" path="res://kirbySprites/stageselect/whispycard.png" id="7_3u3sm"]
+[ext_resource type="Texture2D" uid="uid://ie7cmrc7es04" path="res://kirbySprites/stageselect/selectsmall.png" id="7_xqveh"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bsi0h"]
+atlas = ExtResource("6_hetvm")
+region = Rect2(0, 0, 28, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mk82w"]
+atlas = ExtResource("6_hetvm")
+region = Rect2(28, 0, 28, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yhdyx"]
+atlas = ExtResource("7_xqveh")
+region = Rect2(0, 0, 28, 36)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_63om5"]
+atlas = ExtResource("7_xqveh")
+region = Rect2(28, 0, 28, 36)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vuyco"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bsi0h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mk82w")
+}],
+"loop": true,
+"name": &"big",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yhdyx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_63om5")
+}],
+"loop": true,
+"name": &"small",
+"speed": 5.0
+}]
+
+[node name="Sprite2D" type="Sprite2D"]
+z_index = 3
+texture = ExtResource("1_4ldmg")
+script = ExtResource("2_co43t")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(1.3, 1.3)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+offset_left = -80.0
+offset_top = -89.0
+offset_right = 80.0
+offset_bottom = -81.0
+
+[node name="stagename" type="TextureRect" parent="HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("3_2mlxc")
+
+[node name="levelportraits" type="HBoxContainer" parent="."]
+offset_left = -70.0
+offset_top = 57.0
+offset_right = 70.0
+offset_bottom = 97.0
+
+[node name="p1" type="TextureRect" parent="levelportraits"]
+layout_mode = 2
+texture = ExtResource("4_cjcu6")
+stretch_mode = 2
+
+[node name="p2" type="TextureRect" parent="levelportraits"]
+layout_mode = 2
+stretch_mode = 2
+
+[node name="p3" type="TextureRect" parent="levelportraits"]
+layout_mode = 2
+stretch_mode = 2
+
+[node name="p4" type="TextureRect" parent="levelportraits"]
+layout_mode = 2
+stretch_mode = 2
+
+[node name="p5" type="TextureRect" parent="levelportraits"]
+layout_mode = 2
+stretch_mode = 2
+
+[node name="p6" type="TextureRect" parent="levelportraits"]
+layout_mode = 2
+stretch_mode = 2
+
+[node name="stageart" type="TextureRect" parent="."]
+z_index = -1
+offset_left = -104.0
+offset_top = -73.0
+offset_right = 104.0
+offset_bottom = 23.0
+texture = ExtResource("4_7hhkx")
+
+[node name="bossname" type="TextureRect" parent="."]
+offset_left = 72.0
+offset_top = 39.0
+offset_right = 112.0
+offset_bottom = 79.0
+texture = ExtResource("6_aqw5a")
+stretch_mode = 2
+
+[node name="bossportrait" type="TextureRect" parent="."]
+offset_left = 75.0
+offset_top = 50.0
+offset_right = 115.0
+offset_bottom = 90.0
+texture = ExtResource("7_3u3sm")
+stretch_mode = 2
+
+[node name="selectionboxsprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(-60, 67)
+sprite_frames = SubResource("SpriteFrames_vuyco")
+animation = &"small"
+frame_progress = 0.821894

@@ -4,21 +4,21 @@ var heart_full = preload("res://kirbySprites/UI/HUD/HPFULL.png")
 var heart_empty = preload("res://kirbySprites/UI/HUD/HPEMPTY.png")
 var heart_half = preload("res://kirbySprites/UI/HUD/HPHALF.png")
 
-var canupdate = false
+var canupdate
 func _process(_delta):
-	if Hud.updatehpv == true && canupdate == true && tempvar != GameUtils.HEALTH:
-		canupdate = false
+	if canupdate == true:
 		if tempvar > GameUtils.HEALTH:
 			tempvar -= 1
 		elif tempvar < GameUtils.HEALTH:
 			tempvar += 1
+		canupdate = false
 		update_health(tempvar)
-	if tempvar == GameUtils.HEALTH:
-		Hud.updatehpv = false
+	if tempvar != GameUtils.HEALTH:
+		canupdate = true
 
-	if GameUtils.SECONDPLAYER == true:
+	if GameUtils.SECONDPLAYER == true && $"../HPbar2".visible == false:
 		$"../HPbar2".visible = true
-	else:
+	elif GameUtils.SECONDPLAYER == false && $"../HPbar2".visible == true:
 		$"../HPbar2".visible = false
 var tempvar = 0
 func update_health(value):

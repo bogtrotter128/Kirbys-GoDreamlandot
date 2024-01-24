@@ -2,6 +2,12 @@ extends Area2D
 
 var speed = 40
 
+func _ready():
+	if speed < 0:
+		global_position.x -= 10
+	else:
+		global_position.x += 10
+
 func _physics_process(delta):
 	position += transform.x * speed * delta
 	await get_tree().create_timer(0.4).timeout

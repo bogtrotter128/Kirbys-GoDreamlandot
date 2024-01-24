@@ -6,14 +6,12 @@ extends Marker2D
 @export var SlideHitbox : PackedScene
 @export var dropabilitystar : PackedScene
 
-@export var gooeyrecall : PackedScene
-
 @export var fireAbilityBox : PackedScene
 @export var shockAbilityBox : PackedScene
 @export var iceAbilityBox : PackedScene
 @export var stoneAbilityBox : PackedScene
 @export var dustspawn : PackedScene
-@export var dustspawn2 : PackedScene
+@export var cutterAbilityBox : PackedScene
 
 func projectShoot(v):
 	var projectS
@@ -31,8 +29,10 @@ func projectShoot(v):
 	elif v == 5: # rock's projectiles
 		projectS = dustspawn.instantiate()
 	elif v == 6:
-		projectS = dustspawn2.instantiate()
-		#probably sweep
+		projectS = dustspawn.instantiate()
+		projectS.speed = -40
+	elif v == 7:
+		projectS = cutterAbilityBox.instantiate()
 	elif v == 10:
 		projectS = dropabilitystar.instantiate()
 	owner.add_sibling(projectS)
@@ -46,6 +46,7 @@ func projectFollow(v):
 	# uses killsuck to queue_free
 	if v == 1:
 		projectF = suckScene.instantiate()
+		projectF.add_to_group("player1")
 	# 2 is the kick slide hitbox.
 	# uses killsuck to queue_free
 	if v == 2:
@@ -61,16 +62,11 @@ func projectFollow(v):
 	add_sibling(projectF)
 	projectF.transform = $".".transform
 
-func goorecall():
-	GameUtils.secondplayerrecall = false
-	var summongoo
-	summongoo = gooeyrecall.instantiate()
-	
-	summongoo.position.x = GameUtils.posXP2
-	summongoo.position.y = GameUtils.posYP2
-	owner.owner.add_child(summongoo)
-	#summongoo.global_transform.x = GameUtils.posXP2
-	#summongoo.global_transform.y = GameUtils.posYP2
+func _input(_event):
+		#handles spit inpit
+	if Input.is_action_just_pressed("a") && $"..".mouthFull == true or Input.is_action_just_pressed("a") && $"..".mouthFullAir == true:
+		projectShoot(GameUtils.mouthValue)
+		spitCascade()
 
 func inhale():
 	$"..".canInhale = false
@@ -150,11 +146,11 @@ func ability(abilityScore):
 	if abilityScore == 5:
 		spike()
 	if abilityScore == 6:
-		pass #cutter
+		cutter()
 	if abilityScore == 7:
-		pass # parasol
+		parasol()
 	if abilityScore == 8:
-		pass #broom
+		broom()
 
 
 
@@ -165,7 +161,6 @@ func abilityStop():
 	$"..".velocity.x = 0
 	$"..".slide = false
 	$"..".canJump = true
-	$"..".jumpCount = 0
 	$"..".overrideX = false
 	$"..".overrideY = false
 	stoneboxcheck = false
@@ -182,13 +177,6 @@ func abilityStop():
 var stoneboxcheck = false
 var stonefall = false
 func _process(_delta):
-	
-	GameUtils.posX = $"..".global_position.x
-	GameUtils.posY = $"..".global_position.y
-	
-	if GameUtils.secondplayerrecall == true:
-		goorecall()
-	
 	#updates the fire ability's firescore
 	if $"..".activeAbility == 1:
 		$"..".velocity.y = 0
@@ -215,57 +203,41 @@ func _process(_delta):
 		if not $"..".is_on_wall() && $"..".falling == true:
 			stonefall = true
 
-func _input(_event):
-	if Input.is_action_just_pressed("left") && $"..".activeAbility == 4:
-		$"..".slide = true
-		$"..".velocity.x -= 40
-		await get_tree().create_timer(0.1).timeout
-		$"..".velocity.x = 0
-		$"..".slide = false
-	if Input.is_action_just_pressed("right") && $"..".activeAbility == 4:
-		$"..".slide = true
-		$"..".velocity.x += 40
-		await get_tree().create_timer(0.1).timeout
-		$"..".velocity.x = 0
-		$"..".slide = false
-
 func fire():
-	$"..".abilitycanstop = false
-	#these make sure you cant jump or do any weird y movements during the ability
-	$"..".slide = true
-	$"..".is_jumping = true
-	$"..".jump_timer = $"..".jump_time_max
-	#
-	$"../AbilitySprites/firecooldown".start()
-	$"..".set_floor_max_angle(0)
-	$"../normalhitbox".call_deferred("set", "disabled", true)
-	$"../smallhitbox".position.y = 2
-	firestart = true
-	projectFollow(3)
-	$"..".overrideX = true
-	$"..".overrideY = true
-	$"..".velocity.y = 0
-	$"..".run = false
-	await get_tree().create_timer(0.2).timeout
-	$"../AbilitySprites/firewallDetect".firedectOn()
-	$"..".activeAbility = 1
-	firestart = false
+	if $"..".activeAbility == 0 && Input.is_action_just_pressed("a"):
+		$"..".abilitycanstop = false
+		$"..".activeAbility = 1
+		#these make sure you cant jump or do any weird y movements during the ability
+		$"..".slide = true
+		$"..".is_jumping = true
+		$"..".jump_timer = $"..".jump_time_max
+		#
+		$"../AbilitySprites/firecooldown".start()
+		$"..".set_floor_max_angle(0)
+		$"../normalhitbox".call_deferred("set", "disabled", true)
+		$"../smallhitbox".position.y = 2
+		firestart = true
+		projectFollow(3)
+		$"..".overrideX = true
+		$"..".overrideY = true
+		$"..".velocity.y = 0
+		$"..".run = false
+		await get_tree().create_timer(0.2).timeout
+		$"../AbilitySprites/firewallDetect".firedectOn()
+		firestart = false
 
 func fire3():
-	print("fire3")
 	$"..".velocity.x = (200) * GameUtils.DIR
 	await get_tree().create_timer(0.2).timeout
 	if firescore >= 21:
 		firescore = 20
 func fire2():
-	print("fire2")
 	$"..".activeAbility = 1
 	$"..".velocity.x = (180) * GameUtils.DIR
 	await get_tree().create_timer(0.2).timeout
 	if firescore > 10 && firescore < 21:
 		firescore = 10
 func fire1():
-	print("fire1")
 	$"..".activeAbility = 1
 	$"..".velocity.x = (140) * GameUtils.DIR
 	await get_tree().create_timer(0.3).timeout
@@ -296,7 +268,7 @@ func ice():
 		$"..".activeAbility = 3
 		iceabilityready = false
 		icestart = true
-		$".".position.y = 7
+		$".".position.y = 5
 		$"../AbilitySprites/iceabilityCooldown".start()
 		await get_tree().create_timer(0.2).timeout
 		icestart = false
@@ -311,6 +283,7 @@ func stone():
 			position.x = 0
 			position.y = 7
 			rotation = 0
+			$"..".iframes = true
 			$"..".overrideX = true
 			$"..".jumpCount = $"..".jumpMax
 			$"..".velocity.y = -10
@@ -322,6 +295,7 @@ func stone():
 			await get_tree().create_timer(0.3).timeout
 			$"..".abilitycanstop = true
 			abilityStop()
+			$"..".iframes = false
 			$"..".apply_jump_force(-100)
 			$"..".abilityCooldown = true
 			$"../AbilitySprites/abilityCooldown".start()
@@ -342,4 +316,27 @@ func spike():
 		projectFollow(4)
 		$"..".abilitycanstop = true
 		spikestart = false
-	
+
+var cutterstart = false
+var upalt = false
+func cutter():
+	if Input.is_action_pressed("up"):
+		upalt = true
+	if $"..".activeAbility == 0:
+		$"..".activeAbility = 6
+		$"..".abilitycanstop = false
+		cutterstart = true
+		projectShoot(7)
+		await $"../AbilitySprites".animation_finished
+		cutterstart = false
+		$"..".activeAbility = 0
+		$"..".abilitycanstop = true
+		abilityStop()
+		upalt = false
+
+func parasol():
+	pass
+
+func broom():
+	pass
+

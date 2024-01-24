@@ -1,0 +1,34 @@
+[gd_scene load_steps=5 format=3 uid="uid://ceok40kuf7ubl"]
+
+[ext_resource type="Script" path="res://enemy scenes/1abilityenemiees/pompey/magmarock.gd" id="1_gpm26"]
+[ext_resource type="Texture2D" uid="uid://tyh3hipidaiw" path="res://kirbySprites/enemy/magmarock.png" id="1_mfobp"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vh50f"]
+size = Vector2(9, 9)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4r0mw"]
+size = Vector2(10, 10)
+
+[node name="magmarock" type="CharacterBody2D" groups=["hazard", "projectile"]]
+collision_layer = 2
+floor_constant_speed = true
+floor_max_angle = 0.872665
+floor_snap_length = 5.0
+script = ExtResource("1_gpm26")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_vh50f")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, 1)
+texture = ExtResource("1_mfobp")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_4r0mw")
+debug_color = Color(0.984314, 0.109804, 0.137255, 0.419608)
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

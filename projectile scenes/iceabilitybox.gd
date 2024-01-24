@@ -16,13 +16,12 @@ func _physics_process(delta):
 
 func _on_body_entered(body):
 	if body.is_in_group("mobs"):
-		GameUtils.icecubespawn = true
-		#this will be a function that queue_free's the mob, and replaces them with an ice cube
-		var icecubespawn = icecube.instantiate()
-	#this here uses call deffered to summon the icecube, godot just told me to use this instead idky
-		call_deferred("add_child", icecubespawn)
-		icecubespawn.transform = body.global_transform
-		GameUtils.icecubespawn = false
+		var ice
+		ice = icecube.instantiate()
+		ice.position = Vector2((body.global_position.x - 56.0),body.global_position.y)
+		call_deferred("add_sibling", ice)
 		body.queue_free()
+	if body.is_in_group("powblock"):
+		body.blockbreak()
 #also need a fucntion to make ice damage bosses instead of ice cube them
 #just add a damage function here

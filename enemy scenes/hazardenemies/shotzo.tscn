@@ -1,0 +1,156 @@
+[gd_scene load_steps=12 format=3 uid="uid://dwyfkd7t14k4v"]
+
+[ext_resource type="Script" path="res://enemy scenes/hazardenemies/shotzo.gd" id="1_la308"]
+[ext_resource type="PackedScene" uid="uid://bawynx155hv0l" path="res://enemy scenes/hazardenemies/shotzo_bullet.tscn" id="2_ifoun"]
+[ext_resource type="Texture2D" uid="uid://bjhaf57su18t8" path="res://kirbySprites/enemy/shotzo.png" id="2_psesh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_22boy"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_355x2"]
+atlas = ExtResource("2_psesh")
+region = Rect2(0, 0, 27, 27)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jujyj"]
+atlas = ExtResource("2_psesh")
+region = Rect2(27, 0, 27, 27)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2stga"]
+atlas = ExtResource("2_psesh")
+region = Rect2(54, 0, 27, 27)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cvqmf"]
+atlas = ExtResource("2_psesh")
+region = Rect2(81, 0, 27, 27)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ioiom"]
+atlas = ExtResource("2_psesh")
+region = Rect2(108, 0, 27, 27)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5ynyg"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_355x2")
+}],
+"loop": false,
+"name": &"1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jujyj")
+}],
+"loop": false,
+"name": &"2",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2stga")
+}],
+"loop": false,
+"name": &"3",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cvqmf")
+}],
+"loop": false,
+"name": &"4",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ioiom")
+}],
+"loop": false,
+"name": &"5",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_me3ke"]
+size = Vector2(35, 210)
+
+[node name="shotzo" type="CharacterBody2D" groups=["hazard"]]
+collision_layer = 2
+floor_constant_speed = true
+floor_max_angle = 0.872665
+floor_snap_length = 50.0
+script = ExtResource("1_la308")
+bullet = ExtResource("2_ifoun")
+
+[node name="updatetimer" type="Timer" parent="."]
+wait_time = 0.15
+autostart = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_22boy")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -3)
+sprite_frames = SubResource("SpriteFrames_5ynyg")
+animation = &"1"
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 1.5
+
+[node name="1a" type="Area2D" parent="."]
+collision_layer = 3
+collision_mask = 3
+
+[node name="1" type="CollisionShape2D" parent="1a"]
+position = Vector2(-116, 0.500003)
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_me3ke")
+
+[node name="2b" type="Area2D" parent="."]
+collision_layer = 3
+collision_mask = 3
+
+[node name="2" type="CollisionShape2D" parent="2b"]
+position = Vector2(-83, -82)
+rotation = 2.35619
+shape = SubResource("RectangleShape2D_me3ke")
+
+[node name="3c" type="Area2D" parent="."]
+collision_layer = 3
+collision_mask = 3
+
+[node name="3" type="CollisionShape2D" parent="3c"]
+position = Vector2(0, -111)
+rotation = 3.14159
+shape = SubResource("RectangleShape2D_me3ke")
+
+[node name="4d" type="Area2D" parent="."]
+rotation = 0.00629325
+collision_layer = 3
+collision_mask = 3
+
+[node name="4" type="CollisionShape2D" parent="4d"]
+position = Vector2(83.4886, -81.527)
+rotation = 0.785398
+shape = SubResource("RectangleShape2D_me3ke")
+
+[node name="5e" type="Area2D" parent="."]
+collision_layer = 3
+collision_mask = 3
+
+[node name="5" type="CollisionShape2D" parent="5e"]
+position = Vector2(115.5, 1)
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_me3ke")
+
+[node name="Marker2D" type="Marker2D" parent="."]
+
+[connection signal="timeout" from="updatetimer" to="." method="_on_updatetimer_timeout"]
+[connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="body_entered" from="1a" to="." method="_on__body_entered"]
+[connection signal="body_entered" from="2b" to="." method="_on_b_body_entered"]
+[connection signal="body_entered" from="3c" to="." method="_on_c_body_entered"]
+[connection signal="body_entered" from="4d" to="." method="_on_d_body_entered"]
+[connection signal="body_entered" from="5e" to="." method="_on_e_body_entered"]

@@ -1,0 +1,78 @@
+[gd_scene load_steps=11 format=3 uid="uid://blvoc6lsnm5rb"]
+
+[ext_resource type="Texture2D" uid="uid://dugiarvjhi8wk" path="res://kirbySprites/enemy/gordoball.png" id="1_jwjqf"]
+[ext_resource type="Script" path="res://enemy scenes/gordoball.gd" id="1_xces3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vkbu3"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6hrrb"]
+atlas = ExtResource("1_jwjqf")
+region = Rect2(0, 0, 21, 21)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ohpvh"]
+atlas = ExtResource("1_jwjqf")
+region = Rect2(21, 0, 21, 21)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_re2ll"]
+atlas = ExtResource("1_jwjqf")
+region = Rect2(42, 0, 21, 21)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b10hj"]
+atlas = ExtResource("1_jwjqf")
+region = Rect2(63, 0, 21, 21)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_m6q3q"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6hrrb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ohpvh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_re2ll")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b10hj")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 8.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wcsi0"]
+size = Vector2(24, 4)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1ufa0"]
+size = Vector2(4, 24)
+
+[node name="gordo" type="CharacterBody2D" groups=["hazard"]]
+collision_layer = 2
+motion_mode = 1
+script = ExtResource("1_xces3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_vkbu3")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(1.19209e-07, -1.19209e-07)
+scale = Vector2(1.2, 1.2)
+sprite_frames = SubResource("SpriteFrames_m6q3q")
+animation = &"idle"
+autoplay = "idle"
+frame_progress = 0.346612
+
+[node name="wall detect" type="Area2D" parent="."]
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="wall detect"]
+shape = SubResource("RectangleShape2D_wcsi0")
+debug_color = Color(0.780392, 0.435294, 0, 0.419608)
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="wall detect"]
+shape = SubResource("RectangleShape2D_1ufa0")
+debug_color = Color(0.780392, 0.435294, 0, 0.419608)
+
+[connection signal="body_entered" from="wall detect" to="." method="_on_wall_detect_body_entered"]

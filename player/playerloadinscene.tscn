@@ -1,0 +1,18 @@
+[gd_scene load_steps=6 format=3 uid="uid://c3iff1fh3j5od"]
+
+[ext_resource type="Script" path="res://player/playerloadinscene.gd" id="1_jyolc"]
+[ext_resource type="PackedScene" uid="uid://t2l75xuywtt3" path="res://player/playercamera.tscn" id="1_nsk6h"]
+[ext_resource type="PackedScene" uid="uid://d1h66nvbwgp4o" path="res://player/player_1.tscn" id="2_citvc"]
+[ext_resource type="PackedScene" uid="uid://beawese0p28hw" path="res://player/player_2.tscn" id="3_0eko1"]
+[ext_resource type="PackedScene" uid="uid://yrdf0a66x2wg" path="res://UI/HUD/hud.tscn" id="4_m174p"]
+
+[node name="playerloadinscene" type="Node2D" groups=["playercontrol"]]
+script = ExtResource("1_jyolc")
+
+[node name="Camera2D" parent="." instance=ExtResource("1_nsk6h")]
+
+[node name="Player2" parent="." instance=ExtResource("3_0eko1")]
+
+[node name="Player1" parent="." instance=ExtResource("2_citvc")]
+
+[node name="HUD" parent="." instance=ExtResource("4_m174p")]

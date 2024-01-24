@@ -30,3 +30,4 @@ one_way_collision_margin = 5.0
 debug_color = Color(0, 0.6, 0.701961, 0.419608)
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]

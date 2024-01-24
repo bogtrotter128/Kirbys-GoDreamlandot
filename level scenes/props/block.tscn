@@ -1,0 +1,82 @@
+[gd_scene load_steps=13 format=3 uid="uid://ckudoho3yjmxy"]
+
+[ext_resource type="Texture2D" uid="uid://orounscqai0f" path="res://kirbySprites/props/blocks/powblock.png" id="1_0fbu1"]
+[ext_resource type="Script" path="res://level scenes/props/block.gd" id="1_jewqb"]
+[ext_resource type="Texture2D" uid="uid://bfkx83asp68wf" path="res://kirbySprites/props/blocks/breakanimation.png" id="3_nufaq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qc6xm"]
+size = Vector2(16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u5o2h"]
+atlas = ExtResource("3_nufaq")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dw60v"]
+atlas = ExtResource("3_nufaq")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c6vka"]
+atlas = ExtResource("3_nufaq")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wfohl"]
+atlas = ExtResource("3_nufaq")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jxgge"]
+atlas = ExtResource("3_nufaq")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6880y"]
+atlas = ExtResource("3_nufaq")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jisem"]
+atlas = ExtResource("3_nufaq")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_nkepc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u5o2h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dw60v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c6vka")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wfohl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jxgge")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6880y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jisem")
+}],
+"loop": false,
+"name": &"default",
+"speed": 10.0
+}]
+
+[node name="block" type="StaticBody2D" groups=["powblock", "suckable"]]
+collision_layer = 3
+collision_mask = 3
+script = ExtResource("1_jewqb")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_qc6xm")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_0fbu1")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+visible = false
+sprite_frames = SubResource("SpriteFrames_nkepc")
+frame = 6
+frame_progress = 1.0

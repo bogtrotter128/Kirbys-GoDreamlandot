@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://bj671rol3ud6u"]
+
+[ext_resource type="Script" path="res://level scenes/11.gd" id="1_l4kgk"]
+[ext_resource type="PackedScene" uid="uid://fu60xjrgvvaj" path="res://level scenes/1grassland/grasslands1/grasslands_1.tscn" id="2_4w6pp"]
+
+[node name="level 1-1" type="Node2D"]
+script = ExtResource("1_l4kgk")
+levelscene = ExtResource("2_4w6pp")
+
+[node name="TextEdit" type="TextEdit" parent="."]
+offset_left = 56.0
+offset_top = 30.0
+offset_right = 219.0
+offset_bottom = 74.0
+text = " Grassy Greens 1 -1"
+editable = false

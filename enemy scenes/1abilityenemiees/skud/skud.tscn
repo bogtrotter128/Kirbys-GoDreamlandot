@@ -1,0 +1,142 @@
+[gd_scene load_steps=17 format=3 uid="uid://cpkaxo2x886gj"]
+
+[ext_resource type="Script" path="res://enemy scenes/basicpatrolscript.gd" id="1_w1qft"]
+[ext_resource type="Texture2D" uid="uid://shoalgttdc4k" path="res://kirbySprites/enemy/skud.png" id="2_1rxe4"]
+[ext_resource type="Script" path="res://enemy scenes/1abilityenemiees/skud/skudcode.gd" id="2_urrsl"]
+[ext_resource type="PackedScene" uid="uid://1w80ctw6hxq6" path="res://enemy scenes/1abilityenemiees/skud/skudrocket.tscn" id="3_38l0j"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_q86d5"]
+size = Vector2(12.0045, 13.9953)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ywffh"]
+size = Vector2(145, 48)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_edrsd"]
+size = Vector2(2.74884, 28.8788)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_48m4e"]
+size = Vector2(38.9996, 0.0912209)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iq5og"]
+atlas = ExtResource("2_1rxe4")
+region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x1g3p"]
+atlas = ExtResource("2_1rxe4")
+region = Rect2(24, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_syatr"]
+atlas = ExtResource("2_1rxe4")
+region = Rect2(48, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ka2lf"]
+atlas = ExtResource("2_1rxe4")
+region = Rect2(72, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i56w3"]
+atlas = ExtResource("2_1rxe4")
+region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ns2v6"]
+atlas = ExtResource("2_1rxe4")
+region = Rect2(0, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d8brd"]
+atlas = ExtResource("2_1rxe4")
+region = Rect2(24, 24, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_g65fa"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iq5og")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x1g3p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_syatr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ka2lf")
+}],
+"loop": true,
+"name": &"default",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i56w3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ns2v6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d8brd")
+}],
+"loop": false,
+"name": &"transform",
+"speed": 4.0
+}]
+
+[node name="skud" type="CharacterBody2D" groups=["mobs"]]
+collision_layer = 2
+floor_constant_speed = true
+floor_max_angle = 0.872665
+floor_snap_length = 5.0
+script = ExtResource("1_w1qft")
+
+[node name="skudcode" type="Node" parent="."]
+script = ExtResource("2_urrsl")
+rocket = ExtResource("3_38l0j")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.0162397, 3.00227)
+rotation = -3.14159
+shape = SubResource("RectangleShape2D_q86d5")
+one_way_collision = true
+one_way_collision_margin = 0.0
+
+[node name="playerDetect" type="Area2D" parent="."]
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="playerDetect"]
+position = Vector2(-0.5, -2)
+shape = SubResource("RectangleShape2D_ywffh")
+
+[node name="fall detect L" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="fall detect L"]
+position = Vector2(-19, 26)
+shape = SubResource("RectangleShape2D_edrsd")
+debug_color = Color(0.631373, 0.52549, 0.152941, 0.419608)
+
+[node name="fall detect R" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="fall detect R"]
+position = Vector2(19, 26)
+shape = SubResource("RectangleShape2D_edrsd")
+debug_color = Color(0.631373, 0.52549, 0.152941, 0.419608)
+
+[node name="wall detect" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="wall detect"]
+position = Vector2(1.86265e-09, -3.95435)
+shape = SubResource("RectangleShape2D_48m4e")
+debug_color = Color(0.658824, 0.505882, 0.286275, 0.419608)
+
+[node name="detecttimer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_g65fa")
+animation = &"transform"
+autoplay = "default"
+
+[connection signal="body_entered" from="playerDetect" to="skudcode" method="_on_player_detect_body_entered"]
+[connection signal="body_exited" from="fall detect L" to="." method="_on_fall_detect_l_body_exited"]
+[connection signal="body_exited" from="fall detect R" to="." method="_on_fall_detect_r_body_exited"]
+[connection signal="body_entered" from="wall detect" to="." method="_on_wall_detect_body_entered"]
+[connection signal="timeout" from="detecttimer" to="." method="_on_detecttimer_timeout"]

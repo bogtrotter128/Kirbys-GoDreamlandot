@@ -35,19 +35,19 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dak2v"]
 size = Vector2(10, 10)
 
-[node name="dust" type="Area2D"]
+[node name="dust" type="Area2D" groups=["projectile"]]
 z_index = 127
 z_as_relative = false
+collision_layer = 3
+collision_mask = 3
 script = ExtResource("1_oj0mr")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(6, 0)
 sprite_frames = SubResource("SpriteFrames_8j71j")
 autoplay = "default"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 z_index = -1
-position = Vector2(6, 0)
 shape = SubResource("RectangleShape2D_dak2v")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

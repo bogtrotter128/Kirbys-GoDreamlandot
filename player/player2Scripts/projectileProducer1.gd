@@ -11,7 +11,7 @@ extends Marker2D
 @export var iceAbilityBox : PackedScene
 @export var stoneAbilityBox : PackedScene
 @export var dustspawn : PackedScene
-@export var dustspawn2 : PackedScene
+@export var cutterAbilityBox : PackedScene
 
 func projectShoot(v):
 	var projectS
@@ -29,8 +29,11 @@ func projectShoot(v):
 	elif v == 5: # rock's projectiles
 		projectS = dustspawn.instantiate()
 	elif v == 6:
-		projectS = dustspawn2.instantiate()
-		#probably sweep
+		projectS = dustspawn.instantiate()
+		projectS.global_position.x += 8
+		projectS.speed = -40
+	elif v == 7:
+		projectS = cutterAbilityBox.instantiate()
 	elif v == 10:
 		projectS = dropabilitystar.instantiate()
 	owner.add_sibling(projectS)
@@ -44,6 +47,8 @@ func projectFollow(v):
 	# uses killsuck to queue_free
 	if v == 1:
 		projectF = suckScene.instantiate()
+		projectF.add_to_group("player2")
+		projectF.spritevisible=false
 	# 2 is the kick slide hitbox.
 	# uses killsuck to queue_free
 	if v == 2:
@@ -58,6 +63,12 @@ func projectFollow(v):
 	
 	add_sibling(projectF)
 	projectF.transform = $".".transform
+
+func _input(_event):
+		#handles spit inpit
+	if Input.is_action_just_pressed("P2a") && $"..".mouthFull == true or Input.is_action_just_pressed("P2a") && $"..".mouthFullAir == true:
+		projectShoot(GameUtils.mouthValueP2)
+		spitCascade()
 
 func inhale():
 	$"..".canInhale = false
@@ -117,7 +128,7 @@ func slide():
 		$"../AbilitySprites/abilityCooldown".start()
 		$"..".velocity.x = 0
 		$"..".docrouch()
-		if not Input.is_action_pressed("down"):
+		if not Input.is_action_pressed("P2down"):
 			$"..".uncrouch()
 ##########################################
 var firestart = false
@@ -137,7 +148,7 @@ func ability(abilityScore):
 	if abilityScore == 5:
 		spike()
 	if abilityScore == 6:
-		pass #cutter
+		cutter() #cutter
 	if abilityScore == 7:
 		pass # parasol
 	if abilityScore == 8:
@@ -152,7 +163,6 @@ func abilityStop():
 	$"..".velocity.x = 0
 	$"..".slide = false
 	$"..".canJump = true
-	$"..".jumpCount = 0
 	$"..".overrideX = false
 	$"..".overrideY = false
 	stoneboxcheck = false
@@ -169,9 +179,6 @@ func abilityStop():
 var stoneboxcheck = false
 var stonefall = false
 func _process(_delta):
-	
-	GameUtils.posXP2 = global_position.x
-	GameUtils.posYP2 = global_position.y
 
 	#updates the fire ability's firescore
 	if $"..".activeAbility == 1:
@@ -199,22 +206,8 @@ func _process(_delta):
 		if not $"..".is_on_wall() && $"..".falling == true:
 			stonefall = true
 
-func _input(_event):
-	if Input.is_action_just_pressed("left") && $"..".activeAbility == 4:
-		$"..".slide = true
-		$"..".velocity.x -= 40
-		await get_tree().create_timer(0.1).timeout
-		$"..".velocity.x = 0
-		$"..".slide = false
-	if Input.is_action_just_pressed("right") && $"..".activeAbility == 4:
-		$"..".slide = true
-		$"..".velocity.x += 40
-		await get_tree().create_timer(0.1).timeout
-		$"..".velocity.x = 0
-		$"..".slide = false
-
 func fire():
-	if $"..".activeAbility == 0:
+	if $"..".activeAbility == 0 && Input.is_action_just_pressed("P2a"):
 		$"..".activeAbility = 1
 		$"..".abilitycanstop = false
 		#these make sure you cant jump or do any weird y movements during the ability
@@ -238,20 +231,17 @@ func fire():
 		firestart = false
 
 func fire3():
-	print("fire3")
 	$"..".velocity.x = (200) * GameUtils.DIRP2
 	await get_tree().create_timer(0.2).timeout
 	if firescore >= 21:
 		firescore = 20
 func fire2():
-	print("fire2")
 	$"..".activeAbility = 1
 	$"..".velocity.x = (180) * GameUtils.DIRP2
 	await get_tree().create_timer(0.2).timeout
 	if firescore > 10 && firescore < 21:
 		firescore = 10
 func fire1():
-	print("fire1")
 	$"..".activeAbility = 1
 	$"..".velocity.x = (140) * GameUtils.DIRP2
 	await get_tree().create_timer(0.3).timeout
@@ -266,7 +256,7 @@ func shock():
 		$"..".abilitycanstop = false
 		await get_tree().create_timer(0.4).timeout
 		GameUtils.KillAbilityP2 = false
-		if not Input.is_action_pressed("a"): #if the button isnt held, stops ability
+		if not Input.is_action_pressed("P2a"): #if the button isnt held, stops ability
 			GameUtils.KillAbilityP2 = false
 			shockstart = false
 			abilityStop()
@@ -282,7 +272,7 @@ func ice():
 		$"..".activeAbility = 3
 		iceabilityready = false
 		icestart = true
-		$".".position.y = 7
+		$".".position.y = 5
 		$"../AbilitySprites/iceabilityCooldown".start()
 		await get_tree().create_timer(0.2).timeout
 		icestart = false
@@ -292,11 +282,12 @@ func ice():
 		iceabilityready = false
 var rocktrue = true
 func stone():
-	if Input.is_action_just_pressed("a"):
+	if Input.is_action_just_pressed("P2a"):
 		if rocktrue == true:
 			position.x = 0
 			position.y = 7
 			rotation = 0
+			$"..".iframes = true
 			$"..".overrideX = true
 			$"..".jumpCount = $"..".jumpMax
 			$"..".velocity.y = -10
@@ -308,6 +299,7 @@ func stone():
 			await get_tree().create_timer(0.3).timeout
 			$"..".abilitycanstop = true
 			abilityStop()
+			$"..".iframes = false
 			$"..".apply_jump_force(-100)
 			$"..".abilityCooldown = true
 			$"../AbilitySprites/abilityCooldown".start()
@@ -321,7 +313,7 @@ func spike():
 		$"..".abilitycanstop = false
 		await get_tree().create_timer(0.3).timeout
 		GameUtils.KillAbilityP2 = false
-		if not Input.is_action_pressed("a"): #if the button isnt held, stops ability
+		if not Input.is_action_pressed("P2a"): #if the button isnt held, stops ability
 			spikestart = false
 			abilityStop()
 		#abilty loop starts
@@ -329,9 +321,19 @@ func spike():
 		$"..".abilitycanstop = true
 		spikestart = false
 
-
-
-
-
-
-
+var cutterstart = false
+var upalt = false
+func cutter():
+	if Input.is_action_pressed("up"):
+		upalt = true
+	if $"..".activeAbility == 0:
+		$"..".activeAbility = 6
+		$"..".abilitycanstop = false
+		cutterstart = true
+		projectShoot(7)
+		await $"../AbilitySprites".animation_finished
+		cutterstart = false
+		$"..".activeAbility = 0
+		$"..".abilitycanstop = true
+		abilityStop()
+		upalt = false
