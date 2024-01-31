@@ -3,26 +3,23 @@ extends CharacterBody2D
 @export var copyAbilityScore = 0
 @export var SPEED = 70
 @export var JUMP = -200
-var WINDFORCEX = 0.0
-var WINDFORCEY = 0.0
+var pval = 1
 var update = false
 var dir = 1
-var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
-
 
 func _ready():
-	if get_parent().name == "Player2": #it doesnt know what these parents are, because the players are its siblings
-		dir = GameUtils.DIRP2 * -1
-		copyAbilityScore  = GameUtils.ABILITYP2
-		GameUtils.ABILITYP2 = 0
-	if get_parent().name == "Player1":
+	if pval == 1:
 		dir = GameUtils.DIR * -1
 		copyAbilityScore  = GameUtils.ABILITY
 		GameUtils.ABILITY = 0
+	if pval == 2:
+		dir = GameUtils.DIRP2 * -1
+		copyAbilityScore  = GameUtils.ABILITYP2
+		GameUtils.ABILITYP2 = 0
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if not is_on_floor():
-		velocity.y += (gravity * 0.75) * delta
+		velocity.y = move_toward(velocity.y, 200, 7)
 		update = true
 	elif is_on_floor():
 		velocity.y = JUMP
@@ -33,12 +30,6 @@ func _physics_process(delta):
 				SPEED = SPEED - 10
 			update = false
 	velocity.x = SPEED * dir
-#adds wind blowing force
-	velocity.x += WINDFORCEX * (delta * 5)
-	velocity.y += WINDFORCEY * (delta * 2.5)
-#this if statement makes sure kirby doesnt fall through Y wind
-	if WINDFORCEY != 0 && velocity.y > 90:
-		velocity.y = 50
 	move_and_slide()
 
 func _on_death_timer_timeout():

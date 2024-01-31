@@ -1,0 +1,12 @@
+[gd_scene load_steps=5 format=3 uid="uid://i8bjm4x4mpkd"]
+
+[ext_resource type="Script" path="res://animalFriend/rick/Rickcode.gd" id="1_scrls"]
+[ext_resource type="PackedScene" uid="uid://cvlekmeh7id7m" path="res://projectile scenes/starshoot.tscn" id="3_1sui2"]
+[ext_resource type="PackedScene" uid="uid://dg8nyttvs52gw" path="res://projectile scenes/friendprojectiles/rick/ricksuckshape.tscn" id="3_rgw25"]
+[ext_resource type="PackedScene" uid="uid://dhtqv8jigpmji" path="res://projectile scenes/ability_star_drop.tscn" id="5_tpyda"]
+
+[node name="animalfriendcode" type="Node"]
+script = ExtResource("1_scrls")
+starFire = ExtResource("3_1sui2")
+suckScene = ExtResource("3_rgw25")
+dropabilitystar = ExtResource("5_tpyda")

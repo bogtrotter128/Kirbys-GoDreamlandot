@@ -11,8 +11,6 @@ var iframes = false
 #jumps^^^^^^^^^^^^^^^^^^^^^^^
 var is_jumping = false
 var canJump = true
-var jumpMax = GameUtils.JUMPMAX
-var jumpCount = 0
 const JUMP_VELOCITY_STEP = 0.5
 var jump_power_initial = -150
 var jump_power = 0
@@ -45,7 +43,6 @@ var hasAbility = false
 var activeAbility = 0
 var abilityCooldown = false
 ##################################################################
-
 var UP
 var DOWN
 var LEFT
@@ -77,16 +74,23 @@ func _ready():
 		SELECT = "P2select"
 
 func _input(event):
+	#handles spit inpit
+	if Input.is_action_just_pressed(A) && mouthFull == true:
+		if is_in_group("player1"):
+			$animalfriendcode.spitup(GameUtils.mouthValue)
+		if is_in_group("player2"):
+			$animalfriendcode.spitup(GameUtils.mouthValueP2)
+
 #handles the long jump release time
 	if event.is_action_released(JUMP) && is_jumping:
 		jump_timer = jump_time_max
 		
 #handles multijump
-	if Input.is_action_just_pressed(JUMP) && is_jumping == true && jumpCount < jumpMax && jumpCooldown == false && canInhale == true && hurt == false:
-		$animalfriendcode.jump()
+	if Input.is_action_just_pressed(JUMP) && is_jumping == true && jumpCooldown == false && canInhale == true && hurt == false:
+		$animalfriendcode.multijump()
 	
 	if Input.is_action_just_pressed(SELECT) && hasAbility == true && crouch == false && canInhale == true:
-		$projectileProducer.projectShoot(10)
+		$projectileProducer.projectShoot($animalfriendcode.dropabilitystar)
 
 #double tap to run checker
 	if Input.is_action_just_released(RIGHT) && falling == false or Input.is_action_just_released(LEFT) && falling == false:
@@ -126,7 +130,7 @@ func _process(_delta):
 
 	if crouch == false && overrideY == false:
 		#handles jump input and calls jump function
-		if Input.is_action_pressed(JUMP) && is_jumping == false && canJump == true && inhaling == false:
+		if Input.is_action_pressed(JUMP) && is_jumping == false && canJump == true && overrideX == false:
 			$animalfriendcode.jump()
 		#while jump is held, jumptimer increases
 		if Input.is_action_pressed(JUMP) && is_jumping == true && jump_timer < jump_time_max:
@@ -142,51 +146,28 @@ func _process(_delta):
 #inhale input and function call
 ##ability input call
 	if Input.is_action_pressed(A) && abilityCooldown == false && crouch == false:
-		if canInhale == true && hasAbility == false:
-			$projectileProducer.inhale()
+		if canInhale == true && inhaling == false && hasAbility == false:
+			inhale()
 		elif hasAbility == true && is_in_group("player1"):
 			GameUtils.KillAbility = false
-			$projectileProducer.ability(GameUtils.ABILITY)
+			ability(GameUtils.ABILITY)
 		elif hasAbility == true && is_in_group("player2"):
 			GameUtils.KillAbilityP2 = false
-			$projectileProducer.ability(GameUtils.ABILITYP2)
+			ability(GameUtils.ABILITYP2)
+	#stop ability
 	if Input.is_action_just_released(A) && abilitycanstop == true:
-		if is_in_group("player1"):
-			GameUtils.KillAbility= true
-			GameUtils.KillAbility = false
-		if is_in_group("player2"):
-			GameUtils.KillAbilityP2= true
-			GameUtils.KillAbilityP2 = false
-		$projectileProducer.abilityStop()
-
+		$animalfriendcode.abilityStop()
+	
 #stop inhaling
-	elif Input.is_action_just_released(A) && hasAbility == false:
+	if Input.is_action_just_released(A) && hasAbility == false:
 		$AbilitySprites/abilityCooldown.set_wait_time(0.43)
 		$AbilitySprites/abilityCooldown.start()
 		await get_tree().create_timer(0.43).timeout
-		$projectileProducer.inhaleStop()
+		inhaleStop()
 	elif Input.is_action_pressed(A) && mouthFull == true:
-			$projectileProducer.inhaleStop()
+		inhaleStop()
 	elif inhaling == true && mouthFull == true:
-		$projectileProducer.inhaleStop()
-
-func ability(abilityScore):
-	if abilityScore == 1:
-		$animalfriendcode.fire()
-	if abilityScore == 2:
-		$animalfriendcode.shock()
-	if abilityScore == 3:
-		$animalfriendcode.ice()
-	if abilityScore == 4:
-		$animalfriendcode.stone()
-	if abilityScore == 5:
-		$animalfriendcode.spike()
-	if abilityScore == 6:
-		$animalfriendcode.cutter()
-	if abilityScore == 7:
-		$animalfriendcode.parasol()
-	if abilityScore == 8:
-		$animalfriendcode.broom()
+		inhaleStop()
 
 func _physics_process(delta):
 	# Add the gravity.
@@ -199,7 +180,6 @@ func _physics_process(delta):
 		falling = false
 		flight = false
 		canJump = true
-		jumpCount = 0
 		jump_timer = 0.0
 		is_jumping = false
 
@@ -216,7 +196,7 @@ func _physics_process(delta):
 		$projectileProducer.rotation_degrees = 180
 		$projectileProducer.position.x = -8
 	if direction:
-		if overrideX == false && inhaling == false:
+		if overrideX == false:
 			velocity.x = move_toward(velocity.x, SPEED * direction, 4)
 			cancheckrun = true
 	else:
@@ -251,6 +231,23 @@ func _physics_process(delta):
 func apply_jump_force(power):
 	velocity.y = power
 
+func inhale():
+	$globalvars.killsuck(false)
+	$animalfriendcode.inhale()
+	canInhale = false
+	inhaling = true
+	$projectileProducer.projectFollow($animalfriendcode.suckScene)
+
+func inhaleStop():
+	$globalvars.killsuck(true)
+	canJump = true
+	canInhale = true
+	inhaling = false
+	overrideX = false
+	abilityCooldown = true
+	$"AbilitySprites/abilityCooldown".set_wait_time(0.1)
+	$"AbilitySprites/abilityCooldown".start()
+
 func docrouch():
 	if mouthFull == true:
 		swallow()
@@ -259,7 +256,6 @@ func docrouch():
 		crouch = true
 		overrideX = true
 		canJump = false
-		jumpCount = GameUtils.JUMPMAX
 		canInhale = false
 		$normalhitbox.call_deferred("set", "disabled", true)
 	
@@ -269,11 +265,9 @@ func uncrouch():
 	overrideX = false
 	canInhale = true
 	canJump = true
-	jumpCount = 0
 	$normalhitbox.call_deferred("set", "disabled", false)
 
 func swallow():
-	canInhale = true
 	if is_in_group("player1"):
 		GameUtils.ABILITY = GameUtils.HELDABILITY
 		GameUtils.mouthValue = 1
@@ -282,7 +276,25 @@ func swallow():
 		GameUtils.ABILITYP2 = GameUtils.HELDABILITYP2
 		GameUtils.mouthValueP2 = 1
 		Hud.updateability2()
+	canInhale = true
 	mouthFull = false
+
+func spitCascade():
+	spit = true
+	$AbilitySprites/abilityCooldown.set_wait_time(0.5)
+	$AbilitySprites/abilityCooldown.start()
+	$globalvars.mouthvalset(1)
+	overrideX = true
+	abilityCooldown = true
+	mouthFull = false
+	velocity.x = 0
+	flight = false
+	await get_tree().create_timer(0.3).timeout
+	spit = false
+	overrideX = false
+	abilityCooldown = false
+	canInhale = true
+	canJump = true
 
 func heal(v):
 	if is_in_group("player1"):
@@ -291,3 +303,21 @@ func heal(v):
 	if is_in_group("player2"):
 		GameUtils.HEALTHP2 += v
 		Hud.updatehp2()
+
+func ability(abilityScore):
+	if abilityScore == 1:
+		$animalfriendcode.fire()
+	if abilityScore == 2:
+		$animalfriendcode.shock()
+	if abilityScore == 3:
+		$animalfriendcode.ice()
+	if abilityScore == 4:
+		$animalfriendcode.stone()
+	if abilityScore == 5:
+		$animalfriendcode.spike()
+	if abilityScore == 6:
+		$animalfriendcode.cutter()
+	if abilityScore == 7:
+		$animalfriendcode.parasol()
+	if abilityScore == 8:
+		$animalfriendcode.broom()

@@ -102,7 +102,7 @@ func _input(event):
 		$jumpcooldown.start()
 	
 	if Input.is_action_just_pressed(SELECT) && hasAbility == true && crouch == false && canInhale == true:
-		$projectileProducer.projectShoot(10)
+		$projectileProducer.projectShoot($projectileProducer.dropabilitystar)
 
 #double tap to run checker
 	if Input.is_action_just_released(RIGHT) && falling == false or Input.is_action_just_released(LEFT) && falling == false:
@@ -165,12 +165,6 @@ func _process(_delta):
 		elif hasAbility == true && is_in_group("player2"):
 			$projectileProducer.ability(GameUtils.ABILITYP2)
 	if Input.is_action_just_released(A) && abilitycanstop == true:
-		if is_in_group("player1"):
-			GameUtils.KillAbility= true
-			GameUtils.KillAbility = false
-		if is_in_group("player2"):
-			GameUtils.KillAbilityP2= true
-			GameUtils.KillAbilityP2 = false
 		$projectileProducer.abilityStop()
 
 # C button input
@@ -209,13 +203,12 @@ func _physics_process(delta):
 
 #landing parameters
 	if is_on_floor() && falling == true && crouch == false && slide == false:
-		if mouthFullAir == true && is_in_group("player1"):
-			$projectileProducer.projectShoot(GameUtils.mouthValue)
-		if mouthFullAir == true && is_in_group("player2"):
-			$projectileProducer.projectShoot(GameUtils.mouthValueP2)
+		if mouthFullAir == true:
+			mouthFullAir = false
+			$projectileProducer.projectShoot($projectileProducer.airpuff)
+			$projectileProducer.spitCascade()
 		falling = false
 		flight = false
-		mouthFullAir = false
 		canJump = true
 		jumpCount = 0
 		jump_timer = 0.0

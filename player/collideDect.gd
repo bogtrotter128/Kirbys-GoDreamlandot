@@ -3,7 +3,7 @@ extends Area2D
 var exit = false
 
 func _on_body_entered(body):
-	if body.name == "maintiles":
+	if body.name == "maintiles" or body.is_in_group("powblock"):
 		exit = true
 		print(body.name)
 

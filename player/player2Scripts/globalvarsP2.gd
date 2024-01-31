@@ -35,4 +35,4 @@ func _process(_delta):
 		$"..".mouthFull = true
 		$"..".jumpCount = $"..".jumpMax
 		$"..".canInhale = false
-		GameUtils.Killsuck = true
+		GameUtils.KillsuckP2 = true

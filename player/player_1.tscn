@@ -1,4 +1,4 @@
-[gd_scene load_steps=215 format=3 uid="uid://d1h66nvbwgp4o"]
+[gd_scene load_steps=212 format=3 uid="uid://d1h66nvbwgp4o"]
 
 [ext_resource type="Script" path="res://player/player_1.gd" id="1_g1jea"]
 [ext_resource type="Script" path="res://player/player1Scripts/globalvarsP1.gd" id="2_1rbko"]
@@ -13,19 +13,18 @@
 [ext_resource type="PackedScene" uid="uid://d1ajijh8vdbvx" path="res://projectile scenes/slide_kick.tscn" id="6_r7fx2"]
 [ext_resource type="PackedScene" uid="uid://dhtqv8jigpmji" path="res://projectile scenes/ability_star_drop.tscn" id="7_5vf6p"]
 [ext_resource type="Texture2D" uid="uid://bqb68b67d2exi" path="res://kirbySprites/kirby/fat jump.png" id="7_ketdp"]
-[ext_resource type="PackedScene" uid="uid://ceyyyy40yxpys" path="res://projectile scenes/fireabilitybox.tscn" id="8_4uv13"]
 [ext_resource type="Texture2D" uid="uid://vfxqeqoxq2s3" path="res://kirbySprites/kirby/fat land.png" id="8_qyiqe"]
-[ext_resource type="PackedScene" uid="uid://da264vcksk715" path="res://projectile scenes/shockabilitybox.tscn" id="9_cur1s"]
 [ext_resource type="Texture2D" uid="uid://bkbf1mm25eugr" path="res://kirbySprites/kirby/fat walk.png" id="9_f2f68"]
+[ext_resource type="PackedScene" uid="uid://ceyyyy40yxpys" path="res://projectile scenes/playerabilityprojectiles/fireabilitybox.tscn" id="9_gt3v5"]
 [ext_resource type="Texture2D" uid="uid://dkddgclilkdxg" path="res://kirbySprites/kirby/flap.png" id="10_22if0"]
-[ext_resource type="PackedScene" uid="uid://cd37cwjnbtr71" path="res://projectile scenes/iceabilitybox.tscn" id="10_obiru"]
-[ext_resource type="PackedScene" uid="uid://2i4v7qgygj65" path="res://projectile scenes/stonehitbox.tscn" id="11_348pq"]
+[ext_resource type="PackedScene" uid="uid://da264vcksk715" path="res://projectile scenes/playerabilityprojectiles/shockabilitybox.tscn" id="10_lyijx"]
+[ext_resource type="PackedScene" uid="uid://cd37cwjnbtr71" path="res://projectile scenes/playerabilityprojectiles/iceabilitybox.tscn" id="11_136wo"]
 [ext_resource type="Texture2D" uid="uid://baj51lpmjgbu" path="res://kirbySprites/kirby/flight.png" id="11_be2lo"]
-[ext_resource type="PackedScene" uid="uid://bnmrqcpyw0dgl" path="res://projectile scenes/dust.tscn" id="12_562ot"]
+[ext_resource type="PackedScene" uid="uid://2i4v7qgygj65" path="res://projectile scenes/playerabilityprojectiles/stonehitbox.tscn" id="12_o43mx"]
 [ext_resource type="Texture2D" uid="uid://d270ce3t3j88s" path="res://kirbySprites/kirby/ouch.png" id="12_qnydc"]
 [ext_resource type="Texture2D" uid="uid://d0gnbhtoke7hx" path="res://kirbySprites/kirby/idle.png" id="13_1g46s"]
+[ext_resource type="PackedScene" uid="uid://bbc2elsk3b8j8" path="res://projectile scenes/playerabilityprojectiles/cutterabilityprojectile.tscn" id="14_jbpup"]
 [ext_resource type="Texture2D" uid="uid://dv6jw47ebjvhg" path="res://kirbySprites/kirby/jump.png" id="14_mkobg"]
-[ext_resource type="PackedScene" uid="uid://bbc2elsk3b8j8" path="res://projectile scenes/cutterabilityprojectile.tscn" id="15_6h0d5"]
 [ext_resource type="Texture2D" uid="uid://bus4llhwa0ixo" path="res://kirbySprites/kirby/fall.png" id="15_s3k2v"]
 [ext_resource type="Texture2D" uid="uid://c8ihgacdsn4xt" path="res://kirbySprites/kirby/open.png" id="16_aptjf"]
 [ext_resource type="Texture2D" uid="uid://wglpelgc03lh" path="res://kirbySprites/kirby/parasol/paraCrouch.png" id="17_rn0vc"]
@@ -59,7 +58,6 @@
 [ext_resource type="Script" path="res://player/abilityCooldownP2.gd" id="52_ovhsp"]
 [ext_resource type="Script" path="res://player/firecooldown.gd" id="53_dgxjp"]
 [ext_resource type="Script" path="res://player/firewallDetect.gd" id="54_o0cow"]
-[ext_resource type="Script" path="res://player/stonefloordetect.gd" id="55_hmm5b"]
 [ext_resource type="Script" path="res://player/iceabilityCooldown.gd" id="56_8rnk2"]
 [ext_resource type="Script" path="res://player/player1Scripts/damDect.gd" id="59_01xva"]
 [ext_resource type="Script" path="res://player/frameflash.gd" id="59_ynp2t"]
@@ -1312,9 +1310,6 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ldgxw"]
 size = Vector2(6, 9.25)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_1ov53"]
-size = Vector2(8, 3)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jqa6f"]
 size = Vector2(12, 17)
 
@@ -1339,12 +1334,11 @@ starFire = ExtResource("4_74mqn")
 suckScene = ExtResource("5_vl01c")
 SlideHitbox = ExtResource("6_r7fx2")
 dropabilitystar = ExtResource("7_5vf6p")
-fireAbilityBox = ExtResource("8_4uv13")
-shockAbilityBox = ExtResource("9_cur1s")
-iceAbilityBox = ExtResource("10_obiru")
-stoneAbilityBox = ExtResource("11_348pq")
-dustspawn = ExtResource("12_562ot")
-cutterAbilityBox = ExtResource("15_6h0d5")
+fireAbilityBox = ExtResource("9_gt3v5")
+shockAbilityBox = ExtResource("10_lyijx")
+iceAbilityBox = ExtResource("11_136wo")
+stoneAbilityBox = ExtResource("12_o43mx")
+cutterAbilityBox = ExtResource("14_jbpup")
 
 [node name="normalhitbox" type="CollisionShape2D" parent="."]
 position = Vector2(0, 4)
@@ -1391,14 +1385,6 @@ script = ExtResource("54_o0cow")
 position = Vector2(13, 0)
 rotation = -1.57079
 shape = SubResource("RectangleShape2D_ldgxw")
-
-[node name="stonefloordetect" type="Area2D" parent="AbilitySprites"]
-script = ExtResource("55_hmm5b")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AbilitySprites/stonefloordetect"]
-position = Vector2(0, 11.5)
-shape = SubResource("RectangleShape2D_1ov53")
-debug_color = Color(0.690196, 0.631373, 0.12549, 0.419608)
 
 [node name="iceabilityCooldown" type="Timer" parent="AbilitySprites"]
 wait_time = 0.15
@@ -1450,7 +1436,6 @@ script = ExtResource("66_phu7s")
 [connection signal="timeout" from="AbilitySprites/abilityCooldown" to="AbilitySprites/abilityCooldown" method="_on_timeout" flags=18]
 [connection signal="timeout" from="AbilitySprites/firecooldown" to="AbilitySprites/firecooldown" method="_on_timeout" flags=18]
 [connection signal="body_entered" from="AbilitySprites/firewallDetect" to="AbilitySprites/firewallDetect" method="_on_body_entered" flags=18]
-[connection signal="body_entered" from="AbilitySprites/stonefloordetect" to="AbilitySprites/stonefloordetect" method="_on_body_entered" flags=18]
 [connection signal="timeout" from="AbilitySprites/iceabilityCooldown" to="AbilitySprites/iceabilityCooldown" method="_on_timeout" flags=18]
 [connection signal="timeout" from="doubletap" to="." method="_on_doubletap_timeout" flags=18]
 [connection signal="timeout" from="runCooloff" to="." method="_on_run_cooloff_timeout" flags=18]

@@ -1,0 +1,12 @@
+[gd_scene load_steps=5 format=3 uid="uid://bhjrfm33w7722"]
+
+[ext_resource type="Script" path="res://animalFriend/Chuchu/Chuchucode.gd" id="1_066ge"]
+[ext_resource type="PackedScene" uid="uid://cvlekmeh7id7m" path="res://projectile scenes/starshoot.tscn" id="2_8wid1"]
+[ext_resource type="PackedScene" uid="uid://bqgs68o65s0y4" path="res://projectile scenes/tongue_shape.tscn" id="3_rp2dq"]
+[ext_resource type="PackedScene" uid="uid://dhtqv8jigpmji" path="res://projectile scenes/ability_star_drop.tscn" id="4_tgx5x"]
+
+[node name="animalfriendcode" type="Node"]
+script = ExtResource("1_066ge")
+starFire = ExtResource("2_8wid1")
+suckScene = ExtResource("3_rp2dq")
+dropabilitystar = ExtResource("4_tgx5x")

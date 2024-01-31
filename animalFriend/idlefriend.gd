@@ -1,15 +1,33 @@
 extends CharacterBody2D
 
-@export var frenval = 0
-
+@export var frenval = 1
+var check1 = false
+var check2 = false
+var targetcheck = true
+var cancheck = false
 func _ready():
 	$AnimatedSprite2D.play(str(frenval))
 	if GameUtils.FRENVAL == frenval or GameUtils.FRENVALP2 == frenval:
 		self.queue_free() #this removes any duplicate animal friends
+	await get_tree().create_timer(0.3).timeout
+	cancheck = true
 
-var check1 = false
-var check2 = false
-var targetcheck = true
+func _input(_event):
+	if Input.is_action_just_pressed("c") && check1 == true && cancheck == true:
+		cancheck = false
+		$playerdect/CollisionShape2D.call_deferred("set","disabled",true)
+		p1.frenval = frenval #sets the player's frenval equal to idlefrend's so that they summon teh correct friend
+		p1.get_parent().summonfren(p1,frenval) #summons friend with func in the player script
+		p1.queue_free()
+		self.queue_free()
+	if Input.is_action_just_pressed("P2c") && check2 == true && cancheck == true:
+		cancheck = false
+		$playerdect/CollisionShape2D.call_deferred("set","disabled",true)
+		p2.frenval = frenval
+		p2.get_parent().summonfren(p2,frenval)
+		p2.queue_free()
+		self.queue_free() 
+
 func _process(_delta):
 	if targetcheck == true:
 		targetmath()
@@ -22,15 +40,6 @@ func _process(_delta):
 	if GameUtils.FRENVAL == 0 && targetcheck == false:
 		$AnimatedSprite2D.play(str(frenval))
 		targetcheck = true
-	
-	if Input.is_action_just_pressed("c") && check1 == true:
-		p1.frenval = frenval #sets the player's frenval equal to idlefrend's so that they summon teh correct friend
-		p1.get_parent().summonfren(p1,frenval) #summons friend with func in the player script
-		self.queue_free()
-	if Input.is_action_just_pressed("P2c") && check2 == true:
-		p2.frenval = frenval
-		p2.get_parent().summonfren(p2,frenval)
-		self.queue_free() 
 
 func _physics_process(_delta):
 	if not is_on_floor():

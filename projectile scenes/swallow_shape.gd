@@ -1,10 +1,7 @@
 extends Area2D
 #
 var playerval
-var spritevisible = true
 func _ready():
-	if spritevisible == false:
-		$AnimatedSprite2D.visible=false
 	if is_in_group("player1"):
 		GameUtils.Killsuck = true
 		GameUtils.Killsuck = false
@@ -21,6 +18,7 @@ func _process(_delta):
 		self.queue_free()
 	if GameUtils.KillsuckP2 == true && playerval == 2:
 		self.queue_free()
+
 func _physics_process(_delta):
 	if canpull == true:
 		pull()
@@ -45,17 +43,13 @@ func _on_body_entered(body):
 
 func _on_pull_body_entered(body):
 	if body.is_in_group("mobs") or body.is_in_group("suckable"):
-		$pull/CollisionPolygon2D.call_deferred("set","disabled",true)
+		$pull/pullcollshape.call_deferred("set","disabled",true)
 		print(body)
 		target = body
 		canpull = true
 
-#func _on_pull_body_exited(body):
-#	if body.is_in_group("mobs") or body.is_in_group("suckable"):
-#		canpull = false
-#	if body.is_in_group("powblock") && body.is_in_group("suckable"):
-#		body.blockbreak()
-
 func pull():
-	target.global_position.x = move_toward(target.global_position.x, get_parent().global_position.x, 1.3)
-	target.global_position.y = move_toward(target.global_position.y, get_parent().global_position.y, 1.3)
+	if target.is_in_group("powblock"):
+			target.disablecollision()
+	target.global_position.x = move_toward(target.global_position.x, get_parent().global_position.x, 1.5)
+	target.global_position.y = move_toward(target.global_position.y, get_parent().global_position.y, 1.5)

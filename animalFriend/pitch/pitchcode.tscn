@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://nqcqcasta1lx"]
+
+[ext_resource type="Script" path="res://animalFriend/pitch/pitchcode.gd" id="1_anc6m"]
+
+[node name="animalfriendcode" type="Node"]
+script = ExtResource("1_anc6m")

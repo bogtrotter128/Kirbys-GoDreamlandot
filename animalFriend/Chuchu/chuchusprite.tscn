@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://dguqdhmdep5ek"]
+
+[ext_resource type="SpriteFrames" uid="uid://d4ga1wl0jq3h5" path="res://animalFriend/Chuchu/chuchusprites.tres" id="1_s51xt"]
+[ext_resource type="Script" path="res://animalFriend/Chuchu/chuchusprite.gd" id="2_usnag"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D"]
+position = Vector2(0, -6)
+sprite_frames = ExtResource("1_s51xt")
+animation = &"open"
+script = ExtResource("2_usnag")

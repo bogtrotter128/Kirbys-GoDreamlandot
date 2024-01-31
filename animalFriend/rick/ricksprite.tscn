@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://ddfc8bwbsqc8j"]
+
+[ext_resource type="SpriteFrames" uid="uid://brtuffdknl5g4" path="res://animalFriend/rick/ricksprites.tres" id="1_0y6os"]
+[ext_resource type="Script" path="res://animalFriend/rick/Ricksprite.gd" id="2_rj5gg"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D"]
+position = Vector2(0, -6)
+sprite_frames = ExtResource("1_0y6os")
+animation = &"hurt"
+script = ExtResource("2_rj5gg")

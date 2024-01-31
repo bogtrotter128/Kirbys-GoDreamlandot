@@ -1,21 +1,12 @@
 extends HBoxContainer
 
-var abilitycardlist = [
-preload("res://kirbySprites/UI/HUD/acard0.png"),
-preload("res://kirbySprites/UI/HUD/acard1.png"),
-preload("res://kirbySprites/UI/HUD/acard2.png"),
-preload("res://kirbySprites/UI/HUD/acard3.png"),
-preload("res://kirbySprites/UI/HUD/acard4.png"),
-preload("res://kirbySprites/UI/HUD/acard5.png"),
-preload("res://kirbySprites/UI/HUD/acard6.png"),
-preload("res://kirbySprites/UI/HUD/acard7.png"),
-preload("res://kirbySprites/UI/HUD/acard8.png")
-]
-
+var loadstagepath = ""
 func _process(_delta):
 	if Hud.upability == true:
-		update_ability_card(GameUtils.ABILITY)
+		update_ability_card()
 		Hud.upability = false
 
-func update_ability_card(value):
-	$cardSprite.texture = abilitycardlist[value]
+func update_ability_card():
+	loadstagepath = "res://kirbySprites/UI/HUD/acard" + str(GameUtils.ABILITY) + ".png"
+	print(loadstagepath)
+	$cardSprite.texture = load(loadstagepath)

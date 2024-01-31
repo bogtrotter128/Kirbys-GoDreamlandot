@@ -13,8 +13,8 @@ config_version=5
 config/name="Kirbys GoDreamlandot"
 run/main_scene="res://debug_world.tscn"
 config/features=PackedStringArray("4.1", "Mobile")
-boot_splash/bg_color=Color(1, 1, 1, 1)
-boot_splash/image="res://kirbySprites/logos/g1.png"
+boot_splash/bg_color=Color(0.972549, 0.972549, 0.972549, 1)
+boot_splash/image="res://kirbySprites/godotsplash.png"
 boot_splash/use_filter=false
 config/icon="res://icon.svg"
 
@@ -28,7 +28,7 @@ Hud="*res://UI/HUD/hud.gd"
 window/size/viewport_width=1024
 window/size/viewport_height=720
 window/stretch/mode="viewport"
-window/stretch/scale=2.4
+window/stretch/scale=2.2
 
 [input]
 
@@ -192,4 +192,5 @@ recall2={
 [rendering]
 
 textures/canvas_textures/default_texture_filter=3
+textures/canvas_textures/default_texture_repeat=1
 renderer/rendering_method="mobile"

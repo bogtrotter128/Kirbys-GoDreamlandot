@@ -1,0 +1,53 @@
+[gd_scene load_steps=8 format=3 uid="uid://bnmrqcpyw0dgl"]
+
+[ext_resource type="Script" path="res://projectile scenes/playerabilityprojectiles/dust.gd" id="1_oj0mr"]
+[ext_resource type="Texture2D" uid="uid://knmmwd6jaj37" path="res://kirbySprites/effects/dust small.png" id="2_tlyet"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2eduh"]
+atlas = ExtResource("2_tlyet")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bj4nv"]
+atlas = ExtResource("2_tlyet")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1aoxo"]
+atlas = ExtResource("2_tlyet")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8j71j"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2eduh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bj4nv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1aoxo")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dak2v"]
+size = Vector2(10, 10)
+
+[node name="dust" type="Area2D" groups=["projectile"]]
+z_index = 127
+z_as_relative = false
+collision_layer = 3
+collision_mask = 3
+script = ExtResource("1_oj0mr")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_8j71j")
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+z_index = -1
+shape = SubResource("RectangleShape2D_dak2v")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

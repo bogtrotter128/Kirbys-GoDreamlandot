@@ -1,0 +1,59 @@
+[gd_scene load_steps=9 format=3 uid="uid://c1uc1tpky15f5"]
+
+[ext_resource type="Script" path="res://projectile scenes/recallplayerobjects/kirby_recall.gd" id="1_wkjoo"]
+[ext_resource type="Texture2D" uid="uid://cav4ikvbrg5t" path="res://kirbySprites/kirby/return.png" id="2_ctboe"]
+[ext_resource type="PackedScene" uid="uid://d1h66nvbwgp4o" path="res://player/player_1.tscn" id="2_f3jh7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_b70qd"]
+size = Vector2(22, 6.25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ay8an"]
+atlas = ExtResource("2_ctboe")
+region = Rect2(0, 0, 25, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f4h3i"]
+atlas = ExtResource("2_ctboe")
+region = Rect2(25, 0, 25, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c4enk"]
+atlas = ExtResource("2_ctboe")
+region = Rect2(50, 0, 25, 40)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_2eqoo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ay8an")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f4h3i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c4enk")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]
+
+[node name="KirbyRecall" type="Area2D" groups=["player1"]]
+collision_layer = 3
+collision_mask = 3
+script = ExtResource("1_wkjoo")
+KirbySpawn = ExtResource("2_f3jh7")
+
+[node name="Marker2D" type="Marker2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 11.125)
+shape = SubResource("RectangleShape2D_b70qd")
+debug_color = Color(0, 0.6, 0.701961, 0.419608)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -7)
+sprite_frames = SubResource("SpriteFrames_2eqoo")
+autoplay = "default"
+frame_progress = 0.500161
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

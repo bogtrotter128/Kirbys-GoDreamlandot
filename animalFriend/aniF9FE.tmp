@@ -1,0 +1,129 @@
+[gd_scene load_steps=19 format=3 uid="uid://csl0eexuwc0pb"]
+
+[ext_resource type="Script" path="res://animalFriend/animalfriend.gd" id="1_bvvnv"]
+[ext_resource type="Script" path="res://animalFriend/animalfriendcode.gd" id="2_c6b7x"]
+[ext_resource type="Script" path="res://player/abilityCooldownP2.gd" id="3_0fdim"]
+[ext_resource type="Script" path="res://animalFriend/AnimatedSprite.gd" id="3_h8ki1"]
+[ext_resource type="Script" path="res://player/jumpcooldown.gd" id="3_o1vtc"]
+[ext_resource type="PackedScene" uid="uid://dpiaxh05g3jsi" path="res://animalFriend/idlefriend.scn" id="4_imehp"]
+[ext_resource type="Script" path="res://animalFriend/projectileProducer.gd" id="5_2488s"]
+[ext_resource type="Script" path="res://player/player2Scripts/damDect2.gd" id="8_j07v4"]
+[ext_resource type="Script" path="res://player/player2Scripts/iframetimer2.gd" id="9_18qt2"]
+[ext_resource type="Script" path="res://player/frameflash.gd" id="10_nclo8"]
+[ext_resource type="Script" path="res://player/collideDect.gd" id="11_xpgrf"]
+[ext_resource type="Script" path="res://player/player2Scripts/VisibleOnScreenNotifier2D.gd" id="12_ci5gt"]
+[ext_resource type="Script" path="res://animalFriend/globalvars.gd" id="16_r83gg"]
+[ext_resource type="SpriteFrames" uid="uid://cda7lnvoesnyx" path="res://animalFriend/spritesheets/ricksprites.tres" id="17_lnbbh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jo1s4"]
+size = Vector2(14, 24)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fa6g4"]
+size = Vector2(14, 15)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e1y5y"]
+size = Vector2(12, 25)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dskkp"]
+size = Vector2(12.856, 25.9182)
+
+[node name="animalfriend" type="CharacterBody2D" groups=["player"]]
+collision_layer = 2
+floor_constant_speed = true
+floor_max_angle = 0.872665
+floor_snap_length = 5.0
+script = ExtResource("1_bvvnv")
+metadata/_edit_horizontal_guides_ = [12.0]
+
+[node name="globalvars" type="Node" parent="."]
+script = ExtResource("16_r83gg")
+dropfriend = ExtResource("4_imehp")
+
+[node name="animalfriendcode" type="Node" parent="."]
+script = ExtResource("2_c6b7x")
+
+[node name="projectileProducer" type="Marker2D" parent="."]
+script = ExtResource("5_2488s")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-1, -6)
+sprite_frames = ExtResource("17_lnbbh")
+animation = &"crouch"
+autoplay = "idle"
+script = ExtResource("3_h8ki1")
+
+[node name="normalhitbox" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("RectangleShape2D_jo1s4")
+
+[node name="smallhitbox" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(0, 5.5)
+shape = SubResource("RectangleShape2D_fa6g4")
+
+[node name="jumpcooldown" type="Timer" parent="."]
+wait_time = 0.12
+one_shot = true
+script = ExtResource("3_o1vtc")
+
+[node name="doubletap" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[node name="runCooloff" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[node name="AbilitySprites" type="AnimatedSprite2D" parent="."]
+
+[node name="abilityCooldown" type="Timer" parent="AbilitySprites"]
+wait_time = 0.12
+one_shot = true
+script = ExtResource("3_0fdim")
+
+[node name="damDect" type="Area2D" parent="."]
+visible = false
+collision_layer = 3
+collision_mask = 3
+script = ExtResource("8_j07v4")
+
+[node name="damshape" type="CollisionShape2D" parent="damDect"]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_e1y5y")
+debug_color = Color(0.760784, 0.447059, 0.227451, 0.419608)
+
+[node name="iframetimer" type="Timer" parent="damDect"]
+wait_time = 3.0
+one_shot = true
+script = ExtResource("9_18qt2")
+
+[node name="frameflash" type="Timer" parent="damDect"]
+wait_time = 0.3
+script = ExtResource("10_nclo8")
+
+[node name="collideDect" type="Area2D" parent="."]
+visible = false
+collision_layer = 3
+collision_mask = 3
+script = ExtResource("11_xpgrf")
+
+[node name="collideDectShape" type="CollisionShape2D" parent="collideDect"]
+position = Vector2(0, 0.040885)
+shape = SubResource("RectangleShape2D_dskkp")
+debug_color = Color(1, 0, 0.117647, 0.419608)
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(-1.19209e-08, 49)
+scale = Vector2(1e-05, 3.2)
+script = ExtResource("12_ci5gt")
+
+[connection signal="timeout" from="jumpcooldown" to="jumpcooldown" method="_on_timeout"]
+[connection signal="timeout" from="doubletap" to="." method="_on_doubletap_timeout"]
+[connection signal="timeout" from="runCooloff" to="." method="_on_run_cooloff_timeout"]
+[connection signal="timeout" from="AbilitySprites/abilityCooldown" to="AbilitySprites/abilityCooldown" method="_on_timeout"]
+[connection signal="area_entered" from="damDect" to="damDect" method="_on_area_entered"]
+[connection signal="body_entered" from="damDect" to="damDect" method="_on_body_entered"]
+[connection signal="timeout" from="damDect/iframetimer" to="damDect/iframetimer" method="_on_timeout"]
+[connection signal="timeout" from="damDect/frameflash" to="damDect/frameflash" method="_on_timeout"]
+[connection signal="body_entered" from="collideDect" to="collideDect" method="_on_body_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="VisibleOnScreenNotifier2D" method="_on_screen_exited"]

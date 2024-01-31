@@ -1,13 +1,13 @@
 extends AnimatedSprite2D
 
 var spritelist1 = [
-	"res://animalFriend/spritesheets/ricksprites.tres",
-	"res://animalFriend/spritesheets/chuchusprites.tres",
-	"res://animalFriend/spritesheets/coosprites.tres",
-	"res://animalFriend/spritesheets/kinesprites.tres",
-	"res://animalFriend/spritesheets/nagosprites.tres",
-	"res://animalFriend/spritesheets/pitchsprites.tres"
-]
+	"res://animalFriend/spritesheets/rick/ricksprites.tres",
+	"res://animalFriend/spritesheets/chuchu/chuchusprites.tres",
+	"res://animalFriend/spritesheets/coo/coosprites.tres",
+	"res://animalFriend/spritesheets/kine/kinesprites.tres",
+	"res://animalFriend/spritesheets/nago/nagosprites.tres",
+	"res://animalFriend/spritesheets/pitch/pitchsprites.tres"
+] #need to replace animatedsprite with animation player orz
 var spritelist2 = [
 	
 	
@@ -27,20 +27,11 @@ func _process(_delta):
 	
 #jump ani
 	if $"..".is_jumping == true && $"..".flight == false && $"..".inhaling == false && turn == false: 
-		if $"..".mouthFull == false && animation != "jump":
-			$".".play("jump")
-		elif $"..".mouthFull == true && animation != "fat jump":
-			$".".play("fat jump")
+		if $"..".mouthFull == false && animation != str($"../globalvars".frenval) + "jump":
+			$".".play(str($"../globalvars".frenval) +"jump")
+		elif $"..".mouthFull == true && animation != str($"../globalvars".frenval) +"fat jump":
+			$".".play(str($"../globalvars".frenval) +"fat jump")
 
-#flight ani
-#	if $"..".flight == true:
-#		if $".".animation != "flap":
-#				$".".play("flight")
-#		if Input.is_action_just_pressed("jump"):
-#			$".".play("flap")
-#			await $".".animation_finished
-#			$".".play("flight")
-	
 #directional animation parameters
 	if $"..".DIR == -1 && $"..".inhaling == false && $"../AbilitySprites".flip_h == false:
 		$".".flip_h = true
@@ -56,15 +47,15 @@ func _process(_delta):
 	if $"..".falling == false && $"..".inhaling == false && $"..".overrideX == false && turn == false:
 		if direction:
 			if $"..".mouthFull == false:
-				$".".play("run")
+				$".".play(str($"../globalvars".frenval) +"run")
 			elif $"..".mouthFull == true:
-				$".".play("fat run")
+				$".".play(str($"../globalvars".frenval) +"fat run")
 		else:
 			if $"..".crouch == false && $"..".inhaling == false && $"..".run == false && turn == false:
 				if $"..".mouthFull == false:
-					$".".play("idle")
+					$".".play(str($"../globalvars".frenval) + "idle")
 				elif $"..".mouthFull == true:
-					$".".play("fat idle")
+					$".".play(str($"../globalvars".frenval) +"fat idle")
 
 	#run ani
 	if $"..".run == true && $"..".crouch == false && $"..".falling == false:
@@ -74,20 +65,20 @@ func _process(_delta):
 		
 	#spit ani
 	if $"..".spit == true:
-		$".".play("open")
+		$".".play(str($"../globalvars".frenval) +"open")
 
 	#crouch ani
-	if $"..".crouch == true && $".".animation != "crouch":
-		$".".play("crouch")
+	if $"..".crouch == true && $".".animation != str($"../globalvars".frenval) +"crouch":
+		$".".play(str($"../globalvars".frenval) +"crouch")
 
 	#inhale ani
 	if $"..".inhaling == true:
-		$".".play("open")
+		$".".play(str($"../globalvars".frenval) +"open")
 
 	if $"..".hurt == true && $"..".mouthFull == false:
-		$".".play("hurt")
+		$".".play(str($"../globalvars".frenval) +"hurt")
 	elif $"..".hurt == true && $"..".mouthFull == true:
-		$".".play("fat hurt")
+		$".".play(str($"../globalvars".frenval) +"fat hurt")
 var saveframe
 var saveani
 var turn = false
@@ -97,9 +88,9 @@ func turnframe():
 	$".".stop()
 	turn = true
 	if $"..".mouthFull == false:
-		$".".play("turn")
+		$".".play(str($"../globalvars".frenval) +"turn")
 	if $"..".mouthFull == true:
-		$".".play("fat turn")
+		$".".play(str($"../globalvars".frenval) +"fat turn")
 	await get_tree().create_timer(0.15).timeout
 	$".".play(saveani)
 	$".".frame = saveframe

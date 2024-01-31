@@ -1,45 +1,53 @@
 extends Node
 
-var p
+var p = 0
+var candrop = true
+var playerlist = [
+	"res://player/player_1.tscn",
+	"res://player/player_2.tscn"
+]
 func _ready():
 	if $"..".is_in_group("player1"):
 		p = 1
 	if $"..".is_in_group("player2"):
 		p = 2
 
-@export var dropfriend : PackedScene
-var player1 = preload("res://player/player_1.tscn")
-var player2 = preload("res://player/player_2.tscn")
-
-var frenval = 1
-
 func _input(_event):
-	if Input.is_action_just_pressed($"..".C) && $"..".jumpCount < 1:
-		await get_tree().create_timer(0.1).timeout
-		dropanimalfriend()
-
-func dropanimalfriend():
-	var animalfriend = dropfriend.instantiate()
-	var player
-	if $"..".is_in_group("player1"):
+	#calls the dropanimalfriend() func in the playerloadinscene.
+	# which deletes the animalfriend and spawns back the player & idlefren
+	if Input.is_action_just_pressed($"..".C) && $"..".is_jumping == false && p == 1 && candrop == true:
+		candrop = false # this is a lock that makes sure that this function cant run more than once per instance
+		$"..".queue_free()
+		$"..".get_parent().dropanimalfriend(load(playerlist[0]),GameUtils.FRENVAL,Vector2($"..".position.x,$"..".position.y))
 		GameUtils.FRENVAL = 0
-		player = player1.instantiate()
-	if $"..".is_in_group("player2"):
-		GameUtils.FRENVAL = 0
-		player = player2.instantiate()
-	animalfriend.frenval = frenval
-	animalfriend.position = Vector2($"..".position.x,$"..".position.y - 2)
-	player.position = Vector2($"..".position.x,$"..".position.y - 10)
-	$"..".queue_free()
-	$"..".call_deferred("add_sibling", player)
-	$"..".call_deferred("add_sibling", animalfriend)
-	#AND SUMMON THE PLAYER BACK
+	if Input.is_action_just_pressed($"..".C) && $"..".is_jumping == false && p == 2 && candrop == true:
+		candrop = false
+		$"..".queue_free()
+		$"..".get_parent().dropanimalfriend(load(playerlist[1]),GameUtils.FRENVALP2,Vector2($"..".position.x,$"..".position.y))
+		GameUtils.FRENVALP2 = 0
 
 func _process(_delta):
 	if p == 1:
 		p1glob()
 	if p == 2:
 		p2glob()
+
+func killsuck(boo):
+	if p == 1:
+		GameUtils.Killsuck = boo
+	elif p == 2:
+		GameUtils.KillsuckP2 = boo
+func killAbility(boo):
+	if p == 1:
+		GameUtils.KillAbility = boo
+	elif p == 2:
+		GameUtils.KillAbilityP2 = boo
+
+func mouthvalset(val):
+	if p == 1:
+		GameUtils.mouthValue = val
+	elif p == 2:
+		GameUtils.mouthValueP2 = val
 
 func p1glob():
 	#gets kirbys global position
@@ -67,7 +75,6 @@ func p1glob():
 	#mouthFull = true basically
 	if GameUtils.mouthValue > 1:
 		$"..".mouthFull = true
-		$"..".jumpCount = $"..".jumpMax
 		$"..".canInhale = false
 		GameUtils.Killsuck = true
 
@@ -92,6 +99,5 @@ func p2glob():
 	#mouthFull = true basically
 	if GameUtils.mouthValueP2 > 1:
 		$"..".mouthFull = true
-		$"..".jumpCount = $"..".jumpMax
 		$"..".canInhale = false
-		GameUtils.Killsuck = true
+		GameUtils.KillsuckP2 = true

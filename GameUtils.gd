@@ -28,7 +28,7 @@ var HELDABILITY = 0
 #mouth value is 1, when it goes over 1, kirby swallows wahtever is in mouth
 var mouthValue = 1
 #id of the animal friend in use. 0 is none
-var FRENVAL = 1
+var FRENVAL = 0
 
 var ABILITYP2 = 0
 var HELDABILITYP2 = 0

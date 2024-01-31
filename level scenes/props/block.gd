@@ -20,3 +20,8 @@ func blockbreak():
 	$AnimatedSprite2D.play("default")
 	await $AnimatedSprite2D.animation_finished
 	queue_free()
+
+func disablecollision():
+	$CollisionShape2D.call_deferred("set","one_way_collision",true)
+	await get_tree().create_timer(0.5).timeout
+	blockbreak()

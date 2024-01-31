@@ -10,62 +10,32 @@ extends Marker2D
 @export var shockAbilityBox : PackedScene
 @export var iceAbilityBox : PackedScene
 @export var stoneAbilityBox : PackedScene
-@export var dustspawn : PackedScene
 @export var cutterAbilityBox : PackedScene
 
-func projectShoot(v):
+func projectShoot(item):
 	var projectS
-	if v == 1:
-		projectS = airpuff.instantiate()
-		spitCascade()
-	elif v == 2:
-		projectS = starFire.instantiate()
-		spitCascade()
-	elif v == 3:
-		pass #put big star shoot here
-		
-	elif v == 4: # ice
-		projectS = iceAbilityBox.instantiate()
-	elif v == 5: # rock's projectiles
-		projectS = dustspawn.instantiate()
-	elif v == 6:
-		projectS = dustspawn.instantiate()
-		projectS.speed = -40
-	elif v == 7:
-		projectS = cutterAbilityBox.instantiate()
-	elif v == 10:
-		projectS = dropabilitystar.instantiate()
+	projectS = item.instantiate()
+	projectS.add_to_group("player1")
 	owner.add_sibling(projectS)
 	projectS.transform = $".".global_transform
 
 #summons hitboxes that follow the player
 #missing the owner.add_child() and the $pp.global_transform
-func projectFollow(v):
+func projectFollow(item):
 	var projectF
-	# 1 is the inhale ability project
-	# uses killsuck to queue_free
-	if v == 1:
-		projectF = suckScene.instantiate()
-		projectF.add_to_group("player1")
-	# 2 is the kick slide hitbox.
-	# uses killsuck to queue_free
-	if v == 2:
-		projectF = SlideHitbox.instantiate()
-	# 3 is the fire abiltiy hitbox.
-	if v == 3:
-		projectF = fireAbilityBox.instantiate()
-	if v == 4:
-		projectF = shockAbilityBox.instantiate()
-	if v == 5:
-		projectF = stoneAbilityBox.instantiate()
-	
+	projectF = item.instantiate()
+	projectF.add_to_group("player1")
 	add_sibling(projectF)
 	projectF.transform = $".".transform
 
 func _input(_event):
 		#handles spit inpit
 	if Input.is_action_just_pressed("a") && $"..".mouthFull == true or Input.is_action_just_pressed("a") && $"..".mouthFullAir == true:
-		projectShoot(GameUtils.mouthValue)
+		if GameUtils.mouthValue == 1:
+			projectShoot(airpuff)
+			$"..".jumpCount = GameUtils.JUMPMAX
+		if GameUtils.mouthValue == 2:
+			projectShoot(starFire)
 		spitCascade()
 
 func inhale():
@@ -74,9 +44,8 @@ func inhale():
 	$"..".canJump = false
 	$"..".velocity.x = 0
 	$"..".inhaling = true
-	GameUtils.Killsuck = true
 	GameUtils.Killsuck = false
-	projectFollow(1)
+	projectFollow(suckScene)
 
 func inhaleStop():
 	GameUtils.Killsuck = true
@@ -84,7 +53,8 @@ func inhaleStop():
 	$"..".canInhale = true
 	$"..".inhaling = false
 	$"..".overrideX = false
-	$"../AbilitySprites/abilityCooldown".set_wait_time(0.2)
+	$"..".abilityCooldown = true
+	$"../AbilitySprites/abilityCooldown".set_wait_time(0.1)
 	$"../AbilitySprites/abilityCooldown".start()
 
 func spitCascade():
@@ -92,8 +62,6 @@ func spitCascade():
 	$"../AbilitySprites/abilityCooldown".set_wait_time(0.5)
 	$"../AbilitySprites/abilityCooldown".start()
 	#makes sure you cant multi jump after spitting out air
-	if $"..".mouthFullAir == true:
-		$"..".jumpCount = GameUtils.JUMPMAX
 	GameUtils.mouthValue = 1
 	$"..".overrideX = true
 	$"..".abilityCooldown = true
@@ -115,7 +83,7 @@ func slide():
 		$"..".crouch = false
 		$"..".velocity.x = GameUtils.DIR * 190
 		$"..".overrideX = false
-		projectFollow(2)
+		projectFollow(SlideHitbox)
 		await get_tree().create_timer(0.3).timeout
 		GameUtils.Killsuck = true
 		$"..".velocity.x = GameUtils.DIR * 190
@@ -195,7 +163,7 @@ func _process(_delta):
 		if stoneboxcheck == false && not $"..".is_on_floor() or stoneboxcheck == false && $"..".is_on_wall() && not $"..".is_on_floor():
 			$"..".run = false
 			stoneboxcheck = true
-			projectFollow(5)
+			projectFollow(stoneAbilityBox)
 		elif $"..".is_on_floor() && $"..".velocity.x == 0:
 			stoneboxcheck = false
 			GameUtils.KillAbility = true
@@ -217,7 +185,7 @@ func fire():
 		$"../normalhitbox".call_deferred("set", "disabled", true)
 		$"../smallhitbox".position.y = 2
 		firestart = true
-		projectFollow(3)
+		projectFollow(fireAbilityBox)
 		$"..".overrideX = true
 		$"..".overrideY = true
 		$"..".velocity.y = 0
@@ -257,7 +225,7 @@ func shock():
 			shockstart = false
 			abilityStop()
 		#abilty loop starts
-		projectFollow(4)
+		projectFollow(shockAbilityBox)
 		$"..".abilitycanstop = true
 		shockstart = false
 
@@ -274,7 +242,7 @@ func ice():
 		icestart = false
 		$"..".abilitycanstop = true
 	if iceabilityready == true:
-		projectShoot(4)
+		projectShoot(iceAbilityBox)
 		iceabilityready = false
 var rocktrue = true
 func stone():
@@ -326,7 +294,7 @@ func cutter():
 		$"..".activeAbility = 6
 		$"..".abilitycanstop = false
 		cutterstart = true
-		projectShoot(7)
+		projectShoot(cutterAbilityBox)
 		await $"../AbilitySprites".animation_finished
 		cutterstart = false
 		$"..".activeAbility = 0

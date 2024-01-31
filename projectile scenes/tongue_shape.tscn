@@ -1,31 +1,29 @@
-[gd_scene load_steps=4 format=3 uid="uid://cckdymx8odrv"]
+[gd_scene load_steps=4 format=3 uid="uid://bqgs68o65s0y4"]
 
-[ext_resource type="Script" path="res://projectile scenes/swallow_shape.gd" id="1_lcl7k"]
+[ext_resource type="Script" path="res://projectile scenes/swallow_shape.gd" id="1_4yhcm"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_kds5v"]
-size = Vector2(2, 14)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_30mdf"]
+size = Vector2(3, 18)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_b2xdo"]
-size = Vector2(24, 12)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x30nb"]
+size = Vector2(42, 19)
 
-[node name="tongueShape" type="Area2D"]
+[node name="TongueShape" type="Area2D"]
 collision_layer = 3
 collision_mask = 3
-script = ExtResource("1_lcl7k")
+script = ExtResource("1_4yhcm")
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
-position = Vector2(1, 0)
-shape = SubResource("RectangleShape2D_kds5v")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, 0)
+shape = SubResource("RectangleShape2D_30mdf")
 
 [node name="pull" type="Area2D" parent="."]
 collision_layer = 3
 collision_mask = 3
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="pull"]
-position = Vector2(14, 0)
-shape = SubResource("RectangleShape2D_b2xdo")
-debug_color = Color(0.545098, 0.533333, 0.533333, 0.419608)
+[node name="pullcollshape" type="CollisionShape2D" parent="pull"]
+position = Vector2(20, 0.5)
+shape = SubResource("RectangleShape2D_x30nb")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_entered" from="pull" to="." method="_on_pull_body_entered"]
-[connection signal="body_exited" from="pull" to="." method="_on_pull_body_exited"]

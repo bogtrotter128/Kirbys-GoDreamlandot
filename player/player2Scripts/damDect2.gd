@@ -21,7 +21,7 @@ func damage():
 		$"..".inhaling = false
 		$"..".overrideX = true
 		$"..".velocity.x = 0
-		$"..".velocity.x = 40 * (GameUtils.DIR * -1)
+		$"..".velocity.x = 40 * (GameUtils.DIRP2 * -1)
 		$"..".velocity.y = -200
 		await get_tree().create_timer(0.3).timeout
 		$"..".hurt = false

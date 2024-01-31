@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://dg8nyttvs52gw"]
+
+[ext_resource type="Script" path="res://projectile scenes/friendprojectiles/rick/ricksuckshape.gd" id="1_sbo7o"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3r581"]
+size = Vector2(26, 22)
+
+[node name="ricksuckshape" type="Area2D"]
+collision_layer = 3
+collision_mask = 3
+script = ExtResource("1_sbo7o")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-6, 0)
+shape = SubResource("RectangleShape2D_3r581")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

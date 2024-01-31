@@ -98,7 +98,7 @@ frame_progress = 0.501214
 collision_layer = 3
 collision_mask = 3
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="pull"]
+[node name="pullcollshape" type="CollisionPolygon2D" parent="pull"]
 build_mode = 1
 polygon = PackedVector2Array(0, 0, 0, 8, 40, 17, 40, -18, 0, -7)
 
