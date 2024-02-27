@@ -22,13 +22,13 @@ region = Rect2(20, 0, 20, 20)
 atlas = ExtResource("1_qp4fc")
 region = Rect2(40, 0, 20, 20)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_6a04m"]
-atlas = ExtResource("1_qp4fc")
-region = Rect2(60, 0, 20, 20)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_46ch0"]
 atlas = ExtResource("1_qp4fc")
 region = Rect2(80, 0, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6a04m"]
+atlas = ExtResource("1_qp4fc")
+region = Rect2(60, 0, 20, 20)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_yfhaf"]
 animations = [{
@@ -51,17 +51,25 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_6a04m")
+"texture": SubResource("AtlasTexture_46ch0")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_46ch0")
+"texture": SubResource("AtlasTexture_6a04m")
 }],
-"loop": true,
+"loop": false,
 "name": &"fire",
 "speed": 7.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6a04m")
+}],
+"loop": false,
+"name": &"hot",
+"speed": 5.0
 }]
 
-[node name="pompey" type="CharacterBody2D" groups=["mobs"]]
+[node name="pompey" type="CharacterBody2D" groups=["mobs", "suckable"]]
 collision_layer = 2
 floor_constant_speed = true
 floor_max_angle = 0.0
@@ -95,8 +103,8 @@ one_shot = true
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, 1)
 sprite_frames = SubResource("SpriteFrames_yfhaf")
+animation = &"fire"
 autoplay = "default"
-frame_progress = 0.118025
 
 [connection signal="body_entered" from="playerDetect" to="." method="_on_player_detect_body_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -1,6 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://b1hkmkh8qcq4l"]
+[gd_scene load_steps=4 format=3 uid="uid://b1hkmkh8qcq4l"]
 
 [ext_resource type="Script" path="res://animalFriend/kine/kinecode.gd" id="1_a3qfe"]
+[ext_resource type="PackedScene" uid="uid://cvlekmeh7id7m" path="res://projectile scenes/starshoot.tscn" id="2_hk3a0"]
+[ext_resource type="PackedScene" uid="uid://dhtqv8jigpmji" path="res://projectile scenes/ability_star_drop.tscn" id="4_uf23q"]
 
 [node name="animalfriendcode" type="Node"]
 script = ExtResource("1_a3qfe")
+starFire = ExtResource("2_hk3a0")
+dropabilitystar = ExtResource("4_uf23q")

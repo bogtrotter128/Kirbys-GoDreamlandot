@@ -13,8 +13,7 @@ size = Vector2(24, 23)
 size = Vector2(12, 8)
 
 [node name="icecube" type="CharacterBody2D"]
-collision_layer = 0
-collision_mask = 3
+collision_layer = 2
 floor_stop_on_slope = false
 floor_constant_speed = true
 floor_snap_length = 5.0

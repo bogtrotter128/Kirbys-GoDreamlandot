@@ -8,7 +8,6 @@ extends Node
 @export var shockAbilityBox : PackedScene
 @export var iceAbilityBox : PackedScene
 @export var stoneAbilityBox : PackedScene
-@export var dustspawn : PackedScene
 @export var cutterAbilityBox : PackedScene
 @export var parasolAbilityBox : PackedScene
 @export var broomAbilityBox : PackedScene
@@ -18,18 +17,23 @@ var climb = false
 func _input(_event):
 	if Input.is_action_just_pressed($"..".UP) && climb == true or Input.is_action_just_pressed($"..".DOWN) && climb == true:
 		stopclimb()
+	#cancel underwter inhaling/bubble
+	if Input.is_action_just_released($"..".A) && bubblestart == false:
+		bubblestart = true
+		$"..".inhaleStop()
 
 func _process(_delta):
 	if Input.is_action_pressed($"..".UP) && $"..".mouthFull == false:
 		climb = true
 func _physics_process(_delta):
-	if $"..".is_on_floor():
+	if $"..".is_on_floor() or $"..".swim == true:
 		$"..".flight = false
 		jumpCount = 0
 	if $"..".is_on_ceiling() && climb == true:
 		$"../AnimatedSprite2D".climbani = true
 		$"..".overrideY = true
-	else:
+		$"..".velocity.y = -10
+	if not $"..".is_on_ceiling() && climb == true:
 		stopclimb()
 func stopclimb():
 	climb = false
@@ -71,6 +75,12 @@ func spitup(v):
 		$"../projectileProducer".projectShoot(starFire)
 	$"..".spitCascade()
 
+var bubblestart = true
+var bubblego = false
+func bubbleblow():
+	if bubblestart == true:
+		bubblestart = false
+		$"..".inhale()
 ##########################################
 
 func fire():
@@ -97,13 +107,13 @@ func broom():
 	pass
 
 func abilityStop():
-	$"../globalvars".killAbility(true)
 	$"..".set_floor_max_angle(1)
 	$"..".activeAbility = 0
 	$"..".velocity.x = 0
+	bubblestart = true
 	$"..".canJump = true
 	$"..".overrideX = false
 	$"..".overrideY = false
 	$"../normalhitbox".call_deferred("set", "disabled", false)
-	$"../AbilitySprites/abilityCooldown".set_wait_time(0.07)
-	$"../AbilitySprites/abilityCooldown".start()
+	$"../abilityCooldown".set_wait_time(0.07)
+	$"../abilityCooldown".start()

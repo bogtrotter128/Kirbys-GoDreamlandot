@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
 @export var frenval = 1
+var swim = false
 var check1 = false
 var check2 = false
 var targetcheck = true
@@ -17,14 +18,16 @@ func _input(_event):
 		cancheck = false
 		$playerdect/CollisionShape2D.call_deferred("set","disabled",true)
 		p1.frenval = frenval #sets the player's frenval equal to idlefrend's so that they summon teh correct friend
-		p1.get_parent().summonfren(p1,frenval) #summons friend with func in the player script
+		swim = p1.swim
+		p1.get_parent().summonfren(p1,frenval,swim) #summons friend with func in the player script
 		p1.queue_free()
 		self.queue_free()
 	if Input.is_action_just_pressed("P2c") && check2 == true && cancheck == true:
 		cancheck = false
 		$playerdect/CollisionShape2D.call_deferred("set","disabled",true)
 		p2.frenval = frenval
-		p2.get_parent().summonfren(p2,frenval)
+		swim = p2.swim
+		p2.get_parent().summonfren(p2,frenval,swim)
 		p2.queue_free()
 		self.queue_free() 
 
@@ -42,8 +45,10 @@ func _process(_delta):
 		targetcheck = true
 
 func _physics_process(_delta):
-	if not is_on_floor():
+	if not is_on_floor() && swim == false:
 		velocity.y = move_toward(velocity.y, 200, 7)
+	if swim == true:
+		velocity.y = move_toward(velocity.y, 10, 0.5)
 	move_and_slide()
 var p1
 var p2
@@ -54,12 +59,17 @@ func _on_playerdect_body_entered(body):
 	if body.name == "Player2":
 		check2 = true
 		p2 = body
+	if body.is_in_group("water"):
+		swim = true
+		velocity.y = velocity.y /2
 
 func _on_playerdect_body_exited(body):
 	if body.name == "Player1":
 		check1 = false
 	if body.name == "Player2":
 		check2 = false
+	if body.is_in_group("water"):
+		swim = false
 
 var tempos
 var tempos2

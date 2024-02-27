@@ -3,17 +3,18 @@ extends CharacterBody2D
 @export var copyAbilityScore = 0
 @export var SPEED = 70
 @export var JUMP = -200
-var pval = 1
 var update = false
 var dir = 1
 
 func _ready():
-	if pval == 1:
+	if is_in_group("player1"):
 		dir = GameUtils.DIR * -1
+		Hud.updateability()
 		copyAbilityScore  = GameUtils.ABILITY
 		GameUtils.ABILITY = 0
-	if pval == 2:
+	if is_in_group("player2"):
 		dir = GameUtils.DIRP2 * -1
+		Hud.updateability2()
 		copyAbilityScore  = GameUtils.ABILITYP2
 		GameUtils.ABILITYP2 = 0
 

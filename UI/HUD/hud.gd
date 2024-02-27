@@ -3,9 +3,11 @@ extends CanvasLayer
 var updatehpv = false
 var updatehpv2 = false
 func updatehp():
-	updatehpv = true
+	if GameUtils.MAXHP < 9999:
+		updatehpv = true
 func updatehp2():
-	updatehpv2 = true
+	if GameUtils.MAXHPP2 < 9999:
+		updatehpv2 = true
 
 var upability = false
 var upability2 = false

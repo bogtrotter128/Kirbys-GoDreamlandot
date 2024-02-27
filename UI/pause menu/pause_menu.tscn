@@ -1,0 +1,98 @@
+[gd_scene load_steps=10 format=3 uid="uid://rnr0axkx6vir"]
+
+[ext_resource type="Texture2D" uid="uid://ca6p71timo6eq" path="res://kirbySprites/UI/pause screen/pause menu art.png" id="1_ps87s"]
+[ext_resource type="Script" path="res://UI/pause menu/pause_menu.gd" id="1_tpdua"]
+[ext_resource type="Texture2D" uid="uid://behefrlew7fo3" path="res://kirbySprites/UI/pause screen/star.png" id="2_scfmu"]
+[ext_resource type="Texture2D" uid="uid://j4owwx4hyjp4" path="res://kirbySprites/UI/pause screen/checkoff.png" id="4_hx2fb"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8n1yq"]
+atlas = ExtResource("2_scfmu")
+region = Rect2(0, 0, 18, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_csqua"]
+atlas = ExtResource("2_scfmu")
+region = Rect2(18, 0, 18, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g7mxn"]
+atlas = ExtResource("2_scfmu")
+region = Rect2(36, 0, 18, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n1tlk"]
+atlas = ExtResource("2_scfmu")
+region = Rect2(54, 0, 18, 18)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0tyxc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8n1yq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_csqua")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g7mxn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n1tlk")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]
+
+[node name="pause menu" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_tpdua")
+
+[node name="bg" type="Sprite2D" parent="."]
+position = Vector2(252, 164)
+scale = Vector2(1.1, 1.1)
+texture = ExtResource("1_ps87s")
+
+[node name="starselecter" type="AnimatedSprite2D" parent="."]
+process_mode = 2
+position = Vector2(148, 114)
+sprite_frames = SubResource("SpriteFrames_0tyxc")
+autoplay = "default"
+frame_progress = 0.551226
+
+[node name="selecttimer" type="Timer" parent="."]
+wait_time = 0.15
+autostart = true
+
+[node name="options" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="options"]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 120.0
+offset_top = 143.0
+offset_right = 140.0
+offset_bottom = 225.0
+theme_override_constants/separation = 14
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer"]
+layout_mode = 2
+texture = ExtResource("4_hx2fb")
+stretch_mode = 2
+
+[node name="TextureRect2" type="TextureRect" parent="VBoxContainer"]
+layout_mode = 2
+texture = ExtResource("4_hx2fb")
+stretch_mode = 2
+
+[node name="TextureRect3" type="TextureRect" parent="VBoxContainer"]
+layout_mode = 2
+texture = ExtResource("4_hx2fb")
+stretch_mode = 2
+
+[connection signal="timeout" from="selecttimer" to="." method="_on_selecttimer_timeout"]

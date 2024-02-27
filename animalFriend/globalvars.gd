@@ -9,21 +9,25 @@ var playerlist = [
 func _ready():
 	if $"..".is_in_group("player1"):
 		p = 1
+		$"..".frenval = GameUtils.FRENVAL
 	if $"..".is_in_group("player2"):
 		p = 2
+		$"..".frenval = GameUtils.FRENVALP2
+		if GameUtils.SECONDPLAYER == false:
+			$"..".queue_free()
 
 func _input(_event):
 	#calls the dropanimalfriend() func in the playerloadinscene.
 	# which deletes the animalfriend and spawns back the player & idlefren
-	if Input.is_action_just_pressed($"..".C) && $"..".is_jumping == false && p == 1 && candrop == true:
+	if Input.is_action_just_pressed($"..".C) && p == 1 && candrop == true:
 		candrop = false # this is a lock that makes sure that this function cant run more than once per instance
 		$"..".queue_free()
-		$"..".get_parent().dropanimalfriend(load(playerlist[0]),GameUtils.FRENVAL,Vector2($"..".position.x,$"..".position.y))
+		$"..".get_parent().dropanimalfriend(load(playerlist[0]),GameUtils.FRENVAL,Vector2($"..".position.x,$"..".position.y),$"..".DIR,$"..".swim)
 		GameUtils.FRENVAL = 0
-	if Input.is_action_just_pressed($"..".C) && $"..".is_jumping == false && p == 2 && candrop == true:
+	if Input.is_action_just_pressed($"..".C) && p == 2 && candrop == true:
 		candrop = false
 		$"..".queue_free()
-		$"..".get_parent().dropanimalfriend(load(playerlist[1]),GameUtils.FRENVALP2,Vector2($"..".position.x,$"..".position.y))
+		$"..".get_parent().dropanimalfriend(load(playerlist[1]),GameUtils.FRENVALP2,Vector2($"..".position.x,$"..".position.y),$"..".DIR,$"..".swim)
 		GameUtils.FRENVALP2 = 0
 
 func _process(_delta):
@@ -31,17 +35,6 @@ func _process(_delta):
 		p1glob()
 	if p == 2:
 		p2glob()
-
-func killsuck(boo):
-	if p == 1:
-		GameUtils.Killsuck = boo
-	elif p == 2:
-		GameUtils.KillsuckP2 = boo
-func killAbility(boo):
-	if p == 1:
-		GameUtils.KillAbility = boo
-	elif p == 2:
-		GameUtils.KillAbilityP2 = boo
 
 func mouthvalset(val):
 	if p == 1:
@@ -76,9 +69,13 @@ func p1glob():
 	if GameUtils.mouthValue > 1:
 		$"..".mouthFull = true
 		$"..".canInhale = false
-		GameUtils.Killsuck = true
 
 func p2glob():
+	if GameUtils.SECONDPLAYER == false && candrop == true:
+		candrop = false
+		$"..".queue_free()
+		$"..".get_parent().dropanimalfriend(load(playerlist[1]),GameUtils.FRENVALP2,Vector2($"..".position.x,$"..".position.y),$"..".DIR,$"..".swim)
+		GameUtils.FRENVALP2 = 0
 	#gets kirbys global position
 	GameUtils.posXP2 = $"..".global_position.x
 	GameUtils.posYP2 = $"..".global_position.y
@@ -100,4 +97,3 @@ func p2glob():
 	if GameUtils.mouthValueP2 > 1:
 		$"..".mouthFull = true
 		$"..".canInhale = false
-		GameUtils.KillsuckP2 = true

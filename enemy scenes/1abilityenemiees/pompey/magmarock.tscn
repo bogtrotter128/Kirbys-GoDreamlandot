@@ -9,7 +9,7 @@ size = Vector2(9, 9)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4r0mw"]
 size = Vector2(10, 10)
 
-[node name="magmarock" type="CharacterBody2D" groups=["hazard", "projectile"]]
+[node name="magmarock" type="CharacterBody2D" groups=["mobs", "suckable"]]
 collision_layer = 2
 floor_constant_speed = true
 floor_max_angle = 0.872665
@@ -20,7 +20,6 @@ script = ExtResource("1_gpm26")
 shape = SubResource("RectangleShape2D_vh50f")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(0, 1)
 texture = ExtResource("1_mfobp")
 
 [node name="Area2D" type="Area2D" parent="."]

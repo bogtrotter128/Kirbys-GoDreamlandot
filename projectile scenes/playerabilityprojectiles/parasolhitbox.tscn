@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://cr2koe52j4o70"]
+
+[ext_resource type="Script" path="res://projectile scenes/playerabilityprojectiles/parasolhitbox.gd" id="1_a0s0r"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xvnwb"]
+size = Vector2(16, 12)
+
+[node name="parasolhitbox" type="Area2D" groups=["projectiles"]]
+collision_layer = 3
+collision_mask = 3
+script = ExtResource("1_a0s0r")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_xvnwb")
+debug_color = Color(0.921569, 0.458824, 0.580392, 0.419608)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

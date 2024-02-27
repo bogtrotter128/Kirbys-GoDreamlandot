@@ -1,0 +1,118 @@
+extends Control
+
+@onready var main = $"../../"
+var optionmenu = false
+var jumpsop = false
+var healthop = false
+var abilityop = false
+
+var selected = 1
+var bglist = [
+	preload("res://kirbySprites/UI/pause screen/pause menu art.png"),
+	preload("res://kirbySprites/UI/pause screen/pausemenu options.png"),
+	preload("res://kirbySprites/UI/pause screen/pausemenu coop.png"),
+	preload("res://kirbySprites/UI/pause screen/pausemenu exit.png")
+]
+var oplist = [
+	preload("res://kirbySprites/UI/pause screen/optionsback.png"),
+	preload("res://kirbySprites/UI/pause screen/optionsjump.png"),
+	preload("res://kirbySprites/UI/pause screen/optionshealth.png"),
+	preload("res://kirbySprites/UI/pause screen/optionsability.png")
+]
+var checklist = [
+	preload("res://kirbySprites/UI/pause screen/checkoff.png"),
+	preload("res://kirbySprites/UI/pause screen/checkon.png")
+]
+
+func _ready():
+	set_process_input(false)
+
+func _input(_event):
+	if Input.is_action_just_pressed("up") or Input.is_action_just_pressed("P2up"):
+		selected -= 1
+		selected = 4 if selected < 1 else selected
+		movestart()
+	if Input.is_action_just_pressed("down") or Input.is_action_just_pressed("P2down"):
+		selected += 1
+		selected = 1 if selected > 4 else selected
+		movestart()
+	if Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("P2jump"):
+		select()
+	if Input.is_action_just_pressed("a") or Input.is_action_just_pressed("P2a"):
+		select()
+	if Input.is_action_just_pressed("start"):
+		cont()
+
+func movestart():
+	$bg.texture = bglist[selected - 1] if optionmenu == false else oplist[selected - 1]
+	if selected == 1:
+		$starselecter.position.y = 114
+	if selected == 2:
+		$starselecter.position.y = 150
+	if selected == 3:
+		$starselecter.position.y = 180
+	if selected == 4:
+		$starselecter.position.y = 210
+func select():
+	if optionmenu == true:
+		if selected == 1:
+			back()
+		if selected == 2:
+			opjumps()
+		if selected == 3:
+			ophealth()
+		if selected == 4:
+			opabilities()
+		checkupdate()
+	else:
+		if selected == 1:
+			cont()
+		if selected == 2:
+			options()
+		if selected == 3:
+			coop()
+		if selected == 4:
+			exit()
+func cont():
+	optionmenu = false
+	$VBoxContainer.hide()
+	main.pauseMenu()
+func options():
+	selected = 1
+	optionmenu = true
+	movestart()
+	$VBoxContainer.show()
+func coop():
+	if GameUtils.SECONDPLAYER == false:
+		main.gooeyspawn()
+	GameUtils.SECONDPLAYER = !GameUtils.SECONDPLAYER
+	main.pauseMenu()
+func exit():
+	get_tree().paused = false
+	get_tree().change_scene_to_file("res://selectScreen/popstar.tscn")
+
+func back():
+	optionmenu = false
+	movestart()
+	$VBoxContainer.hide()
+func opjumps():
+	GameUtils.JUMPMAX = 99999 if GameUtils.JUMPMAX < 99999 else 1
+	print(GameUtils.JUMPMAX)
+	
+func ophealth():
+	GameUtils.MAXHP = 10 if GameUtils.MAXHP == 99999 else 99999
+	GameUtils.MAXHPP2 = 10 if GameUtils.MAXHPP2 == 99999 else 99999
+	await get_tree().create_timer(0.1).timeout
+	GameUtils.HEALTH = GameUtils.MAXHP
+	GameUtils.HEALTHP2 = GameUtils.MAXHPP2
+func opabilities():
+	GameUtils.opAbilities = !GameUtils.opAbilities
+
+func checkupdate():
+	$VBoxContainer/TextureRect.texture = checklist[1] if GameUtils.JUMPMAX == 99999 else checklist[0]
+	$VBoxContainer/TextureRect2.texture = checklist[1] if GameUtils.MAXHP == 99999 else checklist[0]
+	$VBoxContainer/TextureRect3.texture = checklist[1] if GameUtils.opAbilities == true else checklist[0]
+
+
+func _on_selecttimer_timeout():
+	pass # Replace with function body.

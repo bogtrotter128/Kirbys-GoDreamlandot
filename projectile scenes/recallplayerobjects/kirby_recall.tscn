@@ -1,11 +1,106 @@
-[gd_scene load_steps=9 format=3 uid="uid://c1uc1tpky15f5"]
+[gd_scene load_steps=19 format=3 uid="uid://c1uc1tpky15f5"]
 
 [ext_resource type="Script" path="res://projectile scenes/recallplayerobjects/kirby_recall.gd" id="1_wkjoo"]
 [ext_resource type="Texture2D" uid="uid://cav4ikvbrg5t" path="res://kirbySprites/kirby/return.png" id="2_ctboe"]
 [ext_resource type="PackedScene" uid="uid://d1h66nvbwgp4o" path="res://player/player_1.tscn" id="2_f3jh7"]
+[ext_resource type="Texture2D" uid="uid://wot08pjwun0c" path="res://kirbySprites/friends/ball.png" id="3_5x63k"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_b70qd"]
-size = Vector2(22, 6.25)
+[sub_resource type="AtlasTexture" id="AtlasTexture_hrufr"]
+atlas = ExtResource("3_5x63k")
+region = Rect2(0, 0, 4, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lh8uy"]
+atlas = ExtResource("3_5x63k")
+region = Rect2(0, 0, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uv8qh"]
+atlas = ExtResource("3_5x63k")
+region = Rect2(40, 0, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xkyvq"]
+atlas = ExtResource("3_5x63k")
+region = Rect2(80, 0, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lb24j"]
+atlas = ExtResource("3_5x63k")
+region = Rect2(120, 0, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7cxu0"]
+atlas = ExtResource("3_5x63k")
+region = Rect2(160, 0, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_okgbj"]
+atlas = ExtResource("3_5x63k")
+region = Rect2(200, 0, 40, 40)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ab8xx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hrufr")
+}],
+"loop": true,
+"name": &"0",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lh8uy")
+}],
+"loop": true,
+"name": &"1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uv8qh")
+}],
+"loop": true,
+"name": &"2",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xkyvq")
+}],
+"loop": true,
+"name": &"3",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lb24j")
+}],
+"loop": true,
+"name": &"4",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7cxu0")
+}],
+"loop": true,
+"name": &"5",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_okgbj")
+}],
+"loop": true,
+"name": &"6",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"7",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"8",
+"speed": 5.0
+}]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ay8an"]
 atlas = ExtResource("2_ctboe")
@@ -36,18 +131,22 @@ animations = [{
 "speed": 8.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mueem"]
+size = Vector2(10, 21)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_b3404"]
+size = Vector2(15, 2)
+
 [node name="KirbyRecall" type="Area2D" groups=["player1"]]
 collision_layer = 3
 collision_mask = 3
 script = ExtResource("1_wkjoo")
 KirbySpawn = ExtResource("2_f3jh7")
 
-[node name="Marker2D" type="Marker2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 11.125)
-shape = SubResource("RectangleShape2D_b70qd")
-debug_color = Color(0, 0.6, 0.701961, 0.419608)
+[node name="ballfriend" type="AnimatedSprite2D" parent="."]
+position = Vector2(-2, -5)
+sprite_frames = SubResource("SpriteFrames_ab8xx")
+animation = &"6"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -7)
@@ -55,5 +154,21 @@ sprite_frames = SubResource("SpriteFrames_2eqoo")
 autoplay = "default"
 frame_progress = 0.500161
 
-[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1.5)
+shape = SubResource("RectangleShape2D_mueem")
+debug_color = Color(0, 0.6, 0.701961, 0.419608)
+
+[node name="playerdetect" type="Area2D" parent="."]
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="playerdetect"]
+position = Vector2(0, 3)
+shape = SubResource("RectangleShape2D_b3404")
+debug_color = Color(0, 0.6, 0.701961, 0.419608)
+
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]
+[connection signal="area_entered" from="playerdetect" to="." method="_on_playerdetect_area_entered"]
+[connection signal="body_entered" from="playerdetect" to="." method="_on_playerdetect_body_entered"]

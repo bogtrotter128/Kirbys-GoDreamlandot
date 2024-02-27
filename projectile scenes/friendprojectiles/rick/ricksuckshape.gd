@@ -2,19 +2,18 @@ extends Area2D
 var playerval
 func _ready():
 	if is_in_group("player1"):
-		GameUtils.Killsuck = true
-		GameUtils.Killsuck = false
 		playerval = 1
 	if is_in_group("player2"):
-		GameUtils.KillsuckP2 = true
-		GameUtils.KillsuckP2 = false
 		playerval = 2
 
+func _input(_event):
+	if Input.is_action_just_released(get_parent().A):
+		await get_tree().create_timer(0.3).timeout
+		queue_free()
+
 func _process(_delta):
-	if GameUtils.Killsuck == true && playerval == 1:
-		self.queue_free()
-	if GameUtils.KillsuckP2 == true && playerval == 2:
-		self.queue_free()
+	if get_parent().mouthFull == true:
+		queue_free()
 
 func _on_body_entered(body):
 	if body.is_in_group("mobs") or body.is_in_group("suckable"):

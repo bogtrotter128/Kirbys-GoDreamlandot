@@ -1,50 +1,32 @@
 extends AnimatedSprite2D
 
-#need to add a way to load gooey sprites in
-
-func _ready():
-	if $"..".is_in_group("player1"):
-		pass #kirby sprites
-	if $"..".is_in_group("player2"):
-		pass #gooey sprites
-
-func _process(_delta):
+func ani(direction):
 	if $"..".activeAbility != 0:
 		$".".visible=false
 	else:
 		$".".visible=true
 #jump ani
 	if $"..".is_jumping == true && $"..".flight == false && $"..".inhaling == false && turn == false: 
-		if $"..".mouthFull == false && animation != "jump" && animation != "open":
+		if $"..".mouthFull == false && animation != "jump" && $"..".inhaling == false:
 			$".".play("jump")
-		elif $"..".mouthFull == true && animation != "fat jump"&& animation != "open":
+		elif $"..".mouthFull == true && animation != "fat jump":
 			$".".play("fat jump")
 
 #directional animation parameters
-	if $"..".DIR == -1 && $"..".overrideX == false && $"../AbilitySprites".flip_h == false:
-		$".".flip_h = true
-		turnframe()
-		$"../AbilitySprites".flip_h = true
-	if $"..".DIR == 1 && $"..".overrideX == false && $"../AbilitySprites".flip_h == true:
-		$".".flip_h = false
-		turnframe()
-		$"../AbilitySprites".flip_h = false
-	
-	var direction = Input.get_axis("left", "right")
 	#determines if walking or idling
-	if $"..".falling == false && $"..".overrideX == false && turn == false:
+	if $"..".overrideX == false && turn == false:
 		if direction:
-			if $"..".mouthFull == false && $"..".inhaling == false:
+			if $"..".mouthFull == false && $"..".inhaling == false && $"..".falling == false:
 				$".".play("run")
-			elif $"..".mouthFull == true && $"..".inhaling == false:
+			elif $"..".mouthFull == true && $"..".inhaling == false && $"..".falling == false:
 				$".".play("fat run")
 			elif $"..".mouthFull == false && $"..".inhaling == true:
 				$".".play("open run")
 		else:
 			if $"..".crouch == false && $"..".inhaling == false && $"..".run == false && turn == false:
-				if $"..".mouthFull == false:
+				if $"..".mouthFull == false && $"..".falling == false:
 					$".".play( "idle")
-				elif $"..".mouthFull == true:
+				elif $"..".mouthFull == true && $"..".falling == false:
 					$".".play("fat idle")
 
 	#run ani
@@ -55,20 +37,34 @@ func _process(_delta):
 		
 	#spit ani
 	if $"..".spit == true:
-		$".".play("open")
+		$".".play("spit")
 
 	#crouch ani
 	if $"..".crouch == true && $".".animation != "crouch":
 		$".".play("crouch")
 
 	#inhale ani
-	if $"..".inhaling == true && not direction:
+	if $"..".inhaling == true && not direction && $"..".mouthFull == false:
 		$".".play("open")
 
-	if $"..".hurt == true && $"..".mouthFull == false:
-		$".".play("hurt")
-	elif $"..".hurt == true && $"..".mouthFull == true:
-		$".".play("fat hurt")
+func swimani(up,down):
+	if $"../animalfriendcode".bubblestart == true && turn == false:
+		play("swim")
+	if $"../animalfriendcode".bubblestart == false:
+		if up == true:
+			play("swim blow up")
+		if down == true:
+			play("swim blow down")
+		if up == false && down == false:
+			play("swim blow")
+	if not $"..".is_on_floor() && $"../animalfriendcode".bubblestart == true:
+		set_speed_scale(0.5)
+	else:
+		set_speed_scale(1.0)
+
+func abilityani():
+	pass
+
 var saveframe
 var saveani
 var turn = false
@@ -81,6 +77,8 @@ func turnframe():
 		$".".play("turn")
 	if $"..".mouthFull == true:
 		$".".play("fat turn")
+	if $"..".swim == true && not $"..".is_on_floor():
+		play("swim turn")
 	await get_tree().create_timer(0.15).timeout
 	$".".play(saveani)
 	$".".frame = saveframe

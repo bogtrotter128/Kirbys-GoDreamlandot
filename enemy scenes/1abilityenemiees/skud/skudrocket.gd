@@ -43,7 +43,7 @@ func rotatesprite():
 	$AnimatedSprite2D.rotation_degrees = move_toward($AnimatedSprite2D.rotation_degrees, 90, 3)
 
 func _on_body_entered(body):
-	if body.is_in_group("player") or body.name == "maintiles" or body.is_in_group("projectiles"):
+	if body.is_in_group("player") or body.name == "maintiles" or body.is_in_group("projectiles") or body.is_in_group("powblock"):
 		explode()
 func explode():
 	var explod = splode.instantiate()

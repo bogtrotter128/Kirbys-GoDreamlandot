@@ -1,6 +1,7 @@
 extends Node
 #var that checks if gooey is present
 var SECONDPLAYER = false
+var opAbilities = false
 #used for recall function
 var firstplayerrecall = false
 var secondplayerrecall = false
@@ -19,7 +20,7 @@ var STARS = 0
 var SCORES1UP = 0
 
 #this lets me change the max jumps depending on wherever its needed
-var JUMPMAX = 12
+var JUMPMAX = 1
 
 #this is kirbs current copy ability (0 is nothing)
 var ABILITY = 0
@@ -45,18 +46,8 @@ var DIRP2 = 1
 
 #iframes
 var Iframes = false
-var IframeHit = false
 
 var IframesP2 = false
-var IframeHitP2 = false
-
-#this kills the inhale hitbox
-var Killsuck = false
-#kills the ability hitboxes
-var KillAbility = false
-
-var KillsuckP2 = false
-var KillAbilityP2 = false
 
 #player 1 positions
 var posX = 0
@@ -67,11 +58,11 @@ var posYP2 = 0
 
 
 #lvel variables
-
+var tempcollectablelist = []
 #this is the number of hertstars collected
-var HEARTSTARS
+var HEARTSTARS = 0
 #levelmax is the number of levels unlocked
-var levelmax = 1
+var levelmax = 6
 #levelval is the selected level
 var levelval = 1
 #the value represents the number of stages completed/aviable for lvel 1

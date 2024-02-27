@@ -1,0 +1,116 @@
+[gd_scene load_steps=14 format=3 uid="uid://b34pbu68yjr76"]
+
+[ext_resource type="Script" path="res://enemy scenes/basicflightscript.gd" id="1_yfw6x"]
+[ext_resource type="Texture2D" uid="uid://bnp56m02tu32j" path="res://kirbySprites/enemy/scarfy.png" id="2_qb8uk"]
+[ext_resource type="Script" path="res://enemy scenes/flyingenemies/scarfy/scarfy.gd" id="2_s6wnx"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r4o7u"]
+size = Vector2(14, 12)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8e5s5"]
+size = Vector2(20, 19)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vunw0"]
+atlas = ExtResource("2_qb8uk")
+region = Rect2(120, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xo7a0"]
+atlas = ExtResource("2_qb8uk")
+region = Rect2(144, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1av3a"]
+atlas = ExtResource("2_qb8uk")
+region = Rect2(168, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hlsdw"]
+atlas = ExtResource("2_qb8uk")
+region = Rect2(24, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vey3n"]
+atlas = ExtResource("2_qb8uk")
+region = Rect2(48, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qh84f"]
+atlas = ExtResource("2_qb8uk")
+region = Rect2(24, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8k6tb"]
+atlas = ExtResource("2_qb8uk")
+region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wv4bl"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vunw0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xo7a0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1av3a")
+}],
+"loop": true,
+"name": &"chase",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hlsdw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vey3n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qh84f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vey3n")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8k6tb")
+}],
+"loop": true,
+"name": &"hurt",
+"speed": 5.0
+}]
+
+[node name="scarfy" type="CharacterBody2D" groups=["mobs", "suckable"]]
+collision_layer = 2
+script = ExtResource("1_yfw6x")
+
+[node name="Node" type="Node" parent="."]
+script = ExtResource("2_s6wnx")
+
+[node name="hitbox" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_r4o7u")
+debug_color = Color(0.890196, 0.317647, 0.196078, 0.419608)
+
+[node name="playerDetect" type="Area2D" parent="."]
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="playerDetect"]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_8e5s5")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -4)
+sprite_frames = SubResource("SpriteFrames_wv4bl")
+animation = &"hurt"
+autoplay = "default"
+
+[node name="fliptimer" type="Timer" parent="."]
+autostart = true
+
+[node name="fliptimery" type="Timer" parent="."]
+autostart = true
+
+[connection signal="body_entered" from="playerDetect" to="." method="_on_player_detect_body_entered"]
+[connection signal="timeout" from="fliptimer" to="." method="_on_fliptimer_timeout" flags=18]
+[connection signal="timeout" from="fliptimery" to="Node" method="_on_fliptimery_timeout" flags=18]

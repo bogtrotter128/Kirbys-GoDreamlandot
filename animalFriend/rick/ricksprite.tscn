@@ -6,5 +6,5 @@
 [node name="AnimatedSprite2D" type="AnimatedSprite2D"]
 position = Vector2(0, -6)
 sprite_frames = ExtResource("1_0y6os")
-animation = &"hurt"
+animation = &"swim blow down"
 script = ExtResource("2_rj5gg")

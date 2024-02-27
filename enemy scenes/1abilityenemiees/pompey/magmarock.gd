@@ -3,7 +3,7 @@ extends CharacterBody2D
 var rng = RandomNumberGenerator.new()
 var xdist = 0
 var jumpcount = 0
-var copyAbilityScore = 0
+var copyAbilityScore = 4
 func _ready():
 	rng.randomize()
 	xdist = rng.randi_range(-80,80)
@@ -24,6 +24,9 @@ func _physics_process(_delta):
 	move_and_slide()
 
 func _on_area_2d_body_entered(body):
-	if body.is_in_group("player"):
-		await get_tree().create_timer(0.1).timeout
+	if body.is_in_group("player") or body.is_in_group("projectiles"):
+		await get_tree().create_timer(0.09).timeout
 		queue_free()
+
+func damage(_num):
+	queue_free()

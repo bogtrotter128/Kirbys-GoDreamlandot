@@ -3,7 +3,13 @@ extends Node
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	if GameUtils.SECONDPLAYER == false:
+		$"..".queue_free()
+	
 	$"..".DIR = GameUtils.DIRP2
+	if GameUtils.FRENVALP2 > 0:
+		await get_tree().create_timer(0.05).timeout
+		$"..".get_parent().summonfren($"..",GameUtils.FRENVALP2,$"..".swim)
 
 func _input(_event):
 	if Input.is_action_just_pressed("recall2") && GameUtils.RECALL == false:
@@ -13,6 +19,8 @@ func _input(_event):
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
+	if GameUtils.SECONDPLAYER == false:
+		$"..".queue_free()
 	#gets kirbys global position
 	GameUtils.posXP2 = $"..".global_position.x
 	GameUtils.posYP2 = $"..".global_position.y
@@ -27,6 +35,8 @@ func _process(_delta):
 		$"..".hasAbility = true
 	else:
 		$"..".hasAbility = false
+	if GameUtils.ABILITYP2 != 7:
+		$"..".parasolspawn = false
 	#rules for when something enters kirby's mouth
 #BEFORE swallowing
 #after inhaling
@@ -35,4 +45,3 @@ func _process(_delta):
 		$"..".mouthFull = true
 		$"..".jumpCount = $"..".jumpMax
 		$"..".canInhale = false
-		GameUtils.KillsuckP2 = true

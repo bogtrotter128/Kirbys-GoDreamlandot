@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://projectile scenes/swallow_shape.gd" id="1_on113"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rd8e2"]
-size = Vector2(3, 18)
+size = Vector2(7, 20)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3h0ye"]
 atlas = ExtResource("1_233fx")
@@ -83,18 +83,18 @@ collision_mask = 3
 script = ExtResource("1_on113")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0.5, 0)
+position = Vector2(5.5, 0)
 shape = SubResource("RectangleShape2D_rd8e2")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(16.5, 4.76837e-07)
+position = Vector2(23.5, 0)
 scale = Vector2(1.46875, 0.9375)
 sprite_frames = SubResource("SpriteFrames_2iojf")
 animation = &"suck"
 autoplay = "suck"
-frame_progress = 0.501214
 
 [node name="pull" type="Area2D" parent="."]
+position = Vector2(7, 0)
 collision_layer = 3
 collision_mask = 3
 

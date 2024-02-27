@@ -1,0 +1,54 @@
+[gd_scene load_steps=8 format=3 uid="uid://885jdnr07xtl"]
+
+[ext_resource type="Script" path="res://projectile scenes/bubblebox.gd" id="1_1bckw"]
+[ext_resource type="Texture2D" uid="uid://eni7eu7hfc7l" path="res://kirbySprites/effects/bubble.png" id="2_rk36w"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_q57lq"]
+size = Vector2(8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q8b3a"]
+atlas = ExtResource("2_rk36w")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_muyco"]
+atlas = ExtResource("2_rk36w")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gfkd6"]
+atlas = ExtResource("2_rk36w")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tmuc0"]
+animations = [{
+"frames": [{
+"duration": 2.0,
+"texture": SubResource("AtlasTexture_q8b3a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_muyco")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gfkd6")
+}],
+"loop": false,
+"name": &"bubble",
+"speed": 4.0
+}]
+
+[node name="bubblebox" type="Area2D" groups=["projectiles"]]
+collision_layer = 3
+collision_mask = 3
+script = ExtResource("1_1bckw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(12, 0)
+shape = SubResource("RectangleShape2D_q57lq")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(12, -9.53674e-06)
+sprite_frames = SubResource("SpriteFrames_tmuc0")
+animation = &"bubble"
+autoplay = "bubble"
+frame_progress = 1.0
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered" flags=18]

@@ -1,20 +1,24 @@
 extends CharacterBody2D
 
+var frenval
+
 var SPEED = 80.0
+var SPEEDELTA = 4
 
 var overrideX = false
 var overrideY = false
 
 var hurt = false
 var iframes = false
+var normaldamageguard = false
 
 #jumps^^^^^^^^^^^^^^^^^^^^^^^
 var is_jumping = false
 var canJump = true
-const JUMP_VELOCITY_STEP = 0.5
+const JUMP_VELOCITY_STEP = 0.09
 var jump_power_initial = -150
 var jump_power = 0
-var jump_time_max = 0.2
+var jump_time_max = 0.3
 var jump_timer = 0.0
 var jumpCooldown = false
 
@@ -25,6 +29,7 @@ var runcont = false
 var run = false
 var cancheckrun = false
 
+var swim = true
 var falling = false
 var flight = false
 var squish = false
@@ -53,6 +58,7 @@ var JUMP
 var C
 var SELECT
 var DIR
+var DIRV
 func _ready():
 	if is_in_group("player1"):
 		UP = "up"
@@ -81,19 +87,45 @@ func _input(event):
 		if is_in_group("player2"):
 			$animalfriendcode.spitup(GameUtils.mouthValueP2)
 
+##ability input call and inhale input
+	if Input.is_action_just_pressed(A) && abilityCooldown == false && crouch == false:
+		if canInhale == true && inhaling == false && hasAbility == false && swim == false:
+			inhale()
+		if swim == true && hasAbility == false:
+			$animalfriendcode.bubbleblow()
+		if hasAbility == true && is_in_group("player1"):
+			ability(GameUtils.ABILITY)
+		elif hasAbility == true && is_in_group("player2"):
+			ability(GameUtils.ABILITYP2)
+	#stop ability
+	if Input.is_action_just_released(A) && abilitycanstop == true && hasAbility == true or Input.is_action_just_released(A) && swim == true && activeAbility == 0:
+		$animalfriendcode.abilityStop()
+	
+#stop inhaling
+	if Input.is_action_just_released(A) && hasAbility == false && swim == false:
+		abilityCooldown = true
+		if frenval != 1:
+			overrideX = true
+		$abilityCooldown.set_wait_time(0.3)
+		$abilityCooldown.start()
+		await get_tree().create_timer(0.3).timeout
+		inhaleStop()
+	if Input.is_action_pressed(A) && mouthFull == true:
+		inhaleStop()
+
 #handles the long jump release time
 	if event.is_action_released(JUMP) && is_jumping:
 		jump_timer = jump_time_max
 		
 #handles multijump
-	if Input.is_action_just_pressed(JUMP) && is_jumping == true && jumpCooldown == false && canInhale == true && hurt == false:
+	if Input.is_action_just_pressed(JUMP) && is_jumping == true && jumpCooldown == false && hurt == false && swim == false:
 		$animalfriendcode.multijump()
 	
 	if Input.is_action_just_pressed(SELECT) && hasAbility == true && crouch == false && canInhale == true:
 		$projectileProducer.projectShoot($animalfriendcode.dropabilitystar)
 
 #double tap to run checker
-	if Input.is_action_just_released(RIGHT) && falling == false or Input.is_action_just_released(LEFT) && falling == false:
+	if Input.is_action_just_released(RIGHT) or Input.is_action_just_released(LEFT):
 		$runCooloff.start()
 		if Input.is_action_just_released(RIGHT):
 			runCheckR = true
@@ -117,20 +149,11 @@ func _on_run_cooloff_timeout():
 		cancheckrun = true
 
 func _process(_delta):
-#this stops kirby from moving while an ability is active and on the floor
-#excludes the fire ability ( > 1)
-#this is for abilities so kirb wont slide while moving
-	if activeAbility > 0 && is_on_floor():
-		velocity.x = move_toward(velocity.x, 0, 5)
-		overrideX = true
-		velocity.y = 0
-		canJump = false
 #############################################################################
 #i n p u t p r o c e s s e s
-
-	if crouch == false && overrideY == false:
+	if crouch == false && overrideY == false && swim == false:
 		#handles jump input and calls jump function
-		if Input.is_action_pressed(JUMP) && is_jumping == false && canJump == true && overrideX == false:
+		if Input.is_action_pressed(JUMP) && is_jumping == false && canJump == true && overrideX == false && falling == false:
 			$animalfriendcode.jump()
 		#while jump is held, jumptimer increases
 		if Input.is_action_pressed(JUMP) && is_jumping == true && jump_timer < jump_time_max:
@@ -138,115 +161,107 @@ func _process(_delta):
 			apply_jump_force(jump_power)
 
 	if crouchOverride == false:
-		if Input.is_action_pressed(DOWN):
+		if Input.is_action_pressed(DOWN) && $animalfriendcode.bubblestart == true && is_on_floor():
 			docrouch()
-		elif Input.is_action_just_released(DOWN):
+		if Input.is_action_just_released(DOWN) && crouch == true:
 			uncrouch()
-
-#inhale input and function call
-##ability input call
-	if Input.is_action_pressed(A) && abilityCooldown == false && crouch == false:
-		if canInhale == true && inhaling == false && hasAbility == false:
-			inhale()
-		elif hasAbility == true && is_in_group("player1"):
-			GameUtils.KillAbility = false
-			ability(GameUtils.ABILITY)
-		elif hasAbility == true && is_in_group("player2"):
-			GameUtils.KillAbilityP2 = false
-			ability(GameUtils.ABILITYP2)
-	#stop ability
-	if Input.is_action_just_released(A) && abilitycanstop == true:
-		$animalfriendcode.abilityStop()
-	
-#stop inhaling
-	if Input.is_action_just_released(A) && hasAbility == false:
-		$AbilitySprites/abilityCooldown.set_wait_time(0.43)
-		$AbilitySprites/abilityCooldown.start()
-		await get_tree().create_timer(0.43).timeout
-		inhaleStop()
-	elif Input.is_action_pressed(A) && mouthFull == true:
-		inhaleStop()
-	elif inhaling == true && mouthFull == true:
+#inhale stop contingency
+	if inhaling == true && mouthFull == true:
 		inhaleStop()
 
 func _physics_process(delta):
-	# Add the gravity.
-	if not is_on_floor() && overrideY == false:
-		jump_timer += delta
-		$animalfriendcode.fallphysics()
+	var directionv = Input.get_axis(UP, DOWN) #vertical direction. for swimming
+	var direction = Input.get_axis(LEFT, RIGHT) #horizontal direction
+	#swimming direction parameters
+	if overrideX == false && swim == true && mouthFull == false or overrideX == false && swim == true && frenval == 4:
+		if Input.is_action_pressed(JUMP):
+			swimphys(-50,1,4)
+		if directionv == -1 or directionv == 1:
+			DIRV = directionv
+			swimphys(50,directionv,4)
+		if directionv == 0 && direction != 0 or directionv == null && direction != null:
+			swimphys(0,1,1)
+		if directionv == 0 && direction == 0 or directionv == null && direction == null:
+			swimphys(10,1,1)
+	if swim == true && mouthFull == true && frenval != 4:
+		swimphys(20,1,4) # sink while mouthFull
 
-#landing parameters
-	if is_on_floor() && falling == true && crouch == false:
-		falling = false
-		flight = false
-		canJump = true
-		jump_timer = 0.0
-		is_jumping = false
-
-	var direction = Input.get_axis(LEFT, RIGHT)
 	#directional parameters
-	if direction == -1 && overrideX == false:
-		DIR = -1
-	elif direction == 1 && overrideX == false:
-		DIR = 1
-	if DIR == 1 && activeAbility != 4:
-		$projectileProducer.rotation = 0
-		$projectileProducer.position.x = 8
-	elif DIR == -1 && activeAbility != 4:
-		$projectileProducer.rotation_degrees = 180
-		$projectileProducer.position.x = -8
-	if direction:
-		if overrideX == false:
-			velocity.x = move_toward(velocity.x, SPEED * direction, 4)
-			cancheckrun = true
-	else:
+	if direction == -1 && overrideX == false or direction == 1 && overrideX == false:
+		DIR = direction
+	if direction && overrideX == false:
+		velocity.x = move_toward(velocity.x, SPEED * direction, SPEEDELTA)
+		cancheckrun = true
+	if direction == 0 or direction == null:
 		#this line will be contingecnies where kirby should not stop moving while idle
 		if activeAbility == 0:
 			velocity.x = move_toward(velocity.x, 0, 7)
 			if cancheckrun == true:
 				cancheckrun = false
 				$runCooloff.start()
-
-
 	#speed parameters run / mouthful / etc
 	if overrideX == false: #this stops the whole override x form breaking
 		if run == true && mouthFull == false:
 			SPEED = 123
+			SPEEDELTA = 5
 		elif run == true && mouthFull == true:
 			SPEED = 96
+			SPEEDELTA = 5
 		elif mouthFull == true && run == false:
 			SPEED = 60
-		if flight == true:
+			SPEEDELTA = 4
+		if flight == true or swim == true:
 			SPEED = 70
-	if run == false:
-		SPEED = 80
+			SPEEDELTA = 4
+		if run == false && flight == false:
+			SPEED = 80
+			SPEEDELTA = 4
+	if swim == false:
+		groundphys(delta)
+	move_and_slide()
 
+func swimphys(vspeed,directionv,vdelta):
+	velocity.y = move_toward(velocity.y, vspeed * directionv, vdelta)
+
+func groundphys(delta):
+	# Add the gravity.
+	if not is_on_floor() && overrideY == false:
+		jump_timer += delta
+		$animalfriendcode.fallphysics()
+
+#landing parameters
+	if is_on_floor() && crouch == false:
+		landed()
 #squishes/boucnes when hits wall. 
 #max angle was set to 50' so to not collide with slopes
 	if is_on_wall() && falling == false && run == true:
 		run = false
 		squish = true
-	move_and_slide()
+
+func landed():
+	falling = false
+	flight = false
+	canJump = true
+	jump_timer = 0.0
+	is_jumping = false
 
 func apply_jump_force(power):
 	velocity.y = power
 
 func inhale():
-	$globalvars.killsuck(false)
 	$animalfriendcode.inhale()
 	canInhale = false
 	inhaling = true
 	$projectileProducer.projectFollow($animalfriendcode.suckScene)
 
 func inhaleStop():
-	$globalvars.killsuck(true)
+	inhaling = false
 	canJump = true
 	canInhale = true
-	inhaling = false
 	overrideX = false
 	abilityCooldown = true
-	$"AbilitySprites/abilityCooldown".set_wait_time(0.1)
-	$"AbilitySprites/abilityCooldown".start()
+	$"abilityCooldown".set_wait_time(0.1)
+	$"abilityCooldown".start()
 
 func docrouch():
 	if mouthFull == true:
@@ -260,7 +275,6 @@ func docrouch():
 		$normalhitbox.call_deferred("set", "disabled", true)
 	
 func uncrouch():
-	velocity.x = 0
 	crouch = false
 	overrideX = false
 	canInhale = true
@@ -268,21 +282,27 @@ func uncrouch():
 	$normalhitbox.call_deferred("set", "disabled", false)
 
 func swallow():
-	if is_in_group("player1"):
+	canInhale = true
+	if is_in_group("player1") && GameUtils.HELDABILITY >= 0:
 		GameUtils.ABILITY = GameUtils.HELDABILITY
 		GameUtils.mouthValue = 1
 		Hud.updateability()
-	if is_in_group("player2"):
+	if is_in_group("player2") && GameUtils.HELDABILITYP2 >= 0:
 		GameUtils.ABILITYP2 = GameUtils.HELDABILITYP2
 		GameUtils.mouthValueP2 = 1
 		Hud.updateability2()
-	canInhale = true
+	if is_in_group("player1") && GameUtils.HELDABILITY == -1:
+		GameUtils.mouthValue = 1
+		$damDect.damage()
+	if is_in_group("player2") && GameUtils.HELDABILITYP2 == -1:
+		GameUtils.mouthValueP2 = 1
+		$damDect.damage()
 	mouthFull = false
 
 func spitCascade():
 	spit = true
-	$AbilitySprites/abilityCooldown.set_wait_time(0.5)
-	$AbilitySprites/abilityCooldown.start()
+	$abilityCooldown.set_wait_time(0.5)
+	$abilityCooldown.start()
 	$globalvars.mouthvalset(1)
 	overrideX = true
 	abilityCooldown = true

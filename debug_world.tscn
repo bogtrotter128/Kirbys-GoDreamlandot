@@ -6,17 +6,17 @@
 [ext_resource type="Script" path="res://debugroomBackground.gd" id="2_st8d3"]
 [ext_resource type="PackedScene" uid="uid://cffnod8y6bfir" path="res://level scenes/props/hp_bottle.tscn" id="9_cki6w"]
 [ext_resource type="PackedScene" uid="uid://dwlgh5abfpira" path="res://level scenes/props/semipermi_platform.tscn" id="10_6hieb"]
-[ext_resource type="PackedScene" uid="uid://ckudoho3yjmxy" path="res://level scenes/props/block.tscn" id="10_kftcp"]
+[ext_resource type="PackedScene" uid="uid://ckudoho3yjmxy" path="res://level scenes/props/powblock.tscn" id="10_kftcp"]
 [ext_resource type="PackedScene" uid="uid://dgm1jnw7hjvym" path="res://level scenes/props/staritem.tscn" id="10_v523t"]
 [ext_resource type="PackedScene" uid="uid://hbjrfoyoqjtd" path="res://enemy scenes/1abilityenemiees/pompey/pompey.tscn" id="11_miydq"]
 [ext_resource type="PackedScene" uid="uid://cpkaxo2x886gj" path="res://enemy scenes/1abilityenemiees/skud/skud.tscn" id="11_oubwc"]
 [ext_resource type="PackedScene" uid="uid://bg024827ft6ej" path="res://enemy scenes/1abilityenemiees/sasuke/sasuke.tscn" id="12_cc27g"]
-[ext_resource type="PackedScene" uid="uid://dq7wbej2hfcx0" path="res://enemy scenes/waddledee/waddledee.tscn" id="13_t14u7"]
+[ext_resource type="PackedScene" uid="uid://dq7wbej2hfcx0" path="res://enemy scenes/genericenemies/waddledee/waddledee.tscn" id="13_t14u7"]
 [ext_resource type="PackedScene" uid="uid://dru78msdfbsvo" path="res://enemy scenes/1abilityenemiees/sasuke/sasuke_special.tscn" id="14_eaup5"]
 [ext_resource type="PackedScene" uid="uid://dwyfkd7t14k4v" path="res://enemy scenes/hazardenemies/shotzo.tscn" id="15_4in8o"]
 [ext_resource type="PackedScene" uid="uid://c3iff1fh3j5od" path="res://player/playerloadinscene.tscn" id="15_31lpu"]
 [ext_resource type="PackedScene" uid="uid://dpiaxh05g3jsi" path="res://animalFriend/idlefriend.scn" id="16_opm4o"]
-[ext_resource type="PackedScene" uid="uid://cptrqxvvxtatd" path="res://enemy scenes/brontoburt/brontoburt.tscn" id="17_0iuec"]
+[ext_resource type="PackedScene" uid="uid://cptrqxvvxtatd" path="res://enemy scenes/flyingenemies/brontoburt/brontoburt.tscn" id="17_0iuec"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_p5wi4"]
 texture = ExtResource("1_wrelu")
@@ -1469,11 +1469,9 @@ position = Vector2(864, 320)
 
 [node name="brontoburt" parent="enemy" instance=ExtResource("17_0iuec")]
 position = Vector2(800, 16)
-dirY = 0
 
 [node name="brontoburt2" parent="enemy" instance=ExtResource("17_0iuec")]
 position = Vector2(928, 8)
-dirY = 0
 
 [node name="playerloadinscene" parent="." instance=ExtResource("15_31lpu")]
 z_index = 128

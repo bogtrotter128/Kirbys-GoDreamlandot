@@ -1,18 +1,12 @@
 extends CharacterBody2D
-var WINDFORCEX = 0.0
-var WINDFORCEY = 0.0
 
 @export var copyAbilityScore = 4
 @export var HP = 2
 @export var magmarock : PackedScene
+var deathpoof = preload("res://enemy scenes/deathpoof/deathsprite.tscn")
 func _physics_process(_delta):
 	if not is_on_floor():
-			velocity.y = move_toward(velocity.y, 200, 7)
-	#adds wind blowing force
-	if WINDFORCEX > 0 && velocity.x < WINDFORCEX or WINDFORCEX < 0 && velocity.x > WINDFORCEX:
-		velocity.x = move_toward(velocity.x, velocity.x + WINDFORCEX, 5)
-	if WINDFORCEY != 0:
-		velocity.y = move_toward(velocity.y, WINDFORCEY, 16)
+		velocity.y = move_toward(velocity.y, 200, 7)
 	move_and_slide()
 
 var playerdetected = false
@@ -25,13 +19,14 @@ func _process(_delta):
 
 func _on_player_detect_body_entered(body):
 	if body.is_in_group("player"):
-		$AnimatedSprite2D.play("fire")
+		$AnimatedSprite2D.play("hot")
 		playerdetected = true
 		$playerDetect/CollisionShape2D.call_deferred("set", "disabled", true)
 		$cooloffTime.start()
 
 func spout():
 	canfire = false
+	$AnimatedSprite2D.play("fire")
 	var magma = magmarock.instantiate()
 	add_sibling(magma)
 	magma.transform = $Marker2D.global_transform
@@ -41,7 +36,12 @@ func _on_timer_timeout():
 		canfire = true
 
 func death():
-	self.queue_free() 
+	velocity.x = 0
+	velocity.y = -50 
+	var poof = deathpoof.instantiate()
+	call_deferred("add_sibling", poof)
+	poof.global_transform = global_transform
+	self.queue_free()
 
 func damage(value):
 	HP -= value

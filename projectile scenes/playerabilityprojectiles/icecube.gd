@@ -17,6 +17,8 @@ func _on_visible_on_screen_notifier_2d_screen_exited():
 	self.queue_free()
 
 func _on_area_2d_body_entered(body):
+	if body == null:
+		pass
 	if body.is_in_group("player") && start == false:
 		print("start")
 		start = true
@@ -27,6 +29,8 @@ func _on_area_2d_body_entered(body):
 		body.blockbreak()
 
 func _on_walldetect_body_entered(body):
-	if body.name == "maintiles":
-		await get_tree().create_timer(0.4).timeout
+	if body == null:
+		pass
+	if body.name == "maintiles" or body.is_in_group("powblock"):
+		await get_tree().create_timer(0.1).timeout
 		self.queue_free()

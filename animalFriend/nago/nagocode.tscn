@@ -1,6 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://b64trert7g3kn"]
+[gd_scene load_steps=4 format=3 uid="uid://b64trert7g3kn"]
 
 [ext_resource type="Script" path="res://animalFriend/nago/nagocode.gd" id="1_mdqbc"]
+[ext_resource type="PackedScene" uid="uid://cvlekmeh7id7m" path="res://projectile scenes/starshoot.tscn" id="2_avma5"]
+[ext_resource type="PackedScene" uid="uid://dhtqv8jigpmji" path="res://projectile scenes/ability_star_drop.tscn" id="4_ud55a"]
 
 [node name="animalfriendcode" type="Node"]
 script = ExtResource("1_mdqbc")
+starFire = ExtResource("2_avma5")
+dropabilitystar = ExtResource("4_ud55a")

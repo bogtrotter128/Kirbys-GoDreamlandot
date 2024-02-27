@@ -1,0 +1,140 @@
+[gd_scene load_steps=14 format=3 uid="uid://trpy6qqsfqgt"]
+
+[ext_resource type="Script" path="res://enemy scenes/basicflightscript.gd" id="1_ekt45"]
+[ext_resource type="Script" path="res://enemy scenes/waterenemies/mony/mony.gd" id="2_xtfre"]
+[ext_resource type="Texture2D" uid="uid://dj2ytwlreqkbs" path="res://kirbySprites/enemy/mony.png" id="3_quq2d"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r4o7u"]
+size = Vector2(14, 12)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_06rnx"]
+size = Vector2(48, 14)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_moxwv"]
+size = Vector2(42, 8)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_em1p0"]
+size = Vector2(78.5, 75.875)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aqaab"]
+atlas = ExtResource("3_quq2d")
+region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_upep3"]
+atlas = ExtResource("3_quq2d")
+region = Rect2(24, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ktvn3"]
+atlas = ExtResource("3_quq2d")
+region = Rect2(48, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_um2p0"]
+atlas = ExtResource("3_quq2d")
+region = Rect2(72, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3vc83"]
+atlas = ExtResource("3_quq2d")
+region = Rect2(96, 0, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1ex28"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aqaab")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_upep3")
+}, {
+"duration": 1.5,
+"texture": SubResource("AtlasTexture_ktvn3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_um2p0")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3vc83")
+}],
+"loop": true,
+"name": &"hurt",
+"speed": 5.0
+}]
+
+[node name="mony" type="CharacterBody2D" groups=["mobs", "suckable"]]
+collision_layer = 2
+script = ExtResource("1_ekt45")
+
+[node name="breathtimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="Node" type="Node" parent="."]
+script = ExtResource("2_xtfre")
+
+[node name="hitbox" type="CollisionShape2D" parent="."]
+position = Vector2(0, -1)
+shape = SubResource("RectangleShape2D_r4o7u")
+debug_color = Color(0.890196, 0.317647, 0.196078, 0.419608)
+
+[node name="walldetectX" type="Area2D" parent="."]
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="walldetectX"]
+position = Vector2(0, -1)
+shape = SubResource("RectangleShape2D_06rnx")
+debug_color = Color(0.686275, 0.494118, 0.172549, 0.419608)
+
+[node name="walldetectY" type="Area2D" parent="."]
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="walldetectY"]
+position = Vector2(-7.59045e-05, -1.00001)
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_moxwv")
+debug_color = Color(0.662745, 0.513726, 0.0705882, 0.419608)
+
+[node name="playerDetect" type="Area2D" parent="."]
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="playerDetect"]
+position = Vector2(0, -0.0625)
+shape = SubResource("RectangleShape2D_em1p0")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -4)
+sprite_frames = SubResource("SpriteFrames_1ex28")
+animation = &"hurt"
+autoplay = "default"
+
+[node name="fliptimer" type="Timer" parent="."]
+autostart = true
+
+[node name="fliptimery" type="Timer" parent="."]
+wait_time = 0.4
+autostart = true
+
+[node name="water detect" type="Area2D" parent="."]
+collision_layer = 7
+collision_mask = 7
+
+[node name="hitbox" type="CollisionShape2D" parent="water detect"]
+position = Vector2(0, -1)
+shape = SubResource("RectangleShape2D_r4o7u")
+debug_color = Color(0.890196, 0.317647, 0.196078, 0.419608)
+
+[connection signal="timeout" from="breathtimer" to="Node" method="_on_breathtimer_timeout"]
+[connection signal="body_entered" from="walldetectX" to="." method="_on_walldetect_x_body_entered" flags=18]
+[connection signal="body_entered" from="walldetectY" to="." method="_on_walldetect_y_body_entered" flags=18]
+[connection signal="body_entered" from="playerDetect" to="." method="_on_player_detect_body_entered" flags=18]
+[connection signal="body_exited" from="playerDetect" to="." method="_on_player_detect_body_exited" flags=18]
+[connection signal="timeout" from="fliptimer" to="." method="_on_fliptimer_timeout" flags=18]
+[connection signal="timeout" from="fliptimery" to="Node" method="_on_fliptimery_timeout" flags=18]
+[connection signal="body_entered" from="water detect" to="Node" method="_on_water_detect_body_entered"]
+[connection signal="body_exited" from="water detect" to="Node" method="_on_water_detect_body_exited"]

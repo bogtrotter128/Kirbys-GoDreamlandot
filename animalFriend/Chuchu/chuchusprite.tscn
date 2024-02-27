@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://animalFriend/Chuchu/chuchusprite.gd" id="2_usnag"]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D"]
-position = Vector2(0, -6)
+position = Vector2(-1, -6)
 sprite_frames = ExtResource("1_s51xt")
-animation = &"open"
+animation = &"climbidle"
 script = ExtResource("2_usnag")

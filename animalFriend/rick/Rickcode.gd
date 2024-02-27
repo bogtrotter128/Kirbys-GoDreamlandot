@@ -1,6 +1,7 @@
 extends Node
 
 @export var starFire : PackedScene
+var bubble = preload("res://projectile scenes/bubblebox.tscn")
 @export var suckScene : PackedScene
 @export var dropabilitystar : PackedScene
 
@@ -29,7 +30,7 @@ func fallphysics():
 	$"..".is_jumping = true
 	if wallcling == false:
 		$"..".velocity.y = move_toward($"..".velocity.y, 200, 7)
-	if wallcling == true:
+	if wallcling == true && $"..".swim == false:
 		$"..".velocity.y = move_toward($"..".velocity.y, 150, 7)
 func inhale():
 	pass
@@ -58,13 +59,23 @@ func _input(_event):
 		jump()
 
 func _physics_process(_delta):
-	if $"..".is_on_wall_only() && wallcling == true:
+	if $"..".is_on_wall_only() && wallcling == true && $"..".swim == false:
 		$"..".velocity.y = 0
 		walljump = true
 	if not $"..".is_on_wall_only():
 		wallcling = false
 		walljump = false
+	if bubblego == true && bubblestart == false:
+		bubblego = false
+		$"../projectileProducer".projectShoot(bubble)
 
+var bubblestart = true
+var bubblego = false
+func bubbleblow():
+	if bubblestart == true:
+		bubblestart = false
+		bubblego = false
+		$"../bubbletimer".start()
 ##########################################
 
 func fire():
@@ -91,13 +102,13 @@ func broom():
 	pass
 
 func abilityStop():
-	$"../globalvars".killAbility(true)
 	$"..".set_floor_max_angle(1)
 	$"..".activeAbility = 0
 	$"..".velocity.x = 0
+	bubblestart = true
 	$"..".canJump = true
 	$"..".overrideX = false
 	$"..".overrideY = false
 	$"../normalhitbox".call_deferred("set", "disabled", false)
-	$"../AbilitySprites/abilityCooldown".set_wait_time(0.07)
-	$"../AbilitySprites/abilityCooldown".start()
+	$"../abilityCooldown".set_wait_time(0.07)
+	$"../abilityCooldown".start()

@@ -1,18 +1,51 @@
 extends Node
 
 @export var starFire : PackedScene
-@export var suckScene : PackedScene
+var suckScene
 @export var dropabilitystar : PackedScene
 
 @export var fireAbilityBox : PackedScene
 @export var shockAbilityBox : PackedScene
 @export var iceAbilityBox : PackedScene
 @export var stoneAbilityBox : PackedScene
-@export var dustspawn : PackedScene
 @export var cutterAbilityBox : PackedScene
 @export var parasolAbilityBox : PackedScene
 @export var broomAbilityBox : PackedScene
+func _ready():
+	if $"..".is_in_group("player1"):
+		suckScene = load("res://projectile scenes/swallow_shape.tscn")
+	if $"..".is_in_group("player2"):
+		suckScene = load("res://projectile scenes/tongue_shape.tscn")
 
+func _input(_event):
+	if Input.is_action_just_released($"..".RIGHT) or Input.is_action_just_released($"..".LEFT):
+		$"../runCooloff".start()
+		if Input.is_action_just_released($"..".RIGHT):
+			$"..".runCheckR = true
+			$"../doubletap".start()
+		elif Input.is_action_just_released($"..".LEFT):
+			$"..".runCheckL = true
+			$"../doubletap".start()
+	elif $"..".runCheckR == true or $"..".runcont == true:
+		if Input.is_action_pressed($"..".RIGHT):
+			$"..".run = true
+	elif $"..".runCheckL == true or $"..".runcont == true:
+		if Input.is_action_pressed($"..".LEFT):
+			$"..".run = true
+	#cancel underwter inhaling/bubble
+	if Input.is_action_just_released($"..".A) && bubblestart == false:
+		$"../abilityCooldown".set_wait_time(0.43)
+		$"../abilityCooldown".start()
+		await get_tree().create_timer(0.43).timeout
+		bubblestart = true
+		$"..".inhaleStop()
+
+func _physics_process(_delta):
+	var direction = Input.get_axis($"..".LEFT, $"..".RIGHT)
+	if direction && $"..".is_on_floor() && $"..".crouch == false:
+		$"..".velocity.y = -50
+		$"..".is_jumping = false
+	
 func jump():
 	if $"..".is_jumping == false:
 		$"..".jump_timer = 0.0
@@ -40,7 +73,12 @@ func spitup(v):
 	if v == 2:
 		$"../projectileProducer".projectShoot(starFire)
 	$"..".spitCascade()
-
+var bubblestart = true
+var bubblego = false
+func bubbleblow():
+	if bubblestart == true:
+		bubblestart = false
+		$"..".inhale()
 ##########################################
 
 func fire():
@@ -67,7 +105,6 @@ func broom():
 	pass
 
 func abilityStop():
-	$"../globalvars".killAbility(true)
 	$"..".set_floor_max_angle(1)
 	$"..".activeAbility = 0
 	$"..".velocity.x = 0
@@ -75,5 +112,5 @@ func abilityStop():
 	$"..".overrideX = false
 	$"..".overrideY = false
 	$"../normalhitbox".call_deferred("set", "disabled", false)
-	$"../AbilitySprites/abilityCooldown".set_wait_time(0.07)
-	$"../AbilitySprites/abilityCooldown".start()
+	$"../abilityCooldown".set_wait_time(0.07)
+	$"../abilityCooldown".start()

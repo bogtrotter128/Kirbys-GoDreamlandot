@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3 uid="uid://btqehgv847h8l"]
+
+[ext_resource type="Script" path="res://projectile scenes/playerabilityprojectiles/iceabilityhitbox.gd" id="1_gpx3e"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dgx46"]
+size = Vector2(39.75, 38.125)
+
+[node name="iceabilityhitbox" type="Node2D"]
+script = ExtResource("1_gpx3e")
+
+[node name="snowblowtimer" type="Timer" parent="."]
+wait_time = 0.15
+autostart = true
+
+[node name="blizzardbody" type="Area2D" parent="."]
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="blizzardbody"]
+shape = SubResource("RectangleShape2D_dgx46")
+disabled = true
+
+[connection signal="timeout" from="snowblowtimer" to="." method="_on_snowblowtimer_timeout"]
+[connection signal="body_entered" from="blizzardbody" to="." method="_on_blizzardbody_body_entered"]

@@ -1,0 +1,106 @@
+[gd_scene load_steps=12 format=3 uid="uid://idynajkio3qc"]
+
+[ext_resource type="Script" path="res://enemy scenes/genericfollowscript.gd" id="1_pwe74"]
+[ext_resource type="Script" path="res://enemy scenes/waterenemies/squishy/squishy.gd" id="2_don37"]
+[ext_resource type="Texture2D" uid="uid://d1pjmlw2vgf6e" path="res://kirbySprites/enemy/squishy.png" id="3_a0kl8"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7wmwy"]
+atlas = ExtResource("3_a0kl8")
+region = Rect2(24, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_21y32"]
+atlas = ExtResource("3_a0kl8")
+region = Rect2(48, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rdw3p"]
+atlas = ExtResource("3_a0kl8")
+region = Rect2(72, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_45x3n"]
+atlas = ExtResource("3_a0kl8")
+region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0dq8w"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7wmwy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_21y32")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rdw3p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_21y32")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_45x3n")
+}],
+"loop": true,
+"name": &"hurt",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3ms36"]
+size = Vector2(14, 14)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vu7vg"]
+size = Vector2(119.992, 106)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vu073"]
+size = Vector2(4, 14)
+
+[node name="squishy" type="CharacterBody2D" groups=["mobs", "suckable"]]
+collision_layer = 2
+script = ExtResource("1_pwe74")
+
+[node name="Node" type="Node" parent="."]
+script = ExtResource("2_don37")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_0dq8w")
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 2)
+shape = SubResource("RectangleShape2D_3ms36")
+debug_color = Color(1, 0.00784314, 0.117647, 0.419608)
+
+[node name="playerDetect" type="Area2D" parent="."]
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="playerDetect"]
+position = Vector2(-0.0139179, -9)
+shape = SubResource("RectangleShape2D_vu7vg")
+
+[node name="waterdetect" type="Area2D" parent="."]
+collision_layer = 7
+collision_mask = 7
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="waterdetect"]
+position = Vector2(0, 2)
+shape = SubResource("RectangleShape2D_vu073")
+debug_color = Color(0.909804, 0.298039, 0, 0.419608)
+
+[node name="TurnTimer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[node name="runtimertimeout" type="Timer" parent="."]
+wait_time = 4.0
+one_shot = true
+
+[connection signal="body_entered" from="playerDetect" to="." method="_on_player_detect_body_entered" flags=18]
+[connection signal="body_exited" from="playerDetect" to="." method="_on_player_detect_body_exited" flags=18]
+[connection signal="body_entered" from="waterdetect" to="Node" method="_on_waterdetect_body_entered" flags=18]
+[connection signal="body_exited" from="waterdetect" to="Node" method="_on_waterdetect_body_exited" flags=18]
+[connection signal="timeout" from="TurnTimer" to="." method="_on_turn_timer_timeout" flags=18]
+[connection signal="timeout" from="runtimertimeout" to="." method="_on_runtimertimeout_timeout" flags=18]

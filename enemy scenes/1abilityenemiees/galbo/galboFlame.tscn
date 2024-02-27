@@ -19,13 +19,12 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5bjfn"]
-size = Vector2(15.5, 5)
+size = Vector2(10, 5)
 
-[node name="galboFlame" type="Area2D" groups=["hazard"]]
+[node name="galboFlame" type="Area2D" groups=["mobs"]]
 position = Vector2(-46, 0)
 collision_layer = 3
 collision_mask = 3
-priority = 1
 script = ExtResource("1_ivv86")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -36,8 +35,9 @@ autoplay = "flame"
 frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-8.25, 0.5)
+position = Vector2(-8, 0.5)
 shape = SubResource("RectangleShape2D_5bjfn")
 debug_color = Color(0.807843, 0.403922, 0.235294, 0.117647)
 
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

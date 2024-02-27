@@ -1,0 +1,257 @@
+[gd_scene load_steps=30 format=3 uid="uid://ilkfwv071ibh"]
+
+[ext_resource type="Texture2D" uid="uid://dhnycvkllsyho" path="res://kirbySprites/enemy/mariel spritesheet.png" id="1_0pvbc"]
+[ext_resource type="Script" path="res://enemy scenes/basicpatrolscript.gd" id="1_e2m5b"]
+[ext_resource type="Script" path="res://enemy scenes/genericenemies/mariel/marielscript.gd" id="2_nath1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j13xn"]
+atlas = ExtResource("1_0pvbc")
+region = Rect2(75, 0, 75, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7mhfm"]
+atlas = ExtResource("1_0pvbc")
+region = Rect2(150, 0, 75, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8nfx8"]
+atlas = ExtResource("1_0pvbc")
+region = Rect2(225, 0, 75, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t3d57"]
+atlas = ExtResource("1_0pvbc")
+region = Rect2(300, 0, 75, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yielx"]
+atlas = ExtResource("1_0pvbc")
+region = Rect2(375, 0, 75, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w1pp4"]
+atlas = ExtResource("1_0pvbc")
+region = Rect2(0, 90, 75, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mfgkw"]
+atlas = ExtResource("1_0pvbc")
+region = Rect2(75, 90, 75, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o08rm"]
+atlas = ExtResource("1_0pvbc")
+region = Rect2(375, 0, 75, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eckcq"]
+atlas = ExtResource("1_0pvbc")
+region = Rect2(300, 0, 75, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c60qa"]
+atlas = ExtResource("1_0pvbc")
+region = Rect2(225, 0, 75, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t7pxg"]
+atlas = ExtResource("1_0pvbc")
+region = Rect2(150, 0, 75, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8ui2i"]
+atlas = ExtResource("1_0pvbc")
+region = Rect2(75, 0, 75, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1c57s"]
+atlas = ExtResource("1_0pvbc")
+region = Rect2(0, 0, 75, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3vl21"]
+atlas = ExtResource("1_0pvbc")
+region = Rect2(0, 0, 75, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dyrys"]
+atlas = ExtResource("1_0pvbc")
+region = Rect2(75, 0, 75, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cgpdl"]
+atlas = ExtResource("1_0pvbc")
+region = Rect2(375, 45, 75, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gdep0"]
+atlas = ExtResource("1_0pvbc")
+region = Rect2(0, 45, 75, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rhc0l"]
+atlas = ExtResource("1_0pvbc")
+region = Rect2(75, 45, 75, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dxlr0"]
+atlas = ExtResource("1_0pvbc")
+region = Rect2(150, 45, 75, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mta4t"]
+atlas = ExtResource("1_0pvbc")
+region = Rect2(225, 45, 75, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0wsas"]
+atlas = ExtResource("1_0pvbc")
+region = Rect2(300, 45, 75, 45)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_uv3h1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j13xn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7mhfm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8nfx8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t3d57")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yielx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w1pp4")
+}, {
+"duration": 2.0,
+"texture": SubResource("AtlasTexture_mfgkw")
+}],
+"loop": false,
+"name": &"apear",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o08rm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eckcq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c60qa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t7pxg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8ui2i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1c57s")
+}],
+"loop": false,
+"name": &"disapear",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 20.0,
+"texture": SubResource("AtlasTexture_3vl21")
+}, {
+"duration": 5.0,
+"texture": SubResource("AtlasTexture_dyrys")
+}],
+"loop": true,
+"name": &"hide",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cgpdl")
+}],
+"loop": true,
+"name": &"hurt",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gdep0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rhc0l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dxlr0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mta4t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0wsas")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 8.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_a3yi3"]
+size = Vector2(22, 23)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fbhws"]
+size = Vector2(244, 42)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_124dn"]
+size = Vector2(2.74884, 28.8788)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gnneu"]
+size = Vector2(30, 5)
+
+[node name="mariel" type="CharacterBody2D" groups=["mobs", "suckable"]]
+collision_layer = 2
+floor_constant_speed = true
+floor_snap_length = 12.0
+script = ExtResource("1_e2m5b")
+
+[node name="marielscript" type="Node" parent="."]
+script = ExtResource("2_nath1")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, 4)
+sprite_frames = SubResource("SpriteFrames_uv3h1")
+animation = &"hurt"
+autoplay = "hide"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 14)
+shape = SubResource("RectangleShape2D_a3yi3")
+one_way_collision = true
+one_way_collision_margin = 0.0
+
+[node name="playerDetect" type="Area2D" parent="."]
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="playerDetect"]
+position = Vector2(0, 5)
+shape = SubResource("RectangleShape2D_fbhws")
+debug_color = Color(0.709804, 0.470588, 0.337255, 0.419608)
+
+[node name="fall detect L" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="fall detect L"]
+position = Vector2(-19, 26)
+shape = SubResource("RectangleShape2D_124dn")
+debug_color = Color(0.631373, 0.52549, 0.152941, 0.419608)
+
+[node name="fall detect R" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="fall detect R"]
+position = Vector2(19, 26)
+shape = SubResource("RectangleShape2D_124dn")
+debug_color = Color(0.631373, 0.52549, 0.152941, 0.419608)
+
+[node name="wall detect" type="Area2D" parent="."]
+position = Vector2(0, 4)
+collision_layer = 7
+collision_mask = 7
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="wall detect"]
+position = Vector2(-9.53674e-07, 1.5)
+shape = SubResource("RectangleShape2D_gnneu")
+debug_color = Color(0.658824, 0.505882, 0.286275, 0.419608)
+
+[node name="runtimertimeout" type="Timer" parent="."]
+wait_time = 4.0
+one_shot = true
+
+[connection signal="body_entered" from="playerDetect" to="marielscript" method="_on_player_detect_body_entered"]
+[connection signal="body_exited" from="playerDetect" to="marielscript" method="_on_player_detect_body_exited"]
+[connection signal="body_exited" from="fall detect L" to="marielscript" method="_on_fall_detect_l_body_exited"]
+[connection signal="body_exited" from="fall detect R" to="marielscript" method="_on_fall_detect_r_body_exited"]
+[connection signal="body_entered" from="wall detect" to="marielscript" method="_on_wall_detect_body_entered"]
+[connection signal="timeout" from="runtimertimeout" to="marielscript" method="_on_timer_timeout"]

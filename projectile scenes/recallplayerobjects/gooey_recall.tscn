@@ -1,11 +1,106 @@
-[gd_scene load_steps=9 format=3 uid="uid://6vxd6jb341a2"]
+[gd_scene load_steps=19 format=3 uid="uid://6vxd6jb341a2"]
 
 [ext_resource type="Script" path="res://projectile scenes/recallplayerobjects/gooey_recall.gd" id="1_4s7un"]
 [ext_resource type="Texture2D" uid="uid://bxppm0tf31fa1" path="res://kirbySprites/gooey/return.png" id="1_38fsh"]
 [ext_resource type="PackedScene" uid="uid://beawese0p28hw" path="res://player/player_2.tscn" id="2_kgikv"]
+[ext_resource type="Texture2D" uid="uid://wot08pjwun0c" path="res://kirbySprites/friends/ball.png" id="4_8fb2v"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_k5e17"]
-size = Vector2(22, 6.25)
+[sub_resource type="AtlasTexture" id="AtlasTexture_hrufr"]
+atlas = ExtResource("4_8fb2v")
+region = Rect2(0, 0, 4, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lh8uy"]
+atlas = ExtResource("4_8fb2v")
+region = Rect2(0, 0, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uv8qh"]
+atlas = ExtResource("4_8fb2v")
+region = Rect2(40, 0, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xkyvq"]
+atlas = ExtResource("4_8fb2v")
+region = Rect2(80, 0, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lb24j"]
+atlas = ExtResource("4_8fb2v")
+region = Rect2(120, 0, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7cxu0"]
+atlas = ExtResource("4_8fb2v")
+region = Rect2(160, 0, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_okgbj"]
+atlas = ExtResource("4_8fb2v")
+region = Rect2(200, 0, 40, 40)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wewcr"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hrufr")
+}],
+"loop": true,
+"name": &"0",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lh8uy")
+}],
+"loop": true,
+"name": &"1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uv8qh")
+}],
+"loop": true,
+"name": &"2",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xkyvq")
+}],
+"loop": true,
+"name": &"3",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lb24j")
+}],
+"loop": true,
+"name": &"4",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7cxu0")
+}],
+"loop": true,
+"name": &"5",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_okgbj")
+}],
+"loop": true,
+"name": &"6",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"7",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"8",
+"speed": 5.0
+}]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_t2skv"]
 atlas = ExtResource("1_38fsh")
@@ -36,24 +131,44 @@ animations = [{
 "speed": 8.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_b1avv"]
+size = Vector2(10, 21)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_er12p"]
+size = Vector2(15, 2)
+
 [node name="GooeyRecall" type="Area2D" groups=["player2"]]
 collision_layer = 3
 collision_mask = 3
 script = ExtResource("1_4s7un")
 GooeySpawn = ExtResource("2_kgikv")
 
-[node name="Marker2D" type="Marker2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 11.125)
-shape = SubResource("RectangleShape2D_k5e17")
-debug_color = Color(0, 0.6, 0.701961, 0.419608)
+[node name="ballfriend" type="AnimatedSprite2D" parent="."]
+position = Vector2(-2, -5)
+sprite_frames = SubResource("SpriteFrames_wewcr")
+animation = &"5"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -7)
 sprite_frames = SubResource("SpriteFrames_y4t26")
 autoplay = "default"
-frame_progress = 0.607928
+frame_progress = 0.540992
 
-[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1.5)
+shape = SubResource("RectangleShape2D_b1avv")
+debug_color = Color(0, 0.6, 0.701961, 0.419608)
+
+[node name="playerdetect" type="Area2D" parent="."]
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="playerdetect"]
+position = Vector2(0, 3)
+shape = SubResource("RectangleShape2D_er12p")
+debug_color = Color(0, 0.6, 0.701961, 0.419608)
+
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]
+[connection signal="area_entered" from="playerdetect" to="." method="_on_playerdetect_area_entered"]
+[connection signal="body_entered" from="playerdetect" to="." method="_on_playerdetect_body_entered"]

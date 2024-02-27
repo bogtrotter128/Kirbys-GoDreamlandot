@@ -2,36 +2,93 @@ extends Node2D
 
 var friend = preload("res://animalFriend/animalfriend.tscn")
 var dropfriend = preload("res://animalFriend/idlefriend.scn")
+@onready var pause = $"HUD/pause menu"
+var paused = false
+
+var kirbyrecall = preload("res://projectile scenes/recallplayerobjects/kirby_recall.tscn")
+var gooeyrecall = preload("res://projectile scenes/recallplayerobjects/gooey_recall.tscn") 
 
 var friendlist = [
 	"res://animalFriend/rick/Rickcode.tscn",
-	"res://animalFriend/Chuchu/Chuchucode.tscn"
-	
+	"res://animalFriend/Chuchu/Chuchucode.tscn",
+	"res://animalFriend/coo/coocode.tscn",
+	"res://animalFriend/kine/kinecode.tscn",
+	"res://animalFriend/nago/nagocode.tscn",
+	"res://animalFriend/pitch/pitchcode.tscn"
 ]
 var friendspritelist = [
 	"res://animalFriend/rick/ricksprite.tscn",
-	"res://animalFriend/Chuchu/chuchusprite.tscn"
-	
+	"res://animalFriend/Chuchu/chuchusprite.tscn",
+	"res://animalFriend/coo/coosprite.tscn",
+	"res://animalFriend/kine/kinesprite.tscn",
+	"res://animalFriend/nago/nagosprite.tscn",
+	"res://animalFriend/pitch/pitchsprite.tscn"
+]
+var friendspritelist2 = [
+	"res://animalFriend/rick/ricksprite2.tscn",
+	"res://animalFriend/Chuchu/chuchusprite2.tscn",
+	"res://animalFriend/coo/coosprite2.tscn",
+	"res://animalFriend/kine/kinesprite2.tscn",
+	"res://animalFriend/nago/nagosprite2.tscn",
+	"res://animalFriend/pitch/pitchsprite2.tscn"
 ]
 
-func _ready():
-	if GameUtils.FRENVAL > 0:
-		summonfren($Player1,GameUtils.FRENVAL)
-	if GameUtils.FRENVALP2 > 0:
-		summonfren($Player2,GameUtils.FRENVALP2)
+var uiInputs = ["1","2","3","4","5","6","7","8","9"]
+var hashTable = {
+	"1":1,
+	"2":2,
+	"3":3,
+	"4":4,
+	"5":5,
+	"6":6,
+	"7":7,
+	"8":8,
+	"9":9
+}
 
-func summonfren(player,frenval): #only used by the players, not animal friends. is called by idlefriends
+func _ready():
+	clearcollectables()
+
+func cameralimits(up, down, left, right):
+	$Camera2D.set_limit(SIDE_TOP, up)
+	$Camera2D.set_limit(SIDE_BOTTOM, down)
+	$Camera2D.set_limit(SIDE_LEFT, left)
+	$Camera2D.set_limit(SIDE_RIGHT, right)
+
+func playerposition(p1, p2):
+	$Player1.position = p1
+	$Player2.position = p2
+	$Camera2D.position = p1
+
+func _process(_delta): # change this to just a direction method call of kirbcall/goocall
+	if GameUtils.secondplayerrecall == true:
+		goorecall()
+	if GameUtils.firstplayerrecall == true:
+		kirbrecall()
+
+func _input(event):
+	if Input.is_action_just_pressed("start"):
+		pauseMenu()
+	if GameUtils.opAbilities == true:
+		opAbilityInput(event)
+
+func summonfren(player,frenval,swimcheck): #only used by the players, not animal friends. is called by idlefriends
 	var animalfriend = friend.instantiate()
 	var friendcode = load(friendlist[frenval -1]).instantiate()#YOU MUST INSTATIATE A RESOURCE
-	var friendsprite = load(friendspritelist[frenval -1]).instantiate()# BEFORE CALLING IT AS A NODE
+	var friendsprite# BEFORE CALLING IT AS A NODE
 	if player.is_in_group("player1"):
 		GameUtils.FRENVAL = frenval
 		animalfriend.DIR = GameUtils.DIR
 		animalfriend.add_to_group("player1")
+		friendsprite = load(friendspritelist[frenval -1]).instantiate()
 	if player.is_in_group("player2"):
 		GameUtils.FRENVALP2 = frenval
 		animalfriend.DIR = GameUtils.DIRP2
 		animalfriend.add_to_group("player2")
+		friendsprite = load(friendspritelist2[frenval -1]).instantiate()
+	print(swimcheck)
+	animalfriend.swim = swimcheck
+	print(animalfriend.swim)
 	animalfriend.add_child(friendcode) #adds the code node to the animalfriend
 	animalfriend.add_child(friendsprite) #adds the sprite and code to the animal friend
 	animalfriend.position = Vector2(player.position.x,player.position.y - 2)
@@ -39,17 +96,31 @@ func summonfren(player,frenval): #only used by the players, not animal friends. 
 	player.queue_free()
 	#summon correct animal friend in their position
 
-func dropanimalfriend(playerl,friendval,pos):
+func dropanimalfriend(playerl,friendval,pos,dir,swimcheck):
 	var animalfrienddrop = dropfriend.instantiate()
 	var player = playerl.instantiate()
 	animalfrienddrop.frenval = friendval
 	animalfrienddrop.position = pos
+	animalfrienddrop.swim = swimcheck
 	call_deferred("add_child", animalfrienddrop)
 	player.position = pos
-	call_deferred("add_child", player) # why does this sometimes dupe the player??
+	player.swim = swimcheck
+	if friendval == 4: #makes kine spit out kirby
+		player.velocity.x += 200 * dir
+	call_deferred("add_child", player)
+	await get_tree().create_timer(0.2).timeout
 	#AND SUMMON THE PLAYER BACK
 
-var gooeyrecall = preload("res://projectile scenes/recallplayerobjects/gooey_recall.tscn") 
+func gooeyspawn(): #spawns gooey
+	GameUtils.SECONDPLAYER = true
+	var summongoo
+	summongoo = gooeyrecall.instantiate()
+	summongoo.position = Vector2(GameUtils.posX - 15, GameUtils.posY - 25)
+	add_child(summongoo)
+	await get_tree().create_timer(3).timeout
+	GameUtils.RECALL = false
+
+#recall funcs
 func goorecall():
 	GameUtils.secondplayerrecall = false
 	var summongoo
@@ -59,8 +130,7 @@ func goorecall():
 	await get_tree().create_timer(3).timeout
 	GameUtils.RECALL = false
 
-var kirbyrecall = preload("res://projectile scenes/recallplayerobjects/kirby_recall.tscn")
-func kirbcall():
+func kirbrecall():
 	GameUtils.firstplayerrecall = false
 	var summonkirb
 	summonkirb = kirbyrecall.instantiate()
@@ -69,8 +139,30 @@ func kirbcall():
 	await get_tree().create_timer(3).timeout
 	GameUtils.RECALL = false
 
-func _process(_delta):
-	if GameUtils.secondplayerrecall == true:
-		goorecall()
-	if GameUtils.firstplayerrecall == true:
-		kirbcall()
+func pauseMenu():
+	if paused:
+		pause.set_process_input(false)
+		pause.hide()
+		await get_tree().create_timer(0.1).timeout
+		get_tree().paused = false
+	else:
+		pause.set_process_input(true)
+		pause.show()
+		get_tree().paused = true
+	pause.selected = 1
+	pause.movestart()
+	paused = !paused
+
+func opAbilityInput(event):
+	if event.as_text() in uiInputs:
+		GameUtils.ABILITY = hashTable[event.as_text()]
+		GameUtils.ABILITYP2 = hashTable[event.as_text()]
+		Hud.updateability()
+		Hud.updateability2()
+		
+func clearcollectables():
+	for i in GameUtils.tempcollectablelist.size():
+		if GameUtils.tempcollectablelist[i] != null:
+			GameUtils.tempcollectablelist[i].queue_free()
+#		if i == GameUtils.tempcollectablelist.size():
+#			GameUtils.tempcollectablelist = []

@@ -2,11 +2,11 @@
 
 [ext_resource type="Script" path="res://projectile scenes/swallow_shape.gd" id="1_4yhcm"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_30mdf"]
-size = Vector2(3, 18)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_n4hky"]
+size = Vector2(7, 20)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_x30nb"]
-size = Vector2(42, 19)
+size = Vector2(42, 18)
 
 [node name="TongueShape" type="Area2D"]
 collision_layer = 3
@@ -14,15 +14,16 @@ collision_mask = 3
 script = ExtResource("1_4yhcm")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0.5, 0)
-shape = SubResource("RectangleShape2D_30mdf")
+position = Vector2(5.5, 0)
+shape = SubResource("RectangleShape2D_n4hky")
 
 [node name="pull" type="Area2D" parent="."]
+position = Vector2(7, 0)
 collision_layer = 3
 collision_mask = 3
 
 [node name="pullcollshape" type="CollisionShape2D" parent="pull"]
-position = Vector2(20, 0.5)
+position = Vector2(20, 0)
 shape = SubResource("RectangleShape2D_x30nb")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

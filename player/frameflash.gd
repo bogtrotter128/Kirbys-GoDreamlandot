@@ -1,6 +1,5 @@
 extends Timer
 
-
 func flash():
 	#flashes ability sprites if active
 	if $"../..".activeAbility > 0:

@@ -1,49 +1,64 @@
 extends AnimatedSprite2D
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+var anistarted = false
+var upani = false
+var normani = false
+var runani = false
+
 func _process(_delta):
 	if $"..".activeAbility > 0:
-		$".".visible=true
+		abilityanimations()
+		visible=true
 	else:
-		$".".visible=false
-
-
+		visible=false
+		anistarted = false
+		upani = false
+		normani = false
+		runani = false
+		
+func abilityanimations():
 #fire ability animations
-	var firescoreS = $"../projectileProducer".firescore
-	if $"../projectileProducer".firestart == true:
-		$".".play("firestart")
-	if $"..".activeAbility == 1 && $"../projectileProducer".firestart == false:
-		if firescoreS >= 21:
-			# strong fire
-			$".".play("firestrong")
-		elif firescoreS > 10 && firescoreS < 21:
-			# mid fire
-			$".".play("firemid")
-		elif firescoreS <= 10:
-			# small fire
-			$".".play("firesmall")
+	if $"..".activeAbility == 1 && anistarted == false:
+		if upani == true:
+			play("fireup start")
+			await animation_finished
+			play("fireup")
+		if runani == true:
+			play("fireburst start")
+			await animation_finished
+			play("fireburst")
+		if normani == true:
+			play("fireblow")
+		anistarted = true
 	
 #shock ability animaions
 	if $"../projectileProducer".shockstart == true:
-		$".".play("shockstart")
+		play("shockstart")
 	if $"..".activeAbility == 2 && $"../projectileProducer".shockstart == false:
-		$".".play("shockloop")
+		play("shockloop")
 
 #ice ability animaions
-	if $"../projectileProducer".icestart == true:
-		$".".play("icestart")
-	if $"..".activeAbility == 3 && $"../projectileProducer".icestart == false:
-		$".".play("iceloop")
+	if $"..".activeAbility == 3 && anistarted == false:
+		if upani == true:
+			play("iceupstart")
+			await animation_finished
+			play("iceup")
+		if upani == false:
+			play("icestart")
+			await animation_finished
+			play("iceloop")
+		anistarted = true
 
 #stone ability animations
 	if $"..".activeAbility == 4:
+		if not $"..".is_on_wall():
+			$".".play("rockstart")
 		if $"..".velocity.y == 0:
 			$".".play("rockstart")
 		if $"..".is_on_wall():
 			if $"..".velocity.y > 0 or $"..".velocity.y < 0:
 				$".".play("rockloop")
-		if not $"..".is_on_wall() && $".".animation == "rockloop":
-			$".".play("rockstart")
+
 
 #spike ability animaions
 	if $"../projectileProducer".spikestart == true:
@@ -55,5 +70,11 @@ func _process(_delta):
 	if $"../projectileProducer".cutterstart == true:
 		play("cutter")
 #parasol
-
+	if $"..".activeAbility == 7:
+		play("parasol")
 #broom
+	if $"..".activeAbility == 8:
+		if $"..".run == false:
+			play("sweep")
+		if $"..".run == true:
+			play("sweepswipe")

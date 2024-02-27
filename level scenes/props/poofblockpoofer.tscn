@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://b0f8qtg50t141"]
+
+[ext_resource type="Script" path="res://level scenes/props/poofblockpoofer.gd" id="1_n4c8s"]
+
+[node name="poofer" type="Area2D"]
+script = ExtResource("1_n4c8s")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-12, -3, -3, -3, -3, -13, 3, -13, 3, -3, 12, -3, 12, 3, 3, 3, 3, 13, -3, 13, -3, 3, -12, 3)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

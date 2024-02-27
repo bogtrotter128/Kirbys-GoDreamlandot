@@ -1,0 +1,127 @@
+[gd_scene load_steps=13 format=3 uid="uid://cdbledm4pmihl"]
+
+[ext_resource type="Texture2D" uid="uid://0t5brtomlhow" path="res://kirbySprites/enemy/bo.png" id="1_2gfmb"]
+[ext_resource type="Script" path="res://enemy scenes/basicflightscript.gd" id="1_nmc3r"]
+[ext_resource type="Script" path="res://enemy scenes/flyingenemies/bo/bo.gd" id="2_tbhck"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r4o7u"]
+size = Vector2(14, 12)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_06rnx"]
+size = Vector2(48, 14)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_moxwv"]
+size = Vector2(42, 8)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_em1p0"]
+size = Vector2(73.75, 69.9844)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fuvoa"]
+atlas = ExtResource("1_2gfmb")
+region = Rect2(0, 0, 23, 23)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_semjn"]
+atlas = ExtResource("1_2gfmb")
+region = Rect2(23, 0, 23, 23)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hgi4m"]
+atlas = ExtResource("1_2gfmb")
+region = Rect2(46, 0, 23, 23)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fsmfv"]
+atlas = ExtResource("1_2gfmb")
+region = Rect2(69, 0, 23, 23)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1q255"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fuvoa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_semjn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hgi4m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fsmfv")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fuvoa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_semjn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hgi4m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fsmfv")
+}],
+"loop": true,
+"name": &"hurt",
+"speed": 5.0
+}]
+
+[node name="bo" type="CharacterBody2D" groups=["mobs", "suckable"]]
+collision_layer = 2
+script = ExtResource("1_nmc3r")
+
+[node name="Node" type="Node" parent="."]
+script = ExtResource("2_tbhck")
+
+[node name="hitbox" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_r4o7u")
+debug_color = Color(0.890196, 0.317647, 0.196078, 0.419608)
+
+[node name="walldetectX" type="Area2D" parent="."]
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="walldetectX"]
+position = Vector2(0, -1)
+shape = SubResource("RectangleShape2D_06rnx")
+debug_color = Color(0.686275, 0.494118, 0.172549, 0.419608)
+
+[node name="walldetectY" type="Area2D" parent="."]
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="walldetectY"]
+position = Vector2(1.45455e-05, -6.5)
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_moxwv")
+debug_color = Color(0.662745, 0.513726, 0.0705882, 0.419608)
+
+[node name="playerDetect" type="Area2D" parent="."]
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="playerDetect"]
+shape = SubResource("RectangleShape2D_em1p0")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -4)
+sprite_frames = SubResource("SpriteFrames_1q255")
+animation = &"hurt"
+autoplay = "default"
+
+[node name="fliptimer" type="Timer" parent="."]
+autostart = true
+
+[node name="fliptimery" type="Timer" parent="."]
+wait_time = 0.4
+autostart = true
+
+[connection signal="body_entered" from="walldetectX" to="." method="_on_walldetect_x_body_entered"]
+[connection signal="body_entered" from="walldetectY" to="." method="_on_walldetect_y_body_entered"]
+[connection signal="body_entered" from="playerDetect" to="." method="_on_player_detect_body_entered"]
+[connection signal="body_exited" from="playerDetect" to="." method="_on_player_detect_body_exited"]
+[connection signal="timeout" from="fliptimer" to="." method="_on_fliptimer_timeout"]
+[connection signal="timeout" from="fliptimery" to="Node" method="_on_fliptimery_timeout"]
