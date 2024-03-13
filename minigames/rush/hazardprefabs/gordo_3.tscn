@@ -1,0 +1,83 @@
+[gd_scene load_steps=9 format=3 uid="uid://cco6bj81f3own"]
+
+[ext_resource type="Texture2D" uid="uid://dpjlrjeqq0cve" path="res://kirbySprites/enemy/gordoyellow.png" id="1_nih4c"]
+[ext_resource type="Script" path="res://minigames/rush/screenculler.gd" id="2_6l5v7"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w6chy"]
+atlas = ExtResource("1_nih4c")
+region = Rect2(0, 0, 21, 21)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7a2dm"]
+atlas = ExtResource("1_nih4c")
+region = Rect2(21, 0, 21, 21)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cjei5"]
+atlas = ExtResource("1_nih4c")
+region = Rect2(42, 0, 21, 21)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_stq0w"]
+atlas = ExtResource("1_nih4c")
+region = Rect2(63, 0, 21, 21)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4waxl"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w6chy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7a2dm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cjei5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_stq0w")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hgev2"]
+size = Vector2(16, 16)
+
+[node name="gordo 3" type="Node2D"]
+
+[node name="gordo" type="StaticBody2D" parent="." groups=["hazard"]]
+position = Vector2(0, 76)
+collision_layer = 2
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="gordo"]
+sprite_frames = SubResource("SpriteFrames_4waxl")
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="gordo"]
+shape = SubResource("RectangleShape2D_hgev2")
+
+[node name="gordo2" type="StaticBody2D" parent="." groups=["hazard"]]
+position = Vector2(0, 56)
+collision_layer = 2
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="gordo2"]
+sprite_frames = SubResource("SpriteFrames_4waxl")
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="gordo2"]
+shape = SubResource("RectangleShape2D_hgev2")
+
+[node name="gordo3" type="StaticBody2D" parent="." groups=["hazard"]]
+position = Vector2(0, 36)
+collision_layer = 2
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="gordo3"]
+sprite_frames = SubResource("SpriteFrames_4waxl")
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="gordo3"]
+shape = SubResource("RectangleShape2D_hgev2")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+script = ExtResource("2_6l5v7")
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="VisibleOnScreenNotifier2D" method="_on_screen_exited"]

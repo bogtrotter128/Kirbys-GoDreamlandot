@@ -1,0 +1,68 @@
+[gd_scene load_steps=10 format=3 uid="uid://cpahrkckq17il"]
+
+[ext_resource type="Texture2D" uid="uid://htghtl7gt1un" path="res://kirbySprites/enemy/pteran.png" id="1_5y6s2"]
+[ext_resource type="Script" path="res://minigames/rush/pteran_hazard.gd" id="1_ulmxb"]
+[ext_resource type="PackedScene" uid="uid://6dyrg2q7kmni" path="res://minigames/rush/star.tscn" id="3_njbh8"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xw1jd"]
+atlas = ExtResource("1_5y6s2")
+region = Rect2(24, 0, 24, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_43el5"]
+atlas = ExtResource("1_5y6s2")
+region = Rect2(48, 0, 24, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4s6b0"]
+atlas = ExtResource("1_5y6s2")
+region = Rect2(72, 0, 24, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_msc2u"]
+atlas = ExtResource("1_5y6s2")
+region = Rect2(96, 0, 24, 18)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_oexaf"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xw1jd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_43el5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4s6b0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_msc2u")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_i5hfg"]
+size = Vector2(20, 11)
+
+[node name="pteran hazard" type="StaticBody2D" groups=["hazard"]]
+position = Vector2(0, -69)
+collision_layer = 2
+script = ExtResource("1_ulmxb")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(140, 0)
+sprite_frames = SubResource("SpriteFrames_oexaf")
+autoplay = "default"
+frame_progress = 0.32653
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(140, 0.5)
+shape = SubResource("RectangleShape2D_i5hfg")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(140, 0)
+
+[node name="star" parent="." instance=ExtResource("3_njbh8")]
+position = Vector2(140, 17)
+starscore = 2
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

@@ -1,0 +1,95 @@
+[gd_scene load_steps=13 format=3 uid="uid://ctjqrg65uj4le"]
+
+[ext_resource type="Texture2D" uid="uid://dasmy03ir6me" path="res://kirbySprites/tiles/minigames/blockball pinball.png" id="1_a8kqs"]
+[ext_resource type="Script" path="res://minigames/blockBall/gelly_bumper.gd" id="1_njuee"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tva6p"]
+atlas = ExtResource("1_a8kqs")
+region = Rect2(72, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_80358"]
+atlas = ExtResource("1_a8kqs")
+region = Rect2(0, 24, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e1y7h"]
+atlas = ExtResource("1_a8kqs")
+region = Rect2(32, 24, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h2lu4"]
+atlas = ExtResource("1_a8kqs")
+region = Rect2(64, 24, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eg5ma"]
+atlas = ExtResource("1_a8kqs")
+region = Rect2(96, 24, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fa0yb"]
+atlas = ExtResource("1_a8kqs")
+region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hglej"]
+atlas = ExtResource("1_a8kqs")
+region = Rect2(24, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pihbh"]
+atlas = ExtResource("1_a8kqs")
+region = Rect2(48, 0, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_rlkjd"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tva6p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_80358")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e1y7h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h2lu4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eg5ma")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tva6p")
+}],
+"loop": false,
+"name": &"bump",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fa0yb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hglej")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pihbh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hglej")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4k3y3"]
+size = Vector2(16, 15.25)
+
+[node name="gelly bumper" type="StaticBody2D" groups=["paddle"]]
+script = ExtResource("1_njuee")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(8, 7)
+sprite_frames = SubResource("SpriteFrames_rlkjd")
+animation = &"bump"
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(8, 7.375)
+shape = SubResource("RectangleShape2D_4k3y3")

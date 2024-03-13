@@ -13,6 +13,14 @@ var extracoords = [Vector2(-1,-120),
 	Vector2(103,92),Vector2(148,12),Vector2(85,-100)]
 var showeyecount = 0
 
+var sfx = {
+	"menu_select" : preload("res://kirbySprites/sfx/menu-select.wav"),
+	"cantselect" : preload("res://kirbySprites/sfx/toss.wav"),
+	"enter_select" : preload("res://kirbySprites/sfx/enter-door.wav"),
+	"pausesound" : preload("res://kirbySprites/sfx/pause.wav"),
+	"eyesound" : preload("res://kirbySprites/sfx/woosh2.wav")
+}
+
 func _ready():
 	levelscore = GameUtils.levelval
 	$popstar.rotation_degrees -= 72 * (GameUtils.levelval - 1)
@@ -36,14 +44,19 @@ func _input(_event):
 	#level select
 	if Input.is_action_just_pressed("a") or Input.is_action_just_pressed("P2a") or Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("P2jump"):
 		if popstar == true:
+			Sfxhandler.play_sfx(sfx["enter_select"],get_parent())
 			GameUtils.levelval = levelscore
+			await get_tree().create_timer(0.1).timeout
 			stageswitchscene()
 		if darkstar == true:
 			print("level 6")
 		if extras == true:
 			if selected < GameUtils.levelmax or GameUtils.levelmax > 5:
+				Sfxhandler.play_sfx(sfx["enter_select"],get_parent())
+				await get_tree().create_timer(0.1).timeout
 				extraswitchscene(selected)
 			if selected > GameUtils.levelmax:
+				Sfxhandler.play_sfx(sfx["cantselect"],get_parent())
 				print("not unlocked")
 			
 	#moves up around the menu
@@ -52,11 +65,15 @@ func _input(_event):
 			$playersprites.position.y -= 40
 			popstar = false
 			extras = true
+			Sfxhandler.play_sfx(sfx["pausesound"],get_parent())
 			extrainput(0)
 		if darkstar == true:
+			Sfxhandler.play_sfx(sfx["pausesound"],get_parent())
 			darkstar = false
 			levelscore = tempscore
 			popstar = true
+		if extras == true:
+			Sfxhandler.play_sfx(sfx["cantselect"],get_parent())
 		
 	#moves down around the menu
 	if Input.is_action_just_pressed("down") or Input.is_action_just_pressed("P2down"):
@@ -72,6 +89,7 @@ func _input(_event):
 				showeye()
 		if extras == true:
 			extras = false
+			Sfxhandler.play_sfx(sfx["pausesound"],get_parent())
 			$playersprites.position.x = -1
 			$playersprites.scale = Vector2(1,1)
 			await get_tree().create_timer(0.1).timeout
@@ -85,16 +103,19 @@ func popstarinput(dir):
 			targetdegree += 72
 			levelscore -= 1
 			levelscore = 5 if levelscore < 1 else levelscore
+			Sfxhandler.play_sfx(sfx["menu_select"],get_parent())
 		spinspeed +=1
 	if dir == 1 && $popstar.rotation_degrees == targetdegree:
 		if levelscore + 1 <= GameUtils.levelmax or levelscore == 5:
 			targetdegree -= 72
 			levelscore += 1
 			levelscore = 1 if levelscore > 5 else levelscore
+			Sfxhandler.play_sfx(sfx["menu_select"],get_parent())
 		spinspeed +=1
 
 func extrainput(dir):
 	if $playersprites.position == extracoords[selected]:
+		Sfxhandler.play_sfx(sfx["menu_select"],get_parent())
 		selected += dir
 		spinspeed +=1
 		selected = 6 if selected < 0 else selected
@@ -165,8 +186,11 @@ func showeye():
 	if showeyecount % 3 == 0:
 		$darkeye.visible = true
 		$darkeye.play("large")
+		Sfxhandler.play_sfx(sfx["eyesound"],get_parent())
 		await get_tree().create_timer(0.2).timeout
 		$darkeye.visible = false
+	else:
+		Sfxhandler.play_sfx(sfx["cantselect"],get_parent())
 
 var cantween = true
 func tweener():

@@ -1,0 +1,109 @@
+[gd_scene load_steps=9 format=3 uid="uid://3xivhham1rhs"]
+
+[ext_resource type="Texture2D" uid="uid://byhoc2n4j0g0v" path="res://kirbySprites/enemy/gordored.png" id="1_u6xfx"]
+[ext_resource type="PackedScene" uid="uid://6dyrg2q7kmni" path="res://minigames/rush/star.tscn" id="3_e5ng8"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lbbae"]
+atlas = ExtResource("1_u6xfx")
+region = Rect2(0, 0, 21, 21)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rhgkc"]
+atlas = ExtResource("1_u6xfx")
+region = Rect2(21, 0, 21, 21)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nbreg"]
+atlas = ExtResource("1_u6xfx")
+region = Rect2(42, 0, 21, 21)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mk4rp"]
+atlas = ExtResource("1_u6xfx")
+region = Rect2(63, 0, 21, 21)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4waxl"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lbbae")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rhgkc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nbreg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mk4rp")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hgev2"]
+size = Vector2(16, 16)
+
+[node name="gordo 2 line red" type="Node2D"]
+
+[node name="gordo" type="StaticBody2D" parent="." groups=["hazard"]]
+position = Vector2(-29, 75)
+collision_layer = 2
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="gordo"]
+sprite_frames = SubResource("SpriteFrames_4waxl")
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="gordo"]
+shape = SubResource("RectangleShape2D_hgev2")
+
+[node name="gordo2" type="StaticBody2D" parent="." groups=["hazard"]]
+position = Vector2(-29, 55)
+collision_layer = 2
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="gordo2"]
+sprite_frames = SubResource("SpriteFrames_4waxl")
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="gordo2"]
+shape = SubResource("RectangleShape2D_hgev2")
+
+[node name="gordo3" type="StaticBody2D" parent="." groups=["hazard"]]
+position = Vector2(321, 75)
+collision_layer = 2
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="gordo3"]
+sprite_frames = SubResource("SpriteFrames_4waxl")
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="gordo3"]
+shape = SubResource("RectangleShape2D_hgev2")
+
+[node name="gordo4" type="StaticBody2D" parent="." groups=["hazard"]]
+position = Vector2(321, 55)
+collision_layer = 2
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="gordo4"]
+sprite_frames = SubResource("SpriteFrames_4waxl")
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="gordo4"]
+shape = SubResource("RectangleShape2D_hgev2")
+
+[node name="star" parent="." instance=ExtResource("3_e5ng8")]
+position = Vector2(148, 75)
+starscore = 2
+
+[node name="star2" parent="." instance=ExtResource("3_e5ng8")]
+position = Vector2(117, 75)
+starscore = 2
+
+[node name="star3" parent="." instance=ExtResource("3_e5ng8")]
+position = Vector2(180, 75)
+starscore = 2
+
+[node name="star4" parent="." instance=ExtResource("3_e5ng8")]
+position = Vector2(211, 75)
+starscore = 2
+
+[node name="star5" parent="." instance=ExtResource("3_e5ng8")]
+position = Vector2(85, 75)
+starscore = 2

@@ -1,0 +1,61 @@
+[gd_scene load_steps=9 format=3 uid="uid://yle7x4e05w5x"]
+
+[ext_resource type="Texture2D" uid="uid://byhoc2n4j0g0v" path="res://kirbySprites/enemy/gordored.png" id="1_q04hh"]
+[ext_resource type="Script" path="res://minigames/rush/screenculler.gd" id="3_f1inc"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5vgg0"]
+atlas = ExtResource("1_q04hh")
+region = Rect2(0, 0, 21, 21)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8jg57"]
+atlas = ExtResource("1_q04hh")
+region = Rect2(21, 0, 21, 21)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iydt1"]
+atlas = ExtResource("1_q04hh")
+region = Rect2(42, 0, 21, 21)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tjosi"]
+atlas = ExtResource("1_q04hh")
+region = Rect2(63, 0, 21, 21)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4waxl"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5vgg0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8jg57")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iydt1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tjosi")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hgev2"]
+size = Vector2(16, 16)
+
+[node name="gordo 1" type="Node2D"]
+
+[node name="gordo" type="StaticBody2D" parent="." groups=["hazard"]]
+position = Vector2(0, 75)
+collision_layer = 2
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="gordo"]
+sprite_frames = SubResource("SpriteFrames_4waxl")
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="gordo"]
+shape = SubResource("RectangleShape2D_hgev2")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+script = ExtResource("3_f1inc")
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="VisibleOnScreenNotifier2D" method="_on_screen_exited"]

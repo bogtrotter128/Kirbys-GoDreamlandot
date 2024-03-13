@@ -1,0 +1,88 @@
+[gd_scene load_steps=14 format=3 uid="uid://dafvcgxioxx0p"]
+
+[ext_resource type="Texture2D" uid="uid://bfkx83asp68wf" path="res://kirbySprites/props/blocks/breakanimation.png" id="1_2mvhg"]
+[ext_resource type="Script" path="res://minigames/blockBall/starblock.gd" id="1_6tbmu"]
+[ext_resource type="Texture2D" uid="uid://orounscqai0f" path="res://kirbySprites/props/blocks/powblock.png" id="2_8swnh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_64l85"]
+size = Vector2(16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x03r5"]
+atlas = ExtResource("1_2mvhg")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_irhyg"]
+atlas = ExtResource("1_2mvhg")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ljf5v"]
+atlas = ExtResource("1_2mvhg")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f8jba"]
+atlas = ExtResource("1_2mvhg")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pqt3e"]
+atlas = ExtResource("1_2mvhg")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_324lx"]
+atlas = ExtResource("1_2mvhg")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tsrpq"]
+atlas = ExtResource("1_2mvhg")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nu34c"]
+atlas = ExtResource("2_8swnh")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1el04"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x03r5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_irhyg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ljf5v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f8jba")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pqt3e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_324lx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tsrpq")
+}],
+"loop": false,
+"name": &"appear",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nu34c")
+}],
+"loop": false,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="starblock" type="StaticBody2D" groups=["block"]]
+script = ExtResource("1_6tbmu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(8, 8)
+shape = SubResource("RectangleShape2D_64l85")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(8, 8)
+sprite_frames = SubResource("SpriteFrames_1el04")

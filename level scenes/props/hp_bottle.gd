@@ -2,7 +2,11 @@ extends CharacterBody2D
 
 @export var gravityCheck = false
 @export var healamount = 1
+var rng = RandomNumberGenerator.new()
+var ranint = rng.randi_range(0,46)
 
+func _ready():
+	$Sprite2D.frame = ranint
 #functions that DOES THE THINGGGGG
 func _on_area_detect_body_entered(body):
 	if body.is_in_group("player"):

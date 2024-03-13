@@ -63,10 +63,6 @@ sprite_frames = SubResource("SpriteFrames_0tyxc")
 autoplay = "default"
 frame_progress = 0.551226
 
-[node name="selecttimer" type="Timer" parent="."]
-wait_time = 0.15
-autostart = true
-
 [node name="options" type="Node2D" parent="."]
 
 [node name="Sprite2D" type="Sprite2D" parent="options"]
@@ -94,5 +90,3 @@ stretch_mode = 2
 layout_mode = 2
 texture = ExtResource("4_hx2fb")
 stretch_mode = 2
-
-[connection signal="timeout" from="selecttimer" to="." method="_on_selecttimer_timeout"]

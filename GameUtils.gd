@@ -17,7 +17,7 @@ var MAXHPP2 = 8
 #these are the star points kirb has
 var STARS = 0
 # 1 ups
-var SCORES1UP = 0
+var SCORES1UP = 3
 
 #this lets me change the max jumps depending on wherever its needed
 var JUMPMAX = 1
@@ -46,10 +46,9 @@ var DIRP2 = 1
 
 #iframes
 var Iframes = false
-
 var IframesP2 = false
 
-#player 1 positions
+#player 1 positions these should be vectors but its too late now
 var posX = 0
 var posY = 0
 #player 2 positions
@@ -81,3 +80,10 @@ var stage4HS= [false, false, false,false, false, false]
 
 var stageval5 = 1
 var stage5HS= [false, false, false,false, false, false]
+
+#minigame vars
+var rushhiscore = [0,0.0,0,0.0,0,0.0,0,0.0,0,0.0,0,0.0]
+var rushstagescore = [11,12,13,21,22,23,31,32,33,88] # 88 is endless mode, cause infinity 8
+
+var blockballhiscore = [0,0,0,0,0,0]
+var blockballstagescore = [11,12,13,14,15,21,22,23,24,25,31,32,33,34,35] #the stage scores ex.1-1, 2-1, 3-1

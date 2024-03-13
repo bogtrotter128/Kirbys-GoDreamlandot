@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://bg1yc30wqu0du"]
+
+[ext_resource type="Script" path="res://minigames/rush/treat.gd" id="1_whs67"]
+[ext_resource type="Texture2D" uid="uid://5wf1u2fed6hb" path="res://kirbySprites/props/hpdrink.png" id="2_l8r88"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cpbw4"]
+
+[node name="StaticBody2D" type="StaticBody2D" groups=["collectable"]]
+collision_layer = 2
+script = ExtResource("1_whs67")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(1.4, 1.4)
+texture = ExtResource("2_l8r88")
+hframes = 46
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_cpbw4")

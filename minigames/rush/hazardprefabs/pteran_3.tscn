@@ -1,0 +1,99 @@
+[gd_scene load_steps=10 format=3 uid="uid://qrx7xyxvjgv8"]
+
+[ext_resource type="Script" path="res://minigames/rush/hazardprefabs/pteran_3.gd" id="1_85kyh"]
+[ext_resource type="Texture2D" uid="uid://htghtl7gt1un" path="res://kirbySprites/enemy/pteran.png" id="1_vth0q"]
+[ext_resource type="PackedScene" uid="uid://bg1yc30wqu0du" path="res://minigames/rush/treat.tscn" id="3_6mk7n"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xw1jd"]
+atlas = ExtResource("1_vth0q")
+region = Rect2(24, 0, 24, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_43el5"]
+atlas = ExtResource("1_vth0q")
+region = Rect2(48, 0, 24, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4s6b0"]
+atlas = ExtResource("1_vth0q")
+region = Rect2(72, 0, 24, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_msc2u"]
+atlas = ExtResource("1_vth0q")
+region = Rect2(96, 0, 24, 18)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8k1rn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xw1jd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_43el5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4s6b0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_msc2u")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2q20q"]
+size = Vector2(20, 11)
+
+[node name="pteran 3" type="Node2D"]
+script = ExtResource("1_85kyh")
+
+[node name="pteran" type="StaticBody2D" parent="." groups=["hazard"]]
+collision_layer = 2
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="pteran"]
+position = Vector2(133, -38)
+sprite_frames = SubResource("SpriteFrames_8k1rn")
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="pteran"]
+position = Vector2(133, -37.5)
+shape = SubResource("RectangleShape2D_2q20q")
+
+[node name="StaticBody2D" parent="pteran" instance=ExtResource("3_6mk7n")]
+position = Vector2(134, -18)
+
+[node name="StaticBody2D2" parent="pteran" instance=ExtResource("3_6mk7n")]
+position = Vector2(251, -19)
+
+[node name="StaticBody2D3" parent="pteran" instance=ExtResource("3_6mk7n")]
+position = Vector2(364, -20)
+
+[node name="pteran2" type="StaticBody2D" parent="." groups=["hazard"]]
+position = Vector2(131, -38)
+collision_layer = 2
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="pteran2"]
+position = Vector2(120, 0)
+sprite_frames = SubResource("SpriteFrames_8k1rn")
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="pteran2"]
+position = Vector2(120, 0.5)
+shape = SubResource("RectangleShape2D_2q20q")
+
+[node name="pteran3" type="StaticBody2D" parent="." groups=["hazard"]]
+position = Vector2(252, -38)
+collision_layer = 2
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="pteran3"]
+position = Vector2(151, -3)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="pteran3"]
+position = Vector2(112, 0)
+sprite_frames = SubResource("SpriteFrames_8k1rn")
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="pteran3"]
+position = Vector2(112, 0.5)
+shape = SubResource("RectangleShape2D_2q20q")
+
+[connection signal="screen_exited" from="pteran3/VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

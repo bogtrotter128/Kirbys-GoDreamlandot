@@ -6,6 +6,12 @@ var jumpsop = false
 var healthop = false
 var abilityop = false
 
+var sfx = {
+	"pause" : preload("res://kirbySprites/sfx/pause.wav"),
+	"menuselect" : preload("res://kirbySprites/sfx/menu-select.wav"),
+	"back" : preload("res://kirbySprites/sfx/enter-door.wav")
+}
+
 var selected = 1
 var bglist = [
 	preload("res://kirbySprites/UI/pause screen/pause menu art.png"),
@@ -42,9 +48,11 @@ func _input(_event):
 		select()
 	if Input.is_action_just_pressed("start"):
 		cont()
+		Sfxhandler.play_sfx(sfx["back"],get_parent())
 
 func movestart():
 	$bg.texture = bglist[selected - 1] if optionmenu == false else oplist[selected - 1]
+	Sfxhandler.play_sfx(sfx["menuselect"],get_parent())
 	if selected == 1:
 		$starselecter.position.y = 114
 	if selected == 2:
@@ -57,22 +65,30 @@ func select():
 	if optionmenu == true:
 		if selected == 1:
 			back()
+			Sfxhandler.play_sfx(sfx["back"],get_parent())
 		if selected == 2:
 			opjumps()
+			Sfxhandler.play_sfx(sfx["pause"],get_parent())
 		if selected == 3:
 			ophealth()
+			Sfxhandler.play_sfx(sfx["pause"],get_parent())
 		if selected == 4:
 			opabilities()
+			Sfxhandler.play_sfx(sfx["pause"],get_parent())
 		checkupdate()
 	else:
 		if selected == 1:
 			cont()
+			Sfxhandler.play_sfx(sfx["back"],get_parent())
 		if selected == 2:
 			options()
+			Sfxhandler.play_sfx(sfx["back"],get_parent())
 		if selected == 3:
 			coop()
+			Sfxhandler.play_sfx(sfx["pause"],get_parent())
 		if selected == 4:
 			exit()
+			Sfxhandler.play_sfx(sfx["back"],get_parent())
 func cont():
 	optionmenu = false
 	$VBoxContainer.hide()
@@ -112,7 +128,3 @@ func checkupdate():
 	$VBoxContainer/TextureRect.texture = checklist[1] if GameUtils.JUMPMAX == 99999 else checklist[0]
 	$VBoxContainer/TextureRect2.texture = checklist[1] if GameUtils.MAXHP == 99999 else checklist[0]
 	$VBoxContainer/TextureRect3.texture = checklist[1] if GameUtils.opAbilities == true else checklist[0]
-
-
-func _on_selecttimer_timeout():
-	pass # Replace with function body.

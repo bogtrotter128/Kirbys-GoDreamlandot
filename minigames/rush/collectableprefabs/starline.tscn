@@ -1,0 +1,34 @@
+[gd_scene load_steps=2 format=3 uid="uid://clcg0evkndixs"]
+
+[ext_resource type="PackedScene" uid="uid://6dyrg2q7kmni" path="res://minigames/rush/star.tscn" id="1_5vd4n"]
+
+[node name="starline" type="Node2D"]
+
+[node name="Area2D" parent="." instance=ExtResource("1_5vd4n")]
+starscore = 3
+
+[node name="Area2D2" parent="." instance=ExtResource("1_5vd4n")]
+position = Vector2(45, 0)
+starscore = 2
+
+[node name="Area2D3" parent="." instance=ExtResource("1_5vd4n")]
+position = Vector2(-44, 0)
+starscore = 2
+
+[node name="Area2D4" parent="." instance=ExtResource("1_5vd4n")]
+position = Vector2(133, 0)
+
+[node name="Area2D5" parent="." instance=ExtResource("1_5vd4n")]
+position = Vector2(178, 0)
+
+[node name="Area2D6" parent="." instance=ExtResource("1_5vd4n")]
+position = Vector2(89, 0)
+
+[node name="Area2D7" parent="." instance=ExtResource("1_5vd4n")]
+position = Vector2(-133, 1)
+
+[node name="Area2D8" parent="." instance=ExtResource("1_5vd4n")]
+position = Vector2(-88, 1)
+
+[node name="Area2D9" parent="." instance=ExtResource("1_5vd4n")]
+position = Vector2(-177, 1)

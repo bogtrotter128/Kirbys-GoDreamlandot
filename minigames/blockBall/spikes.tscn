@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://7ongwtu4240n"]
+
+[ext_resource type="Texture2D" uid="uid://0jxa14m6031p" path="res://kirbySprites/tiles/minigames/blockball spikes.png" id="1_jj5qb"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_df437"]
+size = Vector2(32, 6)
+
+[node name="spikes" type="Area2D" groups=["hazard"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_df437")
+debug_color = Color(0.996078, 0, 0.192157, 0.419608)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-8, -0.25)
+scale = Vector2(1, 0.944444)
+texture = ExtResource("1_jj5qb")
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+position = Vector2(8, -0.25)
+scale = Vector2(1, 0.944444)
+texture = ExtResource("1_jj5qb")

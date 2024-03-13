@@ -1,0 +1,87 @@
+[gd_scene load_steps=14 format=3 uid="uid://6dyrg2q7kmni"]
+
+[ext_resource type="Script" path="res://minigames/rush/star.gd" id="1_33ht1"]
+[ext_resource type="Texture2D" uid="uid://ddahop5btfusp" path="res://kirbySprites/props/starsmall.png" id="2_vku82"]
+[ext_resource type="Texture2D" uid="uid://0gec5tftcrrs" path="res://kirbySprites/props/starmid.png" id="3_apdoc"]
+[ext_resource type="Texture2D" uid="uid://cfo6ka6omctpk" path="res://kirbySprites/props/starlarge.png" id="4_0h6di"]
+[ext_resource type="Script" path="res://minigames/rush/screenculler.gd" id="5_g60y7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_etnul"]
+size = Vector2(24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i8vlj"]
+atlas = ExtResource("2_vku82")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hnwcj"]
+atlas = ExtResource("2_vku82")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_saou5"]
+atlas = ExtResource("3_apdoc")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6kjoq"]
+atlas = ExtResource("3_apdoc")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_my3ce"]
+atlas = ExtResource("4_0h6di")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c2khe"]
+atlas = ExtResource("4_0h6di")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8phve"]
+animations = [{
+"frames": [{
+"duration": 8.0,
+"texture": SubResource("AtlasTexture_i8vlj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hnwcj")
+}],
+"loop": true,
+"name": &"1",
+"speed": 7.0
+}, {
+"frames": [{
+"duration": 8.0,
+"texture": SubResource("AtlasTexture_saou5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6kjoq")
+}],
+"loop": true,
+"name": &"2",
+"speed": 7.0
+}, {
+"frames": [{
+"duration": 8.0,
+"texture": SubResource("AtlasTexture_my3ce")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c2khe")
+}],
+"loop": true,
+"name": &"3",
+"speed": 7.0
+}]
+
+[node name="star" type="StaticBody2D" groups=["collectable"]]
+collision_layer = 2
+script = ExtResource("1_33ht1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_etnul")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(1.4, 1.4)
+sprite_frames = SubResource("SpriteFrames_8phve")
+animation = &"1"
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+script = ExtResource("5_g60y7")
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="VisibleOnScreenNotifier2D" method="_on_screen_exited" flags=18]

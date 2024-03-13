@@ -1,0 +1,72 @@
+[gd_scene load_steps=9 format=3 uid="uid://cinfyht7c6vw3"]
+
+[ext_resource type="Texture2D" uid="uid://btkweenl5hopb" path="res://kirbySprites/enemy/gordoblue.png" id="1_vnchc"]
+[ext_resource type="Script" path="res://minigames/rush/screenculler.gd" id="2_ko1uk"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_old53"]
+atlas = ExtResource("1_vnchc")
+region = Rect2(0, 0, 21, 21)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wdtrc"]
+atlas = ExtResource("1_vnchc")
+region = Rect2(21, 0, 21, 21)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jk5r7"]
+atlas = ExtResource("1_vnchc")
+region = Rect2(42, 0, 21, 21)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f3px3"]
+atlas = ExtResource("1_vnchc")
+region = Rect2(63, 0, 21, 21)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4waxl"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_old53")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wdtrc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jk5r7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f3px3")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hgev2"]
+size = Vector2(16, 16)
+
+[node name="gordo 2" type="Node2D"]
+
+[node name="gordo" type="StaticBody2D" parent="." groups=["hazard"]]
+position = Vector2(0, 75)
+collision_layer = 2
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="gordo"]
+sprite_frames = SubResource("SpriteFrames_4waxl")
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="gordo"]
+shape = SubResource("RectangleShape2D_hgev2")
+
+[node name="gordo2" type="StaticBody2D" parent="." groups=["hazard"]]
+position = Vector2(0, 55)
+collision_layer = 2
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="gordo2"]
+sprite_frames = SubResource("SpriteFrames_4waxl")
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="gordo2"]
+shape = SubResource("RectangleShape2D_hgev2")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+script = ExtResource("2_ko1uk")
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="VisibleOnScreenNotifier2D" method="_on_screen_exited"]

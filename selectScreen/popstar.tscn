@@ -1,4 +1,4 @@
-[gd_scene load_steps=178 format=3 uid="uid://c0k5ksq2psfce"]
+[gd_scene load_steps=184 format=3 uid="uid://c0k5ksq2psfce"]
 
 [ext_resource type="Texture2D" uid="uid://fdot6nw3vw4" path="res://kirbySprites/popstart/bg.png" id="1_t1d8s"]
 [ext_resource type="Texture2D" uid="uid://ccwt74b7svtkw" path="res://kirbySprites/popstart/popstar.png" id="2_2opyo"]
@@ -514,6 +514,18 @@ region = Rect2(80, 0, 80, 24)
 atlas = ExtResource("25_krg7p")
 region = Rect2(160, 0, 80, 24)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_urvdx"]
+atlas = ExtResource("25_krg7p")
+region = Rect2(0, 24, 80, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qnx88"]
+atlas = ExtResource("25_krg7p")
+region = Rect2(80, 24, 80, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rtbtt"]
+atlas = ExtResource("25_krg7p")
+region = Rect2(160, 24, 80, 24)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_ucupm"]
 atlas = ExtResource("25_krg7p")
 region = Rect2(0, 48, 80, 24)
@@ -525,6 +537,18 @@ region = Rect2(80, 48, 80, 24)
 [sub_resource type="AtlasTexture" id="AtlasTexture_rsedp"]
 atlas = ExtResource("25_krg7p")
 region = Rect2(160, 48, 80, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ubncx"]
+atlas = ExtResource("25_krg7p")
+region = Rect2(0, 72, 80, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s6oou"]
+atlas = ExtResource("25_krg7p")
+region = Rect2(80, 72, 80, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_muy23"]
+atlas = ExtResource("25_krg7p")
+region = Rect2(160, 72, 80, 24)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2e6om"]
 atlas = ExtResource("25_krg7p")
@@ -610,7 +634,16 @@ animations = [{
 "name": &"0",
 "speed": 5.0
 }, {
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_urvdx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qnx88")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rtbtt")
+}],
 "loop": true,
 "name": &"1",
 "speed": 5.0
@@ -629,7 +662,16 @@ animations = [{
 "name": &"2",
 "speed": 5.0
 }, {
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ubncx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s6oou")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_muy23")
+}],
 "loop": true,
 "name": &"3",
 "speed": 5.0
@@ -1418,7 +1460,7 @@ texture = ExtResource("20_l1wyw")
 [node name="level" type="AnimatedSprite2D" parent="."]
 position = Vector2(-5, -104)
 sprite_frames = SubResource("SpriteFrames_ir8wq")
-animation = &"?"
+animation = &"6"
 autoplay = "default"
 
 [node name="number" type="AnimatedSprite2D" parent="level"]

@@ -1,0 +1,37 @@
+[gd_scene load_steps=6 format=3 uid="uid://pp6eq64lfld6"]
+
+[ext_resource type="Texture2D" uid="uid://cw0kfj54j5hmf" path="res://kirbySprites/props/smug.png" id="1_ko484"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_etnul"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jlym5"]
+atlas = ExtResource("1_ko484")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qqifc"]
+atlas = ExtResource("1_ko484")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0s0jm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jlym5")
+}, {
+"duration": 8.0,
+"texture": SubResource("AtlasTexture_qqifc")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="tricky" type="StaticBody2D" groups=["tricky"]]
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_etnul")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(1.3, 1.3)
+sprite_frames = SubResource("SpriteFrames_0s0jm")

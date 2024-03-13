@@ -1,0 +1,65 @@
+[gd_scene load_steps=2 format=3 uid="uid://co3ifqfs3ohs3"]
+
+[ext_resource type="PackedScene" uid="uid://6dyrg2q7kmni" path="res://minigames/rush/star.tscn" id="1_65m3g"]
+
+[node name="star box" type="Node2D"]
+
+[node name="star" parent="." instance=ExtResource("1_65m3g")]
+position = Vector2(0, 75)
+
+[node name="star2" parent="." instance=ExtResource("1_65m3g")]
+position = Vector2(24, 51)
+
+[node name="star3" parent="." instance=ExtResource("1_65m3g")]
+position = Vector2(0, 27)
+
+[node name="star4" parent="." instance=ExtResource("1_65m3g")]
+position = Vector2(48, 75)
+
+[node name="star5" parent="." instance=ExtResource("1_65m3g")]
+position = Vector2(72, 51)
+
+[node name="star6" parent="." instance=ExtResource("1_65m3g")]
+position = Vector2(48, 27)
+
+[node name="star7" parent="." instance=ExtResource("1_65m3g")]
+position = Vector2(96, 75)
+
+[node name="star8" parent="." instance=ExtResource("1_65m3g")]
+position = Vector2(120, 51)
+
+[node name="star9" parent="." instance=ExtResource("1_65m3g")]
+position = Vector2(96, 27)
+
+[node name="star10" parent="." instance=ExtResource("1_65m3g")]
+position = Vector2(144, 75)
+
+[node name="star11" parent="." instance=ExtResource("1_65m3g")]
+position = Vector2(168, 51)
+
+[node name="star12" parent="." instance=ExtResource("1_65m3g")]
+position = Vector2(144, 27)
+
+[node name="star13" parent="." instance=ExtResource("1_65m3g")]
+position = Vector2(192, 75)
+
+[node name="star14" parent="." instance=ExtResource("1_65m3g")]
+position = Vector2(216, 51)
+
+[node name="star16" parent="." instance=ExtResource("1_65m3g")]
+position = Vector2(24, 3)
+
+[node name="star17" parent="." instance=ExtResource("1_65m3g")]
+position = Vector2(72, 3)
+
+[node name="star18" parent="." instance=ExtResource("1_65m3g")]
+position = Vector2(120, 3)
+
+[node name="star19" parent="." instance=ExtResource("1_65m3g")]
+position = Vector2(168, 3)
+
+[node name="star20" parent="." instance=ExtResource("1_65m3g")]
+position = Vector2(216, 3)
+
+[node name="star15" parent="." instance=ExtResource("1_65m3g")]
+position = Vector2(192, 27)

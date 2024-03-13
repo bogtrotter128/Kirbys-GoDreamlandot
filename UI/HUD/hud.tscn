@@ -15,7 +15,7 @@
 [ext_resource type="Script" path="res://UI/HUD/abilitycard.gd" id="12_nty5n"]
 [ext_resource type="Script" path="res://UI/HUD/abilitycard2.gd" id="14_g8yml"]
 [ext_resource type="Script" path="res://UI/HUD/Score.gd" id="15_jep07"]
-[ext_resource type="Texture2D" uid="uid://dyacumdtu83tc" path="res://kirbySprites/UI/HUD/0.png" id="16_6d7p2"]
+[ext_resource type="Texture2D" uid="uid://ex6sytnaqswx" path="res://kirbySprites/UI/HUD/numbers.png" id="16_lliq1"]
 [ext_resource type="Script" path="res://UI/HUD/updatetimer.gd" id="17_gmakq"]
 
 [node name="HUD" type="CanvasLayer"]
@@ -208,26 +208,19 @@ metadata/_edit_use_anchors_ = true
 layout_mode = 2
 texture = ExtResource("11_20qq5")
 
-[node name="Score" type="HBoxContainer" parent="."]
-layout_direction = 3
-offset_left = 220.0
-offset_top = 292.0
-offset_right = 252.0
-offset_bottom = 332.0
-theme_override_constants/separation = 0
-alignment = 2
+[node name="Score" type="Node2D" parent="."]
 script = ExtResource("15_jep07")
 metadata/_edit_use_anchors_ = true
 
-[node name="num1" type="TextureRect" parent="Score"]
-layout_mode = 2
-texture = ExtResource("16_6d7p2")
-stretch_mode = 2
+[node name="num1" type="Sprite2D" parent="Score"]
+position = Vector2(220.974, 298)
+texture = ExtResource("16_lliq1")
+hframes = 10
 
-[node name="num2" type="TextureRect" parent="Score"]
-layout_mode = 2
-texture = ExtResource("16_6d7p2")
-stretch_mode = 2
+[node name="num2" type="Sprite2D" parent="Score"]
+position = Vector2(237.027, 298)
+texture = ExtResource("16_lliq1")
+hframes = 10
 
 [node name="updatetimer" type="Timer" parent="."]
 wait_time = 0.15

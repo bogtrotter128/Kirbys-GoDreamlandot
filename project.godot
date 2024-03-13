@@ -22,13 +22,14 @@ config/icon="res://kirbySprites/icon.png"
 
 GameUtils="*res://GameUtils.gd"
 Hud="*res://UI/HUD/hud.gd"
+Sfxhandler="*res://sfxhandler.tscn"
 
 [display]
 
 window/size/viewport_width=1024
 window/size/viewport_height=720
 window/stretch/mode="viewport"
-window/stretch/scale=2.2
+window/stretch/scale=2.16
 
 [input]
 
@@ -193,3 +194,4 @@ recall2={
 
 textures/canvas_textures/default_texture_filter=0
 renderer/rendering_method="mobile"
+textures/decals/filter=0

@@ -11,6 +11,8 @@ size = Vector2(16, 20)
 
 [node name="hpBottle" type="CharacterBody2D"]
 collision_layer = 2
+floor_constant_speed = true
+floor_snap_length = 4.0
 script = ExtResource("1_mvtum")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -28,7 +30,6 @@ shape = SubResource("RectangleShape2D_cfyod")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_adtok")
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+hframes = 46
 
 [connection signal="body_entered" from="areaDetect" to="." method="_on_area_detect_body_entered"]

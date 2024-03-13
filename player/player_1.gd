@@ -75,7 +75,7 @@ func _ready():
 		LEFT = "left"
 		RIGHT = "right"
 		A = "a"
-		JUMP = "jump" 
+		JUMP = "jump"
 		C = "c"
 		SELECT = "select"
 	if is_in_group("player2"):

@@ -1,0 +1,62 @@
+[gd_scene load_steps=9 format=3 uid="uid://ks1udyyvk7ik"]
+
+[ext_resource type="Script" path="res://UI/pause menu/general_pause_menu.gd" id="1_tpj2i"]
+[ext_resource type="Texture2D" uid="uid://dddjyop88j26e" path="res://kirbySprites/UI/pause screen/minigames/rush menu art.png" id="2_vwgju"]
+[ext_resource type="Texture2D" uid="uid://behefrlew7fo3" path="res://kirbySprites/UI/pause screen/star.png" id="3_paq4s"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8n1yq"]
+atlas = ExtResource("3_paq4s")
+region = Rect2(0, 0, 18, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_csqua"]
+atlas = ExtResource("3_paq4s")
+region = Rect2(18, 0, 18, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g7mxn"]
+atlas = ExtResource("3_paq4s")
+region = Rect2(36, 0, 18, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n1tlk"]
+atlas = ExtResource("3_paq4s")
+region = Rect2(54, 0, 18, 18)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_cyqf5"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8n1yq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_csqua")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g7mxn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n1tlk")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]
+
+[node name="general_pause_menu" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_tpj2i")
+
+[node name="bg" type="Sprite2D" parent="."]
+position = Vector2(252, 164)
+scale = Vector2(1.1, 1.1)
+texture = ExtResource("2_vwgju")
+
+[node name="starselecter" type="AnimatedSprite2D" parent="."]
+process_mode = 2
+position = Vector2(148, 114)
+sprite_frames = SubResource("SpriteFrames_cyqf5")
+autoplay = "default"

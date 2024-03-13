@@ -1,0 +1,102 @@
+[gd_scene load_steps=12 format=3 uid="uid://dic05gjpkjn47"]
+
+[ext_resource type="Texture2D" uid="uid://cwvbmfk2c46p5" path="res://kirbySprites/effects/rolling fruit.png" id="1_ue10h"]
+[ext_resource type="Texture2D" uid="uid://dev45q48qmw7m" path="res://kirbySprites/props/candy.png" id="2_iapae"]
+[ext_resource type="Texture2D" uid="uid://5wf1u2fed6hb" path="res://kirbySprites/props/hpdrink.png" id="3_ssbf6"]
+[ext_resource type="Script" path="res://minigames/blockBall/item.gd" id="4_wjbhu"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o1ykf"]
+atlas = ExtResource("1_ue10h")
+region = Rect2(0, 48, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lf2hp"]
+atlas = ExtResource("1_ue10h")
+region = Rect2(24, 48, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nq3ew"]
+atlas = ExtResource("2_iapae")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rvxfx"]
+atlas = ExtResource("2_iapae")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qhave"]
+atlas = ExtResource("3_ssbf6")
+region = Rect2(256, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_dhncb"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o1ykf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lf2hp")
+}],
+"loop": true,
+"name": &"0",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nq3ew")
+}, {
+"duration": 8.0,
+"texture": SubResource("AtlasTexture_rvxfx")
+}],
+"loop": true,
+"name": &"1",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qhave")
+}],
+"loop": true,
+"name": &"2",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"3",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"4",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"5",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"6",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0rnl8"]
+size = Vector2(12.5, 13)
+
+[node name="item" type="Node2D"]
+script = ExtResource("4_wjbhu")
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="itemsprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_dhncb")
+animation = &"1"
+frame_progress = 0.263831
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_0rnl8")
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

@@ -1,0 +1,90 @@
+[gd_scene load_steps=13 format=3 uid="uid://cl66tkah5ptf2"]
+
+[ext_resource type="Script" path="res://minigames/blockBall/block.gd" id="1_a6upw"]
+[ext_resource type="Texture2D" uid="uid://drpbl8m122dqn" path="res://kirbySprites/tiles/minigames/blockballblocks.png" id="2_6g6by"]
+[ext_resource type="Texture2D" uid="uid://bfkx83asp68wf" path="res://kirbySprites/props/blocks/breakanimation.png" id="3_8uoh7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xbwam"]
+size = Vector2(10, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ceyve"]
+atlas = ExtResource("3_8uoh7")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lsopv"]
+atlas = ExtResource("3_8uoh7")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qexv0"]
+atlas = ExtResource("3_8uoh7")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n3ijb"]
+atlas = ExtResource("3_8uoh7")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lxbic"]
+atlas = ExtResource("3_8uoh7")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ya2dd"]
+atlas = ExtResource("3_8uoh7")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sxlcd"]
+atlas = ExtResource("3_8uoh7")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_l2e84"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ceyve")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lsopv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qexv0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n3ijb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lxbic")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ya2dd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sxlcd")
+}],
+"loop": false,
+"name": &"default",
+"speed": 12.0
+}]
+
+[node name="tiny block" type="StaticBody2D" groups=["block"]]
+collision_layer = 3
+collision_mask = 3
+script = ExtResource("1_a6upw")
+blockpoints = [50, 100, 200]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(6, 6)
+texture = ExtResource("2_6g6by")
+hframes = 16
+vframes = 6
+frame = 50
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(5, 5)
+shape = SubResource("RectangleShape2D_xbwam")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+visible = false
+position = Vector2(-1, -1)
+scale = Vector2(0.328125, 0.328125)
+sprite_frames = SubResource("SpriteFrames_l2e84")
+frame = 6
+frame_progress = 1.0
