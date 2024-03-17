@@ -1,7 +1,7 @@
 [gd_scene load_steps=14 format=3 uid="uid://dafvcgxioxx0p"]
 
 [ext_resource type="Texture2D" uid="uid://bfkx83asp68wf" path="res://kirbySprites/props/blocks/breakanimation.png" id="1_2mvhg"]
-[ext_resource type="Script" path="res://minigames/blockBall/starblock.gd" id="1_6tbmu"]
+[ext_resource type="Script" path="res://minigames/blockBall/blocks/starblock.gd" id="1_6tbmu"]
 [ext_resource type="Texture2D" uid="uid://orounscqai0f" path="res://kirbySprites/props/blocks/powblock.png" id="2_8swnh"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_64l85"]

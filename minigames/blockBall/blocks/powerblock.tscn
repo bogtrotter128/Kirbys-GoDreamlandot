@@ -1,6 +1,6 @@
 [gd_scene load_steps=18 format=3 uid="uid://cgckinrq3qew5"]
 
-[ext_resource type="Script" path="res://minigames/blockBall/powerblock.gd" id="1_10cgb"]
+[ext_resource type="Script" path="res://minigames/blockBall/blocks/powerblock.gd" id="1_10cgb"]
 [ext_resource type="Texture2D" uid="uid://drpbl8m122dqn" path="res://kirbySprites/tiles/minigames/blockballblocks.png" id="1_kcjl7"]
 [ext_resource type="Texture2D" uid="uid://dsn5x5a8qcvlw" path="res://kirbySprites/tiles/minigames/breakanimation TINY.png" id="2_no58x"]
 

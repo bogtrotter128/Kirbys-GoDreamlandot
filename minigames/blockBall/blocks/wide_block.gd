@@ -1,14 +1,15 @@
 extends StaticBody2D
 @export var blockval = 3
 @export var blockpoints = [100,200,500]
-@onready var main = $"../../.."
+@onready var main = $"../../../.."
 var bubbled = false
 @onready var sfx = {
 	"hit" : preload("res://kirbySprites/sfx/menu-select.wav")
 }
 
 func _ready():
-	$Sprite2D.frame -= -blockval
+	$Sprite2D.frame += blockval -1
+	main.blockgoal += 1
 
 func breakblock(damage,_damtype):
 	main.pointspawn(blockpoints[blockval-1],self.position)
@@ -28,6 +29,8 @@ func update(val):
 	$Sprite2D.frame = val
 
 func destroyed():
+	main.blockcount += 1
+	print(main.blockcount)
 	$CollisionShape2D.call_deferred("set","disabled", true)
 	$Sprite2D.hide()
 	$AnimatedSprite2D.show()

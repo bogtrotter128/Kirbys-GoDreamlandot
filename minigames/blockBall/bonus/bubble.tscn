@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://btiqkjdfyxur1"]
+
+[ext_resource type="Texture2D" uid="uid://drpbl8m122dqn" path="res://kirbySprites/tiles/minigames/blockballblocks.png" id="1_2adq0"]
+[ext_resource type="Script" path="res://minigames/blockBall/bonus/bubble.gd" id="1_c00j5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_exv5t"]
+
+[node name="bubble" type="Area2D"]
+script = ExtResource("1_c00j5")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_2adq0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_exv5t")

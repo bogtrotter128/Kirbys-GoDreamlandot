@@ -6,8 +6,8 @@ extends Node2D
 var paused = false
 @onready var pause = $CanvasLayer/general_pause_menu
 @onready var levels = {
-#	11: preload(""),
-#	12: preload(""),
+	11: preload("res://minigames/blockBall/rooms/room11.tscn"),
+	12: preload("res://minigames/blockBall/rooms/room12.tscn"),
 #	13: preload(""),
 #	14: preload(""),
 #	15: preload(""),
@@ -23,10 +23,13 @@ var paused = false
 #	35: preload("")
 }
 
-@export var xbounds = [-116,116]
-@export var ybounds = [-30,38]
-var ballscore = 3
+var xbounds = [-84,84]
+var ybounds = [-30,38]
+var ballscore = 99
 var ballcount = 0
+
+var blockcount = 0
+var blockgoal = 0
 var bonusscore = 0
 var stagescore = 11 #set by level nodes on load-in
 var score = 0
@@ -37,17 +40,26 @@ var ball2pos = Vector2.ZERO
 func _ready():
 	scorecount(GameUtils.blockballstagescore[0])
 	$CanvasLayer/UI.updateUI(ballscore)
+	roomload(stagescore)
+
+func _physics_process(_delta):
+	if blockcount == blockgoal && blockgoal > 1:
+		nextlevel()
 
 func _input(_event):
 	if Input.is_action_just_pressed("start"):
 		pauseMenu()
+	if Input.is_action_just_pressed("a"):
+		nextlevel()
 
 func roomload(lvlscore):
+	blockgoal = 0
+	bonusscore = 0
 	var room = levels[lvlscore].instantiate()
 	ballcount = 0
 	get_tree().call_group("paddle", "new_ball")
 	get_tree().call_group("ball","queue_free")
-	$room.queue_free()
+	get_tree().call_group("room","queue_free")
 	#do a screen transition
 	call_deferred("add_child",room)
 
@@ -55,13 +67,13 @@ func updatepaddles(Ypaddlecheck):
 	if Ypaddlecheck == false:
 		$Ypaddle1.hide()
 		$Ypaddle2.hide()
-		$Ypaddle1.call_deferred("set","disabled",true)
-		$Ypaddle2.call_deferred("set","disabled",true)
+		$Ypaddle1/CollisionShape2D.call_deferred("set","disabled",true)
+		$Ypaddle2/CollisionShape2D.call_deferred("set","disabled",true)
 	else:
 		$Ypaddle1.show()
 		$Ypaddle2.show()
-		$Ypaddle1.call_deferred("set","disabled",false)
-		$Ypaddle2.call_deferred("set","disabled",false)
+		$Ypaddle1/CollisionShape2D.call_deferred("set","disabled",false)
+		$Ypaddle2/CollisionShape2D.call_deferred("set","disabled",false)
 
 func scorecount(lvlscore):
 	if lvlscore < 13:
@@ -123,24 +135,51 @@ func updateUI():
 	$CanvasLayer/UI.updateUI(ballscore)
 
 func lose():
-	print(ballcount)
 	ballcount -= 1
-	ballscore -= 1
-	$CanvasLayer/UI.updateUI(ballscore)
-	if ballscore < 0:
-		gameover()
-	else:
-		get_tree().call_group("paddle", "new_ball")
+	if ballcount == 0:
+		ballscore -= 1
+		$CanvasLayer/UI.updateUI(ballscore)
+		if ballscore < 0:
+			gameover()
+		else:
+			get_tree().call_group("paddle", "new_ball")
 
 func gameover():
+	ballscore = 3
+	scorecount(stagescore)
+	score = 0
+	updateUI()
+	resetpaddlelocation()
+	@warning_ignore("integer_division")
 	var stagemain = int((stagescore/10)%10)
 	var stagesub = int(stagescore%10)
 	if stagesub < 4: #normal stages 1-3
-		print(stagemain + 1)
-		roomload(stagemain + 1)
+		print((stagemain*10) + 1)
+		roomload((stagemain*10) + 1)
 	else: #boss stages 4-5
-		print(stagemain + 4)
-		roomload(stagemain + 4)
+		print((stagemain*10) + 4)
+		roomload((stagemain*10) + 4)
+
+func nextlevel():
+	scorecount(stagescore)
+	updateUI()
+	resetpaddlelocation()
+	#screen transition
+	if int(stagescore%10) < 5:
+		score = 0 if int(stagescore%10) > 3 else score
+		roomload(stagescore + 1)
+	else: #change this to the main blockball menu
+		get_tree().change_scene_to_file("res://selectScreen/popstar.tscn")
+
+func resetpaddlelocation():
+	$player1paddle.position.x = 0
+	$player1paddle.pos.x = 0
+	$player2paddle.position.x = 0
+	$player2paddle.pos.x = 0
+	$Ypaddle1.position.y = 8
+	$Ypaddle1.pos.y = 8
+	$Ypaddle2.position.y = 8
+	$Ypaddle2.pos.y = 8
 
 func specialitem(itemval):
 	if itemval == 3:
@@ -153,14 +192,17 @@ func specialitem(itemval):
 		duplicateball()
 
 func crash():
-	pass #destroys unbreakable blocks
+	get_tree().call_group("unbreakablock", "destroy")
 
 func abilityChanger():
 	pass
+	#pause ball velocity or set engine speed to 0
+	#shift through abilities
+	#wait for player input
+	#unpause
 
 func flip():
-	pass
-
+	get_tree().call_group("block","flip")
 
 func duplicateball():
 	var ball = ball1.instantiate()

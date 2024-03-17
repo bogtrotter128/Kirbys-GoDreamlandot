@@ -1,8 +1,9 @@
-[gd_scene load_steps=22 format=3 uid="uid://djcdnp6ostyea"]
+[gd_scene load_steps=27 format=3 uid="uid://djcdnp6ostyea"]
 
 [ext_resource type="Script" path="res://RigidBody2D.gd" id="1_enjqm"]
 [ext_resource type="Texture2D" uid="uid://cn2u7j024mv00" path="res://kirbySprites/UI/minigames/blockballballs.png" id="2_5wxom"]
 [ext_resource type="Texture2D" uid="uid://kfb2mchxn3qe" path="res://kirbySprites/UI/minigames/blockballsout.png" id="3_hj4ue"]
+[ext_resource type="Texture2D" uid="uid://bhhm7kk6alh34" path="res://kirbySprites/effects/starshoot.png" id="4_r2el1"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cum75"]
 atlas = ExtResource("2_5wxom")
@@ -63,6 +64,22 @@ region = Rect2(22, 88, 22, 22)
 [sub_resource type="AtlasTexture" id="AtlasTexture_i1rsd"]
 atlas = ExtResource("2_5wxom")
 region = Rect2(44, 88, 22, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cstku"]
+atlas = ExtResource("4_r2el1")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_amx1r"]
+atlas = ExtResource("4_r2el1")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mxefu"]
+atlas = ExtResource("4_r2el1")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3w83i"]
+atlas = ExtResource("4_r2el1")
+region = Rect2(48, 0, 16, 16)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_3poj0"]
 animations = [{
@@ -135,6 +152,23 @@ animations = [{
 "loop": false,
 "name": &"shrink",
 "speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cstku")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_amx1r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mxefu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3w83i")
+}],
+"loop": true,
+"name": &"star",
+"speed": 8.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1scr1"]
@@ -151,7 +185,7 @@ script = ExtResource("1_enjqm")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_3poj0")
-animation = &"shrink"
+animation = &"star"
 autoplay = "default"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

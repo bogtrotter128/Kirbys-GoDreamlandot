@@ -29,7 +29,6 @@ func _input(_event):
 		select()
 	if Input.is_action_just_pressed("start"):
 		cont()
-		Sfxhandler.play_sfx(sfx["back"],get_parent())
 
 func movestart():
 	Sfxhandler.play_sfx(sfx["menuselect"],get_parent())

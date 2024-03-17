@@ -6,10 +6,16 @@ extends AnimatedSprite2D
 @export var moveY = false
 
 @onready var dropitem = preload("res://minigames/blockBall/item.tscn")
-
+var SPEED = -10
 @onready var sfx = preload("res://kirbySprites/sfx/star-hit.wav")
 func _ready():
 	play(str(enemyval))
+
+func _process(delta):
+	if moveX == true:
+		position += transform.x * SPEED * delta
+	if moveY == true:
+		position += transform.y * SPEED * delta
 
 func _on_area_2d_body_entered(body):
 	if body == null:
@@ -27,3 +33,7 @@ func defeat():
 	drop.itemval = enemydrop
 	add_sibling(drop)
 	queue_free()
+
+func _on_swaptimer_timeout():
+	SPEED *= -1
+	flip_h = !flip_h

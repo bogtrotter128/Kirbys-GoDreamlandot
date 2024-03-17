@@ -1,0 +1,345 @@
+[gd_scene load_steps=9 format=3 uid="uid://b1tf8tijkmx7y"]
+
+[ext_resource type="Script" path="res://minigames/blockBall/rooms/roomscript.gd" id="1_xcdpr"]
+[ext_resource type="PackedScene" uid="uid://7ongwtu4240n" path="res://minigames/blockBall/spikes.tscn" id="3_au6cy"]
+[ext_resource type="Texture2D" uid="uid://dyfuuns8oo6jp" path="res://kirbySprites/tiles/grassland3.png" id="3_ci5dw"]
+[ext_resource type="PackedScene" uid="uid://cpbd1jr5aq4br" path="res://minigames/blockBall/blocks/block long.tscn" id="4_thjxc"]
+[ext_resource type="PackedScene" uid="uid://dtvr2wnp0tar4" path="res://minigames/blockBall/blocks/wide_block.tscn" id="5_dj6o4"]
+[ext_resource type="PackedScene" uid="uid://bo6gf7ylciumb" path="res://minigames/blockBall/blockball enemy.tscn" id="6_ugyqs"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4js07"]
+texture = ExtResource("3_ci5dw")
+margins = Vector2i(1, 1)
+separation = Vector2i(1, 1)
+0:0/0 = 0
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(8, -8, -8, -8, -8, 8, 8, 8)
+1:0/0 = 0
+1:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+1:0/0/physics_layer_0/angular_velocity = 0.0
+1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(8, -8, -8, -8, -8, 8, 8, 8)
+2:0/0 = 0
+2:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+2:0/0/physics_layer_0/angular_velocity = 0.0
+2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(8, -8, -8, -8, -8, 8, 8, 8)
+3:0/0 = 0
+3:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+3:0/0/physics_layer_0/angular_velocity = 0.0
+3:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(8, -8, -8, -8, -8, 8, 8, 8)
+5:0/0 = 0
+5:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+5:0/0/physics_layer_0/angular_velocity = 0.0
+5:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(8, -8, -8, -8, -8, 8, 8, 8)
+6:0/0 = 0
+6:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+6:0/0/physics_layer_0/angular_velocity = 0.0
+6:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(8, -8, -8, -8, -8, 8, 8, 8)
+0:1/0 = 0
+0:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:1/0/physics_layer_0/angular_velocity = 0.0
+0:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(8, -8, -8, -8, -8, 8, 8, 8)
+1:1/0 = 0
+1:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+1:1/0/physics_layer_0/angular_velocity = 0.0
+2:1/0 = 0
+2:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+2:1/0/physics_layer_0/angular_velocity = 0.0
+2:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(8, -8, -8, -8, -8, 8, 8, 8)
+3:1/0 = 0
+3:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+3:1/0/physics_layer_0/angular_velocity = 0.0
+3:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(8, -8, -8, -8, -8, 8, 8, 8)
+4:1/0 = 0
+4:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+4:1/0/physics_layer_0/angular_velocity = 0.0
+4:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(8, -8, -8, -8, -8, 8, 8, 8)
+5:1/0 = 0
+5:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+5:1/0/physics_layer_0/angular_velocity = 0.0
+6:1/0 = 0
+6:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+6:1/0/physics_layer_0/angular_velocity = 0.0
+6:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(8, -8, -8, -8, -8, 8, 8, 8)
+0:2/0 = 0
+0:2/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:2/0/physics_layer_0/angular_velocity = 0.0
+0:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(8, -8, -8, -8, -8, 8, 8, 8)
+1:2/0 = 0
+1:2/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+1:2/0/physics_layer_0/angular_velocity = 0.0
+1:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(8, -8, -8, -8, -8, 8, 8, 8)
+2:2/0 = 0
+2:2/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+2:2/0/physics_layer_0/angular_velocity = 0.0
+2:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(8, -8, -8, -8, -8, 8, 8, 8)
+4:2/0 = 0
+4:2/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+4:2/0/physics_layer_0/angular_velocity = 0.0
+4:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(8, -8, -8, -8, -8, 8, 8, 8)
+5:2/0 = 0
+5:2/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+5:2/0/physics_layer_0/angular_velocity = 0.0
+5:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(8, -8, -8, -8, -8, 8, 8, 8)
+6:2/0 = 0
+6:2/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+6:2/0/physics_layer_0/angular_velocity = 0.0
+6:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(8, -8, -8, -8, -8, 8, 8, 8)
+1:3/0 = 0
+1:3/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+1:3/0/physics_layer_0/angular_velocity = 0.0
+1:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, 8, 8, 8, 8, -8)
+2:3/0 = 0
+2:3/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+2:3/0/physics_layer_0/angular_velocity = 0.0
+2:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(8, 8, -8, 8, -8, -8)
+1:4/0 = 0
+1:4/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+1:4/0/physics_layer_0/angular_velocity = 0.0
+1:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(8, -8, -8, -8, -8, 8, 8, 8)
+2:4/0 = 0
+2:4/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+2:4/0/physics_layer_0/angular_velocity = 0.0
+2:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(8, -8, -8, -8, -8, 8, 8, 8)
+1:5/0 = 0
+1:5/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+1:5/0/physics_layer_0/angular_velocity = 0.0
+1:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(8, -8, -8, -8, 8, 8)
+2:5/0 = 0
+2:5/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+2:5/0/physics_layer_0/angular_velocity = 0.0
+2:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(8, -8, -8, -8, -8, 8)
+4:0/0 = 0
+4:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+4:0/0/physics_layer_0/angular_velocity = 0.0
+4:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(8, -8, -8, -8, -8, 8, 8, 8)
+
+[sub_resource type="TileSet" id="TileSet_0b7lf"]
+physics_layer_0/collision_layer = 1
+sources/1 = SubResource("TileSetAtlasSource_4js07")
+
+[node name="room" type="Node2D" groups=["room"]]
+script = ExtResource("1_xcdpr")
+stagescore = 12
+xbounds = [-70, 70]
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = SubResource("TileSet_0b7lf")
+format = 2
+layer_0/tile_data = PackedInt32Array(-327674, 262145, 0, -327673, 327681, 0, -262138, 262145, 1, -262137, 327681, 1, -196602, 262145, 1, -196601, 327681, 1, -65530, 262145, 1, -131066, 262145, 1, -131065, 327681, 1, -196600, 327681, 1, -196599, 393217, 1, 9, 393217, 1, -65527, 393217, 1, 6, 262145, 1, -65529, 327681, 1, -65528, 327681, 1, -131064, 327681, 1, -131063, 393217, 1, -262136, 327681, 2, -327672, 327681, 0, -262135, 393217, 1, -327671, 393217, 0, 327686, 1, 1, 262150, 1, 0, 393222, 1, 1, 196614, 262145, 1, 262151, 65537, 0, 262152, 131073, 0, 196616, 1, 1, 131080, 1, 0, 65545, 393217, 1, 131081, 131073, 0, 196617, 131073, 1, 262153, 131073, 1, 327689, 131073, 1, 393225, 131073, 1, 327687, 65537, 1, 393223, 65537, 1, 327688, 131073, 1, 393224, 131073, 1, 131078, 262145, 1, 65542, 262145, 1, 196615, 327681, 1, 131079, 327681, 1, 65543, 327681, 1, 65544, 327681, 1, 524282, 327681, 0, 524283, 327681, 0, 524284, 327681, 0, 524285, 327681, 0, 524286, 327681, 0, 524287, 327681, 0, 458752, 327681, 0, 458753, 327681, 0, 458754, 327681, 0, 458755, 327681, 0, 458756, 327681, 0, 458757, 327681, 0, -262151, 131073, 0, -196615, 131073, 1, -262153, 65537, 0, -262152, 65537, 0, -131082, 1, 1, -65545, 65537, 1, -8, 65537, 1, -7, 131073, 1, -131079, 131073, 1, -65543, 131073, 1, -196618, 1, 1, -262154, 1, 0, -65546, 1, 1, -10, 1, 1, 65526, 1, 1, 131062, 262145, 0, 196598, 262145, 1, 262134, 262145, 1, 65529, 131073, 1, 131065, 131073, 1, 196601, 131073, 1, 262137, 131073, 1, 327673, 131073, 0, 393209, 131073, 1, 458745, 131073, 1, 327670, 1, 0, 393206, 1, 1, 458742, 1, 1, 458743, 65537, 1, 458744, 65537, 1, 196600, 393217, 1, 131064, 393217, 0, 65528, 65537, 1, 65527, 65537, 1, -9, 65537, 1, 131063, 327681, 0, 196599, 327681, 1, 262135, 327681, 1, 327671, 65537, 0, 393207, 65537, 1, 393208, 65537, 1, 327672, 65537, 0, 262136, 393217, 1, -131080, 65537, 1, -196616, 65537, 1, -196617, 65537, 1, -131081, 65537, 1, -65544, 65537, 1, -327686, 196609, 0, -327685, 196609, 0, -327684, 196609, 0, -327683, 196609, 0, -327682, 196609, 0, -327681, 196609, 0, -393216, 196609, 0, -393215, 196609, 0, -393214, 196609, 0, -393213, 196609, 0, -393212, 196609, 0, -393211, 196609, 0, 327685, 65537, 3, 393210, 131073, 3, 458746, 131073, 4, 393221, 65537, 4, -196614, 131073, 5, -262139, 65537, 5, -327675, 1, 0, -262150, 131073, 0, 8, 327681, 1, 7, 327681, 1, 524278, 262145, 0, 524279, 327681, 0, 524280, 327681, 0, 524281, 327681, 0, 458761, 393217, 0, 458758, 327681, 0, 458759, 327681, 0, 458760, 327681, 0, 458747, 131073, 3, 393220, 65537, 3, -262149, 131073, 5, -327676, 65537, 5)
+
+[node name="gutter" type="Node" parent="."]
+
+[node name="spikes" parent="gutter" instance=ExtResource("3_au6cy")]
+position = Vector2(-64, 108)
+
+[node name="spikes3" parent="gutter" instance=ExtResource("3_au6cy")]
+position = Vector2(0, 108)
+
+[node name="spikes7" parent="gutter" instance=ExtResource("3_au6cy")]
+position = Vector2(32, 108)
+
+[node name="spikes4" parent="gutter" instance=ExtResource("3_au6cy")]
+position = Vector2(-32, 108)
+
+[node name="spikes6" parent="gutter" instance=ExtResource("3_au6cy")]
+position = Vector2(-32, -76)
+rotation = -3.14159
+
+[node name="spikes8" parent="gutter" instance=ExtResource("3_au6cy")]
+position = Vector2(-64, -76)
+rotation = -3.14159
+
+[node name="spikes9" parent="gutter" instance=ExtResource("3_au6cy")]
+position = Vector2(32, -76)
+rotation = -3.14159
+
+[node name="spikes10" parent="gutter" instance=ExtResource("3_au6cy")]
+position = Vector2(64, -76)
+rotation = -3.14159
+
+[node name="spikes15" parent="gutter" instance=ExtResource("3_au6cy")]
+position = Vector2(64, 108)
+
+[node name="spikes11" parent="gutter" instance=ExtResource("3_au6cy")]
+position = Vector2(0, -76)
+rotation = -3.14159
+
+[node name="blocks" type="Node" parent="."]
+
+[node name="long block" parent="blocks" instance=ExtResource("4_thjxc")]
+position = Vector2(-8, 40)
+
+[node name="long block2" parent="blocks" instance=ExtResource("4_thjxc")]
+position = Vector2(-24, 40)
+
+[node name="long block3" parent="blocks" instance=ExtResource("4_thjxc")]
+position = Vector2(8, 40)
+
+[node name="long block4" parent="blocks" instance=ExtResource("4_thjxc")]
+position = Vector2(-40, 40)
+
+[node name="long block5" parent="blocks" instance=ExtResource("4_thjxc")]
+position = Vector2(24, 40)
+
+[node name="long block6" parent="blocks" instance=ExtResource("4_thjxc")]
+position = Vector2(-56, 40)
+
+[node name="long block7" parent="blocks" instance=ExtResource("4_thjxc")]
+position = Vector2(40, 40)
+
+[node name="long block26" parent="blocks" instance=ExtResource("4_thjxc")]
+position = Vector2(-8, -16)
+
+[node name="long block27" parent="blocks" instance=ExtResource("4_thjxc")]
+position = Vector2(-24, -16)
+
+[node name="long block28" parent="blocks" instance=ExtResource("4_thjxc")]
+position = Vector2(8, -16)
+
+[node name="long block29" parent="blocks" instance=ExtResource("4_thjxc")]
+position = Vector2(-40, -16)
+
+[node name="long block30" parent="blocks" instance=ExtResource("4_thjxc")]
+position = Vector2(24, -16)
+
+[node name="long block31" parent="blocks" instance=ExtResource("4_thjxc")]
+position = Vector2(-56, -16)
+
+[node name="long block35" parent="blocks" instance=ExtResource("4_thjxc")]
+position = Vector2(-48, 8)
+blockval = 2
+
+[node name="long block45" parent="blocks" instance=ExtResource("4_thjxc")]
+position = Vector2(-24, 8)
+blockval = 1
+
+[node name="long block46" parent="blocks" instance=ExtResource("4_thjxc")]
+position = Vector2(8, 8)
+blockval = 1
+
+[node name="long block47" parent="blocks" instance=ExtResource("4_thjxc")]
+position = Vector2(-8, 0)
+blockval = 1
+
+[node name="long block48" parent="blocks" instance=ExtResource("4_thjxc")]
+position = Vector2(-8, -8)
+blockval = 1
+
+[node name="long block36" parent="blocks" instance=ExtResource("4_thjxc")]
+position = Vector2(-48, 16)
+blockval = 2
+
+[node name="long block37" parent="blocks" instance=ExtResource("4_thjxc")]
+position = Vector2(-48, 24)
+blockval = 2
+
+[node name="long block38" parent="blocks" instance=ExtResource("4_thjxc")]
+position = Vector2(32, 24)
+blockval = 2
+
+[node name="long block39" parent="blocks" instance=ExtResource("4_thjxc")]
+position = Vector2(32, 16)
+blockval = 2
+
+[node name="long block40" parent="blocks" instance=ExtResource("4_thjxc")]
+position = Vector2(32, 8)
+blockval = 2
+
+[node name="long block41" parent="blocks" instance=ExtResource("4_thjxc")]
+position = Vector2(16, 7)
+rotation = -1.57079
+blockval = 1
+
+[node name="long block42" parent="blocks" instance=ExtResource("4_thjxc")]
+position = Vector2(-24, 7)
+rotation = -1.57079
+blockval = 1
+
+[node name="long block43" parent="blocks" instance=ExtResource("4_thjxc")]
+position = Vector2(-24, 31)
+rotation = -1.57079
+blockval = 1
+
+[node name="long block44" parent="blocks" instance=ExtResource("4_thjxc")]
+position = Vector2(16, 31)
+rotation = -1.57079
+blockval = 1
+
+[node name="long block32" parent="blocks" instance=ExtResource("4_thjxc")]
+position = Vector2(40, -16)
+
+[node name="long block10" parent="blocks" instance=ExtResource("4_thjxc")]
+position = Vector2(56, 40)
+
+[node name="long block11" parent="blocks" instance=ExtResource("4_thjxc")]
+position = Vector2(-72, 40)
+
+[node name="long block12" parent="blocks" instance=ExtResource("4_thjxc")]
+position = Vector2(-72, 32)
+
+[node name="long block13" parent="blocks" instance=ExtResource("4_thjxc")]
+position = Vector2(-72, 24)
+
+[node name="long block14" parent="blocks" instance=ExtResource("4_thjxc")]
+position = Vector2(-72, 16)
+
+[node name="long block15" parent="blocks" instance=ExtResource("4_thjxc")]
+position = Vector2(-72, 8)
+
+[node name="long block16" parent="blocks" instance=ExtResource("4_thjxc")]
+position = Vector2(-72, 0)
+
+[node name="long block17" parent="blocks" instance=ExtResource("4_thjxc")]
+position = Vector2(-72, -8)
+
+[node name="long block18" parent="blocks" instance=ExtResource("4_thjxc")]
+position = Vector2(-72, -16)
+
+[node name="long block19" parent="blocks" instance=ExtResource("4_thjxc")]
+position = Vector2(56, 32)
+
+[node name="long block20" parent="blocks" instance=ExtResource("4_thjxc")]
+position = Vector2(56, 24)
+
+[node name="long block21" parent="blocks" instance=ExtResource("4_thjxc")]
+position = Vector2(56, 16)
+
+[node name="long block22" parent="blocks" instance=ExtResource("4_thjxc")]
+position = Vector2(56, 8)
+
+[node name="long block23" parent="blocks" instance=ExtResource("4_thjxc")]
+position = Vector2(56, 0)
+
+[node name="long block24" parent="blocks" instance=ExtResource("4_thjxc")]
+position = Vector2(56, -8)
+
+[node name="long block25" parent="blocks" instance=ExtResource("4_thjxc")]
+position = Vector2(56, -16)
+
+[node name="wideblockcluster" parent="blocks" instance=ExtResource("5_dj6o4")]
+position = Vector2(-48, -8)
+blockval = 2
+
+[node name="wideblockcluster2" parent="blocks" instance=ExtResource("5_dj6o4")]
+position = Vector2(32, -8)
+blockval = 2
+
+[node name="collectables" type="Node" parent="."]
+
+[node name="enemy" parent="collectables" instance=ExtResource("6_ugyqs")]
+position = Vector2(0, 29)
+enemyval = 4
+
+[node name="enemy2" parent="collectables" instance=ExtResource("6_ugyqs")]
+position = Vector2(-48, -26)
+animation = &"3"
+enemyval = 3
+moveX = true
+
+[node name="enemy3" parent="collectables" instance=ExtResource("6_ugyqs")]
+position = Vector2(64, -26)
+animation = &"3"
+enemyval = 3
+enemydrop = 2
+moveX = true

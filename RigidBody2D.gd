@@ -3,7 +3,7 @@ extends CharacterBody2D
 #https://www.youtube.com/@CyberPotatoDev
 @onready var main = $".."
 const VELOCITY_LIMIT = 13
-var SPEED = 9
+var SPEED = 10
 var damage = 1
 var damtype = "normal" #"normal", "powered", "ability"
 var powered = false
@@ -15,7 +15,8 @@ var start_pos: Vector2
 
 @onready var sfx = {
 	"die" : preload("res://kirbySprites/sfx/hurt.wav"),
-	"stardrop" : preload("res://kirbySprites/sfx/star-hit.wav")
+	"stardrop" : preload("res://kirbySprites/sfx/star-hit.wav"),
+	"powerdown" : preload("res://kirbySprites/sfx/big-enemy-appear.wav")
 }
 
 func _ready():
@@ -59,8 +60,8 @@ func ball_collision(collider):
 	
 	new_velocity.x = velocity_xy * collision_x
 	
-	if collider.get_rid() == last_collider_id && collider.is_in_group("block"):
-		new_velocity.x = new_velocity.rotated(deg_to_rad(randf_range(-45,45))).x * 9
+	if collider.get_rid() == last_collider_id:
+		new_velocity.x = new_velocity.rotated(deg_to_rad(randf_range(-45,45))).x * SPEED
 	else:
 		last_collider_id = collider.get_rid()
 	
@@ -84,7 +85,7 @@ func ability():
 func powerup():
 	powered = true
 	damage = 3
-	SPEED = 10
+	SPEED = 12
 	damtype = "powered"
 	$AnimatedSprite2D.play("power")
 	$powertimer.start()
@@ -96,6 +97,7 @@ func powerdown():
 	if $AnimatedSprite2D.animation != "shrink":
 		damage = 1
 		await get_tree().create_timer(0.5).timeout
+		Sfxhandler.play_sfx(sfx["powerdown"],main)
 		$AnimatedSprite2D.play("shrink")
 		await $AnimatedSprite2D.animation_finished
 		$AnimatedSprite2D.play("default")
@@ -108,11 +110,17 @@ func loseball():
 		lose = true
 		self.set_physics_process(false)
 		$CollisionShape2D.call_deferred("set","disabled", true)
-		$AnimatedSprite2D.play("lose")
-		Sfxhandler.play_sfx(sfx["die"],main)
-		await get_tree().create_timer(0.5).timeout
+		loseani()
+		await get_tree().create_timer(0.6).timeout
 		main.lose()
 		queue_free()
+func loseani():
+	if main.ballcount > 1:
+		$AnimatedSprite2D.play("star")
+		Sfxhandler.play_sfx(sfx["stardrop"],main)
+	else:
+		$AnimatedSprite2D.play("lose")
+		Sfxhandler.play_sfx(sfx["die"],main)
 
 func _on_interaction_area_entered(area):
 	if area == null:
@@ -124,3 +132,4 @@ func _on_interaction_area_entered(area):
 			loseball()
 		else:
 			powerdown()
+			Sfxhandler.play_sfx(sfx["stardrop"],main)

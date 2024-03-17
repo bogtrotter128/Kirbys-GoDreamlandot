@@ -113,7 +113,7 @@ func launch():
 	$paddlesprite.play("hit"+str(playernum))
 	await get_tree().create_timer(0.05).timeout
 	$Area2D/CollisionShape2D.call_deferred("set","disabled",false)
-	await get_tree().create_timer(0.8).timeout
+	await get_tree().create_timer(0.3).timeout
 	$Area2D/CollisionShape2D.call_deferred("set","disabled",true)
 	if $paddlesprite.animation != ("launch"+str(playernum)):
 		$paddlesprite.play("default"+str(playernum))

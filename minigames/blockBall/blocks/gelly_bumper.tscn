@@ -1,7 +1,7 @@
 [gd_scene load_steps=13 format=3 uid="uid://ctjqrg65uj4le"]
 
 [ext_resource type="Texture2D" uid="uid://dasmy03ir6me" path="res://kirbySprites/tiles/minigames/blockball pinball.png" id="1_a8kqs"]
-[ext_resource type="Script" path="res://minigames/blockBall/gelly_bumper.gd" id="1_njuee"]
+[ext_resource type="Script" path="res://minigames/blockBall/blocks/gelly_bumper.gd" id="1_njuee"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tva6p"]
 atlas = ExtResource("1_a8kqs")

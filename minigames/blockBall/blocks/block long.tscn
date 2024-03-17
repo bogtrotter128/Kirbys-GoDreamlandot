@@ -1,6 +1,6 @@
 [gd_scene load_steps=13 format=3 uid="uid://cpbd1jr5aq4br"]
 
-[ext_resource type="Script" path="res://minigames/blockBall/block.gd" id="1_qfbs3"]
+[ext_resource type="Script" path="res://minigames/blockBall/blocks/block.gd" id="1_qfbs3"]
 [ext_resource type="Texture2D" uid="uid://drpbl8m122dqn" path="res://kirbySprites/tiles/minigames/blockballblocks.png" id="2_molfh"]
 [ext_resource type="Texture2D" uid="uid://dsn5x5a8qcvlw" path="res://kirbySprites/tiles/minigames/breakanimation TINY.png" id="3_hc2fm"]
 
@@ -74,7 +74,7 @@ position = Vector2(8, 4)
 texture = ExtResource("2_molfh")
 hframes = 8
 vframes = 6
-frame = 9
+frame = 17
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(7.5, 3.5)
