@@ -46,20 +46,6 @@ var hashTable = {
 	"9":9
 }
 
-func _ready():
-	clearcollectables()
-
-func cameralimits(up, down, left, right):
-	$Camera2D.set_limit(SIDE_TOP, up)
-	$Camera2D.set_limit(SIDE_BOTTOM, down)
-	$Camera2D.set_limit(SIDE_LEFT, left)
-	$Camera2D.set_limit(SIDE_RIGHT, right)
-
-func playerposition(p1, p2):
-	$Player1.position = p1
-	$Player2.position = p2
-	$Camera2D.position = p1
-
 func _process(_delta): # change this to just a direction method call of kirbcall/goocall
 	if GameUtils.secondplayerrecall == true:
 		goorecall()
@@ -112,7 +98,6 @@ func dropanimalfriend(playerl,friendval,pos,dir,swimcheck):
 	#AND SUMMON THE PLAYER BACK
 
 func gooeyspawn(): #spawns gooey
-	GameUtils.SECONDPLAYER = true
 	var summongoo
 	summongoo = gooeyrecall.instantiate()
 	summongoo.position = Vector2(GameUtils.posX - 15, GameUtils.posY - 25)
@@ -159,10 +144,3 @@ func opAbilityInput(event):
 		GameUtils.ABILITYP2 = hashTable[event.as_text()]
 		Hud.updateability()
 		Hud.updateability2()
-		
-func clearcollectables():
-	for i in GameUtils.tempcollectablelist.size():
-		if GameUtils.tempcollectablelist[i] != null:
-			GameUtils.tempcollectablelist[i].queue_free()
-#		if i == GameUtils.tempcollectablelist.size():
-#			GameUtils.tempcollectablelist = []

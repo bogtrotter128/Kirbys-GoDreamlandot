@@ -1,12 +1,13 @@
-[gd_scene load_steps=16 format=3 uid="uid://fu60xjrgvvaj"]
+[gd_scene load_steps=17 format=3 uid="uid://fu60xjrgvvaj"]
 
 [ext_resource type="Texture2D" uid="uid://bw2h61mhse7ps" path="res://kirbySprites/tiles/grassland1.png" id="1_app8o"]
-[ext_resource type="Script" path="res://level scenes/1grassland/11.gd" id="1_m6it4"]
+[ext_resource type="Script" path="res://level scenes/generalworld.gd" id="1_yeosn"]
+[ext_resource type="Script" path="res://level scenes/1grassland/cloudscrollingscript.gd" id="2_68hkk"]
 [ext_resource type="PackedScene" uid="uid://dwlgh5abfpira" path="res://level scenes/props/semipermi_platform.tscn" id="3_1dc33"]
+[ext_resource type="Texture2D" uid="uid://cod2ax7j6jd01" path="res://kirbySprites/bgs/grass1clouds bg.png" id="3_dkclu"]
 [ext_resource type="Texture2D" uid="uid://coucksciavre8" path="res://kirbySprites/bgs/grass1 foreground.png" id="4_jselp"]
 [ext_resource type="PackedScene" uid="uid://b3147n7yjw7ih" path="res://level scenes/props/doors.tscn" id="4_vmimf"]
 [ext_resource type="Texture2D" uid="uid://cud3rujhhv08j" path="res://kirbySprites/bgs/grass1 bg.png" id="6_6uh3j"]
-[ext_resource type="PackedScene" uid="uid://c3iff1fh3j5od" path="res://player/playerloadinscene.tscn" id="8_436br"]
 [ext_resource type="PackedScene" uid="uid://ckudoho3yjmxy" path="res://level scenes/props/powblock.tscn" id="8_s3snd"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tdqdp"]
@@ -408,11 +409,14 @@ physics_layer_0/collision_mask = 3
 sources/1 = SubResource("TileSetAtlasSource_tapac")
 
 [node name="grasslands1" type="Node2D"]
-script = ExtResource("1_m6it4")
+script = ExtResource("1_yeosn")
+camlimit = Vector4(-111, 256, 0, 3696)
+playerpos = Vector2(80, 60)
 
 [node name="bgelements" type="Node" parent="."]
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="bgelements"]
+layer = -1
 scroll_offset = Vector2(16, 0)
 scroll_base_scale = Vector2(1.05, 1)
 
@@ -422,11 +426,77 @@ motion_offset = Vector2(-100, 0)
 motion_mirroring = Vector2(512, 0)
 
 [node name="Grass1Bg" type="Sprite2D" parent="bgelements/ParallaxBackground/bg"]
-position = Vector2(246, -34)
+position = Vector2(246, -20)
 texture = ExtResource("6_6uh3j")
 
+[node name="clouds" type="ParallaxBackground" parent="bgelements"]
+layer = 1
+scroll_base_scale = Vector2(1, 0)
+script = ExtResource("2_68hkk")
+
+[node name="cloud1" type="ParallaxLayer" parent="bgelements/clouds"]
+motion_mirroring = Vector2(530, 0)
+
+[node name="cloud1" type="Sprite2D" parent="bgelements/clouds/cloud1"]
+position = Vector2(130, -27)
+texture = ExtResource("3_dkclu")
+vframes = 5
+
+[node name="cloud2" type="Sprite2D" parent="bgelements/clouds/cloud1"]
+position = Vector2(399, -27)
+texture = ExtResource("3_dkclu")
+vframes = 5
+
+[node name="cloud2" type="ParallaxLayer" parent="bgelements/clouds"]
+motion_scale = Vector2(0.5, 1)
+motion_mirroring = Vector2(530, 0)
+
+[node name="cloud1" type="Sprite2D" parent="bgelements/clouds/cloud2"]
+position = Vector2(130, 14)
+texture = ExtResource("3_dkclu")
+vframes = 4
+frame = 1
+
+[node name="cloud2" type="Sprite2D" parent="bgelements/clouds/cloud2"]
+position = Vector2(402, 14)
+texture = ExtResource("3_dkclu")
+vframes = 4
+frame = 1
+
+[node name="cloud3" type="ParallaxLayer" parent="bgelements/clouds"]
+motion_scale = Vector2(0.2, 1)
+motion_mirroring = Vector2(530, 0)
+
+[node name="cloud1" type="Sprite2D" parent="bgelements/clouds/cloud3"]
+position = Vector2(130, 34)
+texture = ExtResource("3_dkclu")
+vframes = 5
+frame = 2
+
+[node name="cloud2" type="Sprite2D" parent="bgelements/clouds/cloud3"]
+position = Vector2(402, 34)
+texture = ExtResource("3_dkclu")
+vframes = 5
+frame = 2
+
+[node name="cloud4" type="ParallaxLayer" parent="bgelements/clouds"]
+motion_scale = Vector2(0.1, 1)
+motion_mirroring = Vector2(530, 0)
+
+[node name="cloud1" type="Sprite2D" parent="bgelements/clouds/cloud4"]
+position = Vector2(130, 62)
+texture = ExtResource("3_dkclu")
+vframes = 5
+frame = 3
+
+[node name="cloud2" type="Sprite2D" parent="bgelements/clouds/cloud4"]
+position = Vector2(402, 62)
+texture = ExtResource("3_dkclu")
+vframes = 5
+frame = 3
+
 [node name="parallax foreground" type="ParallaxBackground" parent="bgelements"]
-layer = 100
+layer = 2
 scroll_offset = Vector2(13, 0)
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="bgelements/parallax foreground"]
@@ -505,13 +575,6 @@ position = Vector2(1808, 105)
 
 [node name="props" type="Node" parent="."]
 
-[node name="Doors" parent="props" instance=ExtResource("4_vmimf")]
-position = Vector2(1480, 144)
-doorval = 4
-
-[node name="Doors2" parent="props" instance=ExtResource("4_vmimf")]
-position = Vector2(3624, 112)
-
 [node name="blocks" type="Node2D" parent="props"]
 
 [node name="block" parent="props/blocks" instance=ExtResource("8_s3snd")]
@@ -556,5 +619,13 @@ position = Vector2(2824, 120)
 [node name="block14" parent="props/blocks" instance=ExtResource("8_s3snd")]
 position = Vector2(2840, 120)
 
-[node name="playerloadinscene" parent="." instance=ExtResource("8_436br")]
-z_index = 128
+[node name="doors" type="Node" parent="."]
+
+[node name="Doors" parent="doors" instance=ExtResource("4_vmimf")]
+process_mode = 3
+position = Vector2(1480, 144)
+doorval = 4
+destination = "11-1"
+
+[node name="Doors2" parent="doors" instance=ExtResource("4_vmimf")]
+position = Vector2(3624, 112)

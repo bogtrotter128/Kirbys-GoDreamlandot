@@ -193,7 +193,7 @@ texture = ExtResource("1_4ldmg")
 script = ExtResource("2_co43t")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(1.45, 1.45)
+zoom = Vector2(1.48, 1.48)
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 offset_left = -80.0

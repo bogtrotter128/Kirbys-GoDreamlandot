@@ -28,7 +28,6 @@ func _ready():
 	reupdate_darkstar()
 	updateplayertokens()
 	updateextrastars()
-	GameUtils.tempcollectablelist = []
 
 func _input(_event):
 	if Input.is_action_pressed("left") or Input.is_action_pressed("P2left"):
@@ -57,7 +56,6 @@ func _input(_event):
 				extraswitchscene(selected)
 			if selected > GameUtils.levelmax:
 				Sfxhandler.play_sfx(sfx["cantselect"],get_parent())
-				print("not unlocked")
 			
 	#moves up around the menu
 	if Input.is_action_just_pressed("up") or Input.is_action_just_pressed("P2up"):
@@ -210,16 +208,10 @@ func updateextrastars():
 
 func reupdate_darkstar():
 	#small dark gibbits
-	if GameUtils.stage1HS == [true,true,true,true,true,true]:
-		$popstar/smalldark/Sprite2D.visible=false
-	if GameUtils.stage2HS == [true,true,true,true,true,true]:
-		$popstar/smalldark/Sprite2D2.visible=false
-	if GameUtils.stage3HS == [true,true,true,true,true,true]:
-		$popstar/smalldark/Sprite2D3.visible=false
-	if GameUtils.stage4HS == [true,true,true,true,true,true]:
-		$popstar/smalldark/Sprite2D4.visible=false
-	if GameUtils.stage5HS == [true,true,true,true,true,true]:
-		$popstar/smalldark/Sprite2D5.visible=false
+	var heartstarvarchecklist = [GameUtils.stage1HS,GameUtils.stage2HS,GameUtils.stage3HS,GameUtils.stage4HS,GameUtils.stage5HS]
+	for i in heartstarvarchecklist.size():
+		if heartstarvarchecklist[i] == [true,true,true,true,true,true]:
+			$popstar/smalldark.get_child(i).visible = false
 	#large dark gibbits
 	for i in GameUtils.levelmax - 1:
 		if i < 4: # tehre are only four children, if i goes over 4 it crashes

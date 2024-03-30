@@ -1,6 +1,6 @@
 [gd_scene load_steps=27 format=3 uid="uid://djcdnp6ostyea"]
 
-[ext_resource type="Script" path="res://RigidBody2D.gd" id="1_enjqm"]
+[ext_resource type="Script" path="res://minigames/blockBall/ballscript.gd" id="1_l6nop"]
 [ext_resource type="Texture2D" uid="uid://cn2u7j024mv00" path="res://kirbySprites/UI/minigames/blockballballs.png" id="2_5wxom"]
 [ext_resource type="Texture2D" uid="uid://kfb2mchxn3qe" path="res://kirbySprites/UI/minigames/blockballsout.png" id="3_hj4ue"]
 [ext_resource type="Texture2D" uid="uid://bhhm7kk6alh34" path="res://kirbySprites/effects/starshoot.png" id="4_r2el1"]
@@ -181,7 +181,7 @@ size = Vector2(8, 8)
 z_index = 1
 collision_layer = 2
 motion_mode = 1
-script = ExtResource("1_enjqm")
+script = ExtResource("1_l6nop")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_3poj0")

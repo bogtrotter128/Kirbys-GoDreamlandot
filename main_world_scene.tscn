@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://0iorq0c2psbq"]
+
+[ext_resource type="Script" path="res://main_world_scene.gd" id="1_b8ijt"]
+[ext_resource type="PackedScene" uid="uid://c3iff1fh3j5od" path="res://player/playerloadinscene.tscn" id="1_dtbyu"]
+[ext_resource type="PackedScene" uid="uid://d4b4flm45d21c" path="res://UI/screen_transition.tscn" id="3_snf4i"]
+
+[node name="mainWorldScene" type="Node"]
+script = ExtResource("1_b8ijt")
+
+[node name="playerloadinscene" parent="." instance=ExtResource("1_dtbyu")]
+
+[node name="screentransition" type="CanvasLayer" parent="."]
+process_mode = 3
+layer = 5
+
+[node name="screen transition" parent="screentransition" instance=ExtResource("3_snf4i")]

@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://rnr0axkx6vir" path="res://UI/pause menu/pause_menu.tscn" id="6_vm6ia"]
 
 [node name="playerloadinscene" type="Node2D" groups=["playercontrol"]]
+z_index = 100
 script = ExtResource("1_jyolc")
 
 [node name="Player2" parent="." instance=ExtResource("3_0eko1")]
@@ -17,6 +18,7 @@ script = ExtResource("1_jyolc")
 [node name="Camera2D" parent="." instance=ExtResource("1_nsk6h")]
 
 [node name="HUD" parent="." instance=ExtResource("4_m174p")]
+layer = 10
 
 [node name="pause menu" parent="HUD" instance=ExtResource("6_vm6ia")]
 visible = false

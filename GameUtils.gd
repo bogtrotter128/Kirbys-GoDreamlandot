@@ -55,9 +55,8 @@ var posY = 0
 var posXP2 = 0
 var posYP2 = 0
 
-
-#lvel variables
-var tempcollectablelist = []
+#
+var roomloaded = ""
 #this is the number of hertstars collected
 var HEARTSTARS = 0
 #levelmax is the number of levels unlocked
@@ -73,13 +72,13 @@ var stageval2 = 1
 var stage2HS = [false, false, false,false, false, false]
 
 var stageval3 = 1
-var stage3HS= [false, false, false,false, false, false]
+var stage3HS = [false, false, false,false, false, false]
 
 var stageval4 = 1
-var stage4HS= [false, false, false,false, false, false]
+var stage4HS = [false, false, false,false, false, false]
 
 var stageval5 = 1
-var stage5HS= [false, false, false,false, false, false]
+var stage5HS = [false, false, false,false, false, false]
 
 #minigame vars
 var rushhiscore = [0,0.0,0,0.0,0,0.0,0,0.0,0,0.0,0,0.0]
