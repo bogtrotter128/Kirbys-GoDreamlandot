@@ -1,5 +1,9 @@
 extends Node
 
+var coyote_frames = 6  # How many in-air frames to allow jumping
+var coyote = false  # Track whether we're in coyote time or not
+var last_floor = false  # Last frame's on-floor state
+
 @export var starFire : PackedScene
 var suckScene
 @export var dropabilitystar : PackedScene
@@ -12,6 +16,7 @@ var suckScene
 @export var parasolAbilityBox : PackedScene
 @export var broomAbilityBox : PackedScene
 func _ready():
+	$CoyoteTimer.wait_time = coyote_frames / 60.0
 	if $"..".is_in_group("player1"):
 		suckScene = load("res://projectile scenes/swallow_shape.tscn")
 	if $"..".is_in_group("player2"):
@@ -45,9 +50,13 @@ func _physics_process(_delta):
 	if direction && $"..".is_on_floor() && $"..".crouch == false:
 		$"..".velocity.y = -50
 		$"..".is_jumping = false
+	last_floor = $"..".is_on_floor()
+	if !$"..".is_on_floor() and last_floor and !$"..".is_jumping:
+		coyote = true
+		$CoyoteTimer.start()
 	
 func jump():
-	if $"..".is_jumping == false:
+	if $"..".is_jumping == false or coyote:
 		$"..".jump_timer = 0.0
 		$"..".is_jumping = true
 		$"..".apply_jump_force($"..".jump_power_initial)
@@ -58,13 +67,13 @@ func multijump():
 
 func fallphysics():
 	$"..".falling = true
-	$"..".canJump = false
+	$"..".canjump = false
 	$"..".is_jumping = true
 	$"..".velocity.y = move_toward($"..".velocity.y, 200, 7)
 
 func inhale():
 	$"..".overrideX = true
-	$"..".canJump = false
+	$"..".canjump = false
 	$"..".velocity.x = 0
 
 func spitup(v):
@@ -108,9 +117,13 @@ func abilityStop():
 	$"..".set_floor_max_angle(1)
 	$"..".activeAbility = 0
 	$"..".velocity.x = 0
-	$"..".canJump = true
+	$"..".canjump = true
 	$"..".overrideX = false
 	$"..".overrideY = false
 	$"../normalhitbox".call_deferred("set", "disabled", false)
 	$"../abilityCooldown".set_wait_time(0.07)
 	$"../abilityCooldown".start()
+
+
+func _on_coyote_timer_timeout():
+	coyote = false

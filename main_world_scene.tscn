@@ -14,3 +14,4 @@ process_mode = 3
 layer = 5
 
 [node name="screen transition" parent="screentransition" instance=ExtResource("3_snf4i")]
+metadata/_edit_use_anchors_ = true

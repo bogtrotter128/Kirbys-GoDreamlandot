@@ -16,12 +16,12 @@ script = ExtResource("1_jyolc")
 [node name="Player1" parent="." instance=ExtResource("2_citvc")]
 
 [node name="Camera2D" parent="." instance=ExtResource("1_nsk6h")]
+position_smoothing_enabled = false
 
 [node name="HUD" parent="." instance=ExtResource("4_m174p")]
 layer = 10
 
 [node name="pause menu" parent="HUD" instance=ExtResource("6_vm6ia")]
-visible = false
 offset_left = -29.0
 offset_top = 1.0
 offset_right = -29.0

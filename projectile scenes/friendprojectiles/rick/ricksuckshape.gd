@@ -20,11 +20,9 @@ func _on_body_entered(body):
 		if playerval == 2:
 			GameUtils.HELDABILITYP2 = body.copyAbilityScore
 			GameUtils.mouthValueP2 = 2
-			GameUtils.KillsuckP2 = true
 		if playerval == 1:
 			GameUtils.HELDABILITY = body.copyAbilityScore
 			GameUtils.mouthValue = 2
-			GameUtils.Killsuck = true
 		print("MOUTH VALUE: ", GameUtils.mouthValue)
 		print("EATEN SCORE: ", body.copyAbilityScore)
 		body.queue_free()

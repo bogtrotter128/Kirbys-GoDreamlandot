@@ -21,4 +21,3 @@ func updatescore(num):
 	else:
 		for i in self.get_child_count():
 			self.get_child(i).frame = 9
-

@@ -1,5 +1,6 @@
 extends Node
 var GRAVITY = 90
+
 @export var starFire : PackedScene
 var bubble = preload("res://projectile scenes/bubblebox.tscn")
 var suckScene
@@ -65,13 +66,13 @@ func fly():
 
 func fallphysics():
 	$"..".falling = true
-	$"..".canJump = false
+	$"..".canjump = false
 	$"..".is_jumping = true
 	$"..".velocity.y = move_toward($"..".velocity.y, GRAVITY, 5)
 
 func inhale():
 	$"..".overrideX = true
-	$"..".canJump = false
+	$"..".canjump = false
 	$"..".velocity.x = 0
 
 func spitup(v):
@@ -118,9 +119,13 @@ func abilityStop():
 	$"..".activeAbility = 0
 	$"..".velocity.x = 0
 	bubblestart = true
-	$"..".canJump = true
+	$"..".canjump = true
 	$"..".overrideX = false
 	$"..".overrideY = false
 	$"../normalhitbox".call_deferred("set", "disabled", false)
 	$"../abilityCooldown".set_wait_time(0.07)
 	$"../abilityCooldown".start()
+
+
+func _on_coyote_timer_timeout():
+	pass # Replace with function body.

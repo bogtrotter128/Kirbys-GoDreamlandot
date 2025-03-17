@@ -1,4 +1,7 @@
 extends Node
+#var that gets added to when a milestone is completed
+var completionpercent = 0
+
 #var that checks if gooey is present
 var SECONDPLAYER = false
 var opAbilities = false
@@ -6,6 +9,7 @@ var opAbilities = false
 var firstplayerrecall = false
 var secondplayerrecall = false
 var RECALL = false
+var CANRECALL = true
 #this is kirbs HP
 var HEALTH = 10
 #this is goos HP
@@ -20,7 +24,7 @@ var STARS = 0
 var SCORES1UP = 3
 
 #this lets me change the max jumps depending on wherever its needed
-var JUMPMAX = 1
+var JUMPMAX = 999
 
 #this is kirbs current copy ability (0 is nothing)
 var ABILITY = 0
@@ -63,10 +67,11 @@ var HEARTSTARS = 0
 var levelmax = 6
 #levelval is the selected level
 var levelval = 1
+
 #the value represents the number of stages completed/aviable for lvel 1
 var stageval1 = 1
 #list of which heartstars collected in stage
-var stage1HS = [false, false, false,false, false, false]
+var stage1HS = [true, false, false,false, false, false]
 
 var stageval2 = 1
 var stage2HS = [false, false, false,false, false, false]
@@ -81,8 +86,27 @@ var stageval5 = 1
 var stage5HS = [false, false, false,false, false, false]
 
 #minigame vars
-var rushhiscore = [0,0.0,0,0.0,0,0.0,0,0.0,0,0.0,0,0.0]
-var rushstagescore = [11,12,13,21,22,23,31,32,33,88] # 88 is endless mode, cause infinity 8
+#minigameval is the selected minigame
+var minigameval = 1
+
+var gofishscore1 = [0,0,0,0,0,0,0]
+var gofishscore2 = [0,0,0,0,0,0,0]
+var gofishunlock = [false, false, false,false,false]
+
+var rushhiscore1 = [0,0.0,0,0.0,0,0.0,0,0.0,0,0.0,0,0.0]
+var rushhiscore2 = [0,0.0,0,0.0,0,0.0,0,0.0,0,0.0,0,0.0]
+var rushunlock = [false, false, false,false,false]
+
+var egggamescore1 = [0,0,0,0,0,0,0]
+var egggamescore2 = [0,0,0,0,0,0,0]
 
 var blockballhiscore = [0,0,0,0,0,0]
-var blockballstagescore = [11,12,13,14,15,21,22,23,24,25,31,32,33,34,35] #the stage scores ex.1-1, 2-1, 3-1
+var blockballunlock = [false, false, false,false,false]
+
+var gourmetracetime1 = [0,0,0,0,0,0,0]
+var gourmetracetime2 = [0,0,0,0,0,0,0]
+var gourmetunlock = [false, false, false,false,false]
+
+var arenascore = [1992,8892]
+var arenatime = [120,30]
+var truearenaunlocked = false

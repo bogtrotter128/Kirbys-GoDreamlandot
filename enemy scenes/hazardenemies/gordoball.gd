@@ -6,7 +6,6 @@ var dir = 1
 @export var axisY = false
 
 func _physics_process(_delta):
-	
 	if axisX == true:
 		velocity.x = SPEED * dir
 	if axisY == true:

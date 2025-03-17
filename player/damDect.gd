@@ -39,6 +39,11 @@ func _on_body_entered(body):
 		body.damage(1)
 	if body.is_in_group("hazard") && $"..".iframes == false:
 		damage()
+	if body.is_in_group("idlefriend"):
+		$"..".friendlist.insert(0,body)
+func _on_body_exited(body: Node2D) -> void:
+	if body.is_in_group("idlefriend"):
+		$"..".friendlist.erase(body)
 func _on_area_entered(area):
 	if area == null:
 		pass

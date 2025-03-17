@@ -114,8 +114,8 @@ shape = SubResource("RectangleShape2D_mgw2b")
 debug_color = Color(0.756863, 0.454902, 0, 0.419608)
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
-position = Vector2(-1.19209e-08, 49)
-scale = Vector2(1e-05, 3.2)
+position = Vector2(-1.43051e-06, 49)
+scale = Vector2(2.7, 3.2)
 script = ExtResource("11_dyr4w")
 
 [connection signal="timeout" from="jumpcooldown" to="jumpcooldown" method="_on_timeout"]
@@ -130,4 +130,5 @@ script = ExtResource("11_dyr4w")
 [connection signal="body_entered" from="waterdetect" to="waterdetect" method="_on_body_entered"]
 [connection signal="body_exited" from="waterdetect" to="waterdetect" method="_on_body_exited"]
 [connection signal="body_entered" from="platformdetect" to="platformdetect" method="_on_body_entered"]
+[connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="VisibleOnScreenNotifier2D" method="_on_screen_entered"]
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="VisibleOnScreenNotifier2D" method="_on_screen_exited"]

@@ -5,7 +5,9 @@ var heartstars = []
 var tokenposition = []
 
 var unlockedstagemax
+var canmovesprite = true
 
+var caninput = true
 var pathStr
 var selectedstage = 0
 var loadstagepath
@@ -23,7 +25,6 @@ var titlecardlist = [
 	preload("res://kirbySprites/stageselect/cloud park title.png"),
 	preload("res://kirbySprites/stageselect/iceberg title.png")
 	]
-
 var artlist = [
 	preload("res://kirbySprites/stageselect/grasslands.png"),
 	preload("res://kirbySprites/stageselect/ripplefield.png"),
@@ -31,7 +32,6 @@ var artlist = [
 	preload("res://kirbySprites/stageselect/cloud park.png"),
 	preload("res://kirbySprites/stageselect/iceberg.png")
 	]
-
 var bosslist = [
 	preload("res://kirbySprites/stageselect/whipsytitle.png"),
 	preload("res://kirbySprites/stageselect/acrotitle.png"),
@@ -39,7 +39,6 @@ var bosslist = [
 	preload("res://kirbySprites/stageselect/adotitle.png"),
 	preload("res://kirbySprites/stageselect/dededetitle.png")
 	]
-
 var bosspiclist = [
 	preload("res://kirbySprites/stageselect/whispycard.png"),
 	preload("res://kirbySprites/stageselect/acrocard.png"),
@@ -49,26 +48,23 @@ var bosspiclist = [
 	]
 var tokenpos1 = [
 		Vector2(-78,0),Vector2(-60,-30),Vector2(-26,-46),Vector2(-12,4),
-		Vector2(45,2),Vector2(80,-11),Vector2(32,-45),Vector2(65,-40)
-		]
+		Vector2(45,2),Vector2(80,-11),Vector2(32,-45),Vector2(65,-40)]
 var tokenpos2 =[
 		Vector2(-72,7),Vector2(-62,-18),Vector2(-44,-44),Vector2(-14,-12),
-		Vector2(31,-49),Vector2(67,-8),Vector2(84,-32),Vector2(76,-54)
-		]
+		Vector2(31,-49),Vector2(67,-8),Vector2(84,-32),Vector2(76,-54)]
 var tokenpos3 =[
 		Vector2(-72,2),Vector2(-70,-40),Vector2(-38,-14),Vector2(-11,-27),
-		Vector2(19,-12),Vector2(56,6),Vector2(37,-23),Vector2(79,-49)
-		]
+		Vector2(19,-12),Vector2(56,6),Vector2(37,-23),Vector2(79,-49)]
 var tokenpos4 =[
 		Vector2(-78,-16),Vector2(-66,-39),Vector2(-39,-49),Vector2(-16,-4),
-		Vector2(20,-30),Vector2(60,0),Vector2(72,-36),Vector2(67,-58)
-		]
+		Vector2(20,-30),Vector2(60,0),Vector2(72,-36),Vector2(67,-58)]
 var tokenpos5 =[
 		Vector2(-84,8),Vector2(-61,-31),Vector2(-29,-38),Vector2(12,-9),
-		Vector2(65,8),Vector2(65,-21),Vector2(72,-40),Vector2(72,-75)
-		]
+		Vector2(65,8),Vector2(65,-21),Vector2(72,-40),Vector2(72,-75)]
 
 func _ready():
+	$screentransition/ColorRect.show()
+	$screentransition/AnimationPlayer.play("fade_from_black")
 	for i in range(1, 7):
 		pathStr = "res://kirbySprites/stageselect/" + str((GameUtils.levelval * 10) + i) + ".png"
 		pLst.append(pathStr)
@@ -90,7 +86,7 @@ func _ready():
 	updateplayertokens()
 	updateplayertokenposition()
 	update_heartstars()
-
+ 
 func _input(_event):
 	if Input.is_action_just_pressed("up"): #debug noise
 		unlockedstagemax += 1
@@ -99,43 +95,32 @@ func _input(_event):
 			update_portraits(unlockedstagemax)
 	#
 	if Input.is_action_just_pressed("a") or Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("start"):
-		loadstage()
-	if Input.is_action_pressed("right") && selectedstage +1 <= unlockedstagemax or Input.is_action_pressed("right") && unlockedstagemax > 6:
-		spritemoveright($selectionboxsprite)
-		selectedstage += 1
-		print(selectedstage)
+		if caninput == true:
+			caninput = false
+			loadstage()
 	
-	if Input.is_action_pressed("left") && selectedstage != 0 && unlockedstagemax < 7 or Input.is_action_pressed("left") && unlockedstagemax >= 7: 
-		spritemoveleft($selectionboxsprite)
-		selectedstage -= 1
-		print(selectedstage)
-	await get_tree().create_timer(0.1).timeout
-func spritemoveleft(sprite):
-	Sfxhandler.play_sfx(navsfx,self)
-	if selectedstage == 0 or selectedstage == 7 or selectedstage == 1:
-		sprite.position.x -= 28
-	else:
-		sprite.position.x -= 24
+	if canmovesprite == true:
+		if Input.is_action_pressed("right") && selectedstage +1 <= unlockedstagemax or Input.is_action_pressed("right") && unlockedstagemax > 6:
+			spritemove(1)
 
-func spritemoveright(sprite):
-	Sfxhandler.play_sfx(navsfx,self)
-	if selectedstage == 0 or selectedstage == 7 or selectedstage == 6:
-		sprite.position.x += 28
-	else:
-		sprite.position.x += 24
+		if Input.is_action_pressed("left") && selectedstage != 0 && unlockedstagemax < 7 or Input.is_action_pressed("left") && unlockedstagemax >= 7: 
+			spritemove(-1)
 
-func _process(_delta):
-	if selectedstage < 0:
-		selectedstage = 7
-		$selectionboxsprite.position.x = 88
-	elif selectedstage > 7:
-		selectedstage = 0
-		$selectionboxsprite.position.x = -88
+func _on_selecttimer_timeout():
+	canmovesprite = true
+
+func spritemove(dir):
+	var poslist = [-88, -60, -36, -12, 12, 36, 60, 88]
+	canmovesprite = false
+	Sfxhandler.play_sfx(navsfx,self)
+	selectedstage += dir
+	selectedstage = 7 if selectedstage < 0 else selectedstage
+	selectedstage = 0 if selectedstage > 7 else selectedstage
+	$selectionboxsprite.position.x = poslist[selectedstage]
 	if selectedstage == 0 or selectedstage == 7:
 		$selectionboxsprite.play("big")
 	else:
 		$selectionboxsprite.play("small")
-	
 	updateplayertokenposition()
 
 func update_title(value):
@@ -181,10 +166,12 @@ func updateplayertokenposition():
 func loadstage():
 	if selectedstage == 0:
 		Sfxhandler.play_sfx(backsfx,self)
-		await get_tree().create_timer(0.2).timeout
+		$screentransition/AnimationPlayer.play("fade_to_black")
+		await $screentransition/AnimationPlayer.animation_finished
 		get_tree().change_scene_to_file("res://selectScreen/popstar.tscn")
 	else:
 		Sfxhandler.play_sfx(selectsfx,self)
-		await get_tree().create_timer(0.2).timeout
+		$screentransition/AnimationPlayer.play("fade_to_black")
+		await $screentransition/AnimationPlayer.animation_finished
 		GameUtils.roomloaded = "res://level scenes/"+ levelname + "/" +str((GameUtils.levelval * 10) + selectedstage) + ".tscn"
 		get_tree().change_scene_to_file("res://main_world_scene.tscn")

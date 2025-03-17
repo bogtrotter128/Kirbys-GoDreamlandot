@@ -29,7 +29,6 @@ var checklist = [
 	preload("res://kirbySprites/UI/pause screen/checkoff.png"),
 	preload("res://kirbySprites/UI/pause screen/checkon.png")
 ]
-
 func _ready():
 	set_process_input(false)
 
@@ -53,14 +52,8 @@ func _input(_event):
 func movestart():
 	$bg.texture = bglist[selected - 1] if optionmenu == false else oplist[selected - 1]
 	Sfxhandler.play_sfx(sfx["menuselect"],get_parent())
-	if selected == 1:
-		$starselecter.position.y = 114
-	if selected == 2:
-		$starselecter.position.y = 150
-	if selected == 3:
-		$starselecter.position.y = 180
-	if selected == 4:
-		$starselecter.position.y = 210
+	var poslist = [94,128,154,184]
+	$starselecter.position.y = poslist[selected -1]
 func select():
 	if optionmenu == true:
 		if selected == 1:
@@ -79,7 +72,6 @@ func select():
 	else:
 		if selected == 1:
 			cont()
-			Sfxhandler.play_sfx(sfx["back"],get_parent())
 		if selected == 2:
 			options()
 			Sfxhandler.play_sfx(sfx["back"],get_parent())
@@ -89,6 +81,7 @@ func select():
 		if selected == 4:
 			exit()
 			Sfxhandler.play_sfx(sfx["back"],get_parent())
+#pause menu items
 func cont():
 	optionmenu = false
 	$VBoxContainer.hide()
@@ -104,9 +97,10 @@ func coop():
 	GameUtils.SECONDPLAYER = !GameUtils.SECONDPLAYER
 	main.pauseMenu()
 func exit():
+	await get_tree().create_timer(0.3).timeout
 	get_tree().paused = false
 	get_tree().change_scene_to_file("res://selectScreen/popstar.tscn")
-
+#options menu items
 func back():
 	optionmenu = false
 	movestart()
@@ -114,7 +108,6 @@ func back():
 func opjumps():
 	GameUtils.JUMPMAX = 99999 if GameUtils.JUMPMAX < 99999 else 1
 	print(GameUtils.JUMPMAX)
-	
 func ophealth():
 	GameUtils.MAXHP = 10 if GameUtils.MAXHP == 99999 else 99999
 	GameUtils.MAXHPP2 = 10 if GameUtils.MAXHPP2 == 99999 else 99999

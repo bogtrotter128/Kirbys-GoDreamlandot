@@ -1,0 +1,285 @@
+[gd_scene load_steps=14 format=3 uid="uid://bxdjx3dpbgk8t"]
+
+[ext_resource type="Script" path="res://selectScreen/minigame_select_screen.gd" id="1_cg4pk"]
+[ext_resource type="Texture2D" uid="uid://jycqn2dcog0a" path="res://kirbySprites/UI/minigames/select screen time.png" id="2_loh8p"]
+[ext_resource type="Texture2D" uid="uid://d0mvlyr0iy78e" path="res://kirbySprites/UI/minigames/selectscreentitles.png" id="3_37vmd"]
+[ext_resource type="Texture2D" uid="uid://d3nlc05vhf2ul" path="res://kirbySprites/UI/timer/numbers.png" id="3_sw0yj"]
+[ext_resource type="Texture2D" uid="uid://cjayunb7qmpks" path="res://kirbySprites/UI/minigames/truearenapng.png" id="4_0yusa"]
+[ext_resource type="Texture2D" uid="uid://behefrlew7fo3" path="res://kirbySprites/UI/pause screen/star.png" id="4_16wth"]
+[ext_resource type="Texture2D" uid="uid://c2llukgmvgq5g" path="res://kirbySprites/UI/minigames/levels.png" id="4_iq2tk"]
+[ext_resource type="Texture2D" uid="uid://b1dfv1rxem24r" path="res://kirbySprites/UI/minigames/endlesspng.png" id="5_x3vs6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rnhwh"]
+atlas = ExtResource("4_16wth")
+region = Rect2(0, 0, 18, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bxha7"]
+atlas = ExtResource("4_16wth")
+region = Rect2(18, 0, 18, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mp5of"]
+atlas = ExtResource("4_16wth")
+region = Rect2(36, 0, 18, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1enj5"]
+atlas = ExtResource("4_16wth")
+region = Rect2(54, 0, 18, 18)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_p3gb6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rnhwh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bxha7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mp5of")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1enj5")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]
+
+[node name="MinigameSelectScreen" type="Control"]
+layout_mode = 3
+anchor_right = 0.444
+anchor_bottom = 0.453
+offset_right = 0.319977
+offset_bottom = -7.936
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_cg4pk")
+
+[node name="canselecttimer" type="Timer" parent="."]
+wait_time = 0.07
+autostart = true
+
+[node name="hudsprite" type="Sprite2D" parent="."]
+position = Vector2(160, 111)
+texture = ExtResource("2_loh8p")
+
+[node name="title" type="Sprite2D" parent="."]
+position = Vector2(158, 27)
+texture = ExtResource("3_37vmd")
+vframes = 5
+
+[node name="truearenasprite" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("4_0yusa")
+
+[node name="scoredisplay" type="Node2D" parent="."]
+
+[node name="score1" type="Node2D" parent="scoredisplay"]
+visible = false
+position = Vector2(259, 46)
+
+[node name="Sprite2D6" type="Sprite2D" parent="scoredisplay/score1"]
+position = Vector2(-104.985, 4.51952)
+texture = ExtResource("3_sw0yj")
+hframes = 10
+
+[node name="Sprite2D5" type="Sprite2D" parent="scoredisplay/score1"]
+position = Vector2(-89.0345, 4.52463)
+texture = ExtResource("3_sw0yj")
+hframes = 10
+
+[node name="Sprite2D4" type="Sprite2D" parent="scoredisplay/score1"]
+position = Vector2(-73.0067, 4.50654)
+texture = ExtResource("3_sw0yj")
+hframes = 10
+
+[node name="Sprite2D3" type="Sprite2D" parent="scoredisplay/score1"]
+position = Vector2(-56.9922, 4.50555)
+texture = ExtResource("3_sw0yj")
+hframes = 10
+
+[node name="Sprite2D2" type="Sprite2D" parent="scoredisplay/score1"]
+position = Vector2(-41, 4.5)
+texture = ExtResource("3_sw0yj")
+hframes = 10
+
+[node name="Sprite2D" type="Sprite2D" parent="scoredisplay/score1"]
+position = Vector2(-25, 4.5)
+texture = ExtResource("3_sw0yj")
+hframes = 10
+
+[node name="score2" type="Node2D" parent="scoredisplay"]
+visible = false
+position = Vector2(259, 69)
+
+[node name="Sprite2D6" type="Sprite2D" parent="scoredisplay/score2"]
+position = Vector2(-104.985, 4.51952)
+texture = ExtResource("3_sw0yj")
+hframes = 10
+
+[node name="Sprite2D5" type="Sprite2D" parent="scoredisplay/score2"]
+position = Vector2(-89.0345, 4.52463)
+texture = ExtResource("3_sw0yj")
+hframes = 10
+
+[node name="Sprite2D4" type="Sprite2D" parent="scoredisplay/score2"]
+position = Vector2(-73.0067, 4.50654)
+texture = ExtResource("3_sw0yj")
+hframes = 10
+
+[node name="Sprite2D3" type="Sprite2D" parent="scoredisplay/score2"]
+position = Vector2(-56.9922, 4.50555)
+texture = ExtResource("3_sw0yj")
+hframes = 10
+
+[node name="Sprite2D2" type="Sprite2D" parent="scoredisplay/score2"]
+position = Vector2(-40.9365, 4.56123)
+texture = ExtResource("3_sw0yj")
+hframes = 10
+
+[node name="Sprite2D" type="Sprite2D" parent="scoredisplay/score2"]
+position = Vector2(-25, 4.5)
+texture = ExtResource("3_sw0yj")
+hframes = 10
+
+[node name="time1" type="Node2D" parent="scoredisplay"]
+position = Vector2(0, -0.5)
+
+[node name="minutes" type="Node2D" parent="scoredisplay/time1"]
+position = Vector2(137, 48)
+
+[node name="Sprite2D" type="Sprite2D" parent="scoredisplay/time1/minutes"]
+position = Vector2(-1, 4.5)
+texture = ExtResource("3_sw0yj")
+hframes = 10
+
+[node name="Sprite2D2" type="Sprite2D" parent="scoredisplay/time1/minutes"]
+position = Vector2(15, 4.5)
+texture = ExtResource("3_sw0yj")
+hframes = 10
+
+[node name="sec" type="Node2D" parent="scoredisplay/time1"]
+position = Vector2(137, 48)
+
+[node name="Sprite2D" type="Sprite2D" parent="scoredisplay/time1/sec"]
+position = Vector2(38, 4.5)
+texture = ExtResource("3_sw0yj")
+hframes = 10
+
+[node name="Sprite2D2" type="Sprite2D" parent="scoredisplay/time1/sec"]
+position = Vector2(54, 4.5)
+texture = ExtResource("3_sw0yj")
+hframes = 10
+
+[node name="msec" type="Node2D" parent="scoredisplay/time1"]
+position = Vector2(137, 48)
+
+[node name="Sprite2D3" type="Sprite2D" parent="scoredisplay/time1/msec"]
+position = Vector2(77, 4.5)
+texture = ExtResource("3_sw0yj")
+hframes = 10
+
+[node name="Sprite2D4" type="Sprite2D" parent="scoredisplay/time1/msec"]
+position = Vector2(93, 4.5)
+texture = ExtResource("3_sw0yj")
+hframes = 10
+
+[node name="Sprite2D5" type="Sprite2D" parent="scoredisplay/time1/msec"]
+position = Vector2(109, 4.5)
+texture = ExtResource("3_sw0yj")
+hframes = 10
+
+[node name="time2" type="Node2D" parent="scoredisplay"]
+position = Vector2(0, -0.5)
+
+[node name="minutes" type="Node2D" parent="scoredisplay/time2"]
+position = Vector2(137, 70)
+
+[node name="Sprite2D" type="Sprite2D" parent="scoredisplay/time2/minutes"]
+position = Vector2(-1, 4.5)
+texture = ExtResource("3_sw0yj")
+hframes = 10
+
+[node name="Sprite2D2" type="Sprite2D" parent="scoredisplay/time2/minutes"]
+position = Vector2(15, 4.5)
+texture = ExtResource("3_sw0yj")
+hframes = 10
+
+[node name="sec" type="Node2D" parent="scoredisplay/time2"]
+position = Vector2(137, 70)
+
+[node name="Sprite2D" type="Sprite2D" parent="scoredisplay/time2/sec"]
+position = Vector2(38, 4.5)
+texture = ExtResource("3_sw0yj")
+hframes = 10
+
+[node name="Sprite2D2" type="Sprite2D" parent="scoredisplay/time2/sec"]
+position = Vector2(54, 4.5)
+texture = ExtResource("3_sw0yj")
+hframes = 10
+
+[node name="msec" type="Node2D" parent="scoredisplay/time2"]
+position = Vector2(137, 70)
+
+[node name="Sprite2D3" type="Sprite2D" parent="scoredisplay/time2/msec"]
+position = Vector2(77, 4.5)
+texture = ExtResource("3_sw0yj")
+hframes = 10
+
+[node name="Sprite2D4" type="Sprite2D" parent="scoredisplay/time2/msec"]
+position = Vector2(93, 4.5)
+texture = ExtResource("3_sw0yj")
+hframes = 10
+
+[node name="Sprite2D5" type="Sprite2D" parent="scoredisplay/time2/msec"]
+position = Vector2(109, 4.5)
+texture = ExtResource("3_sw0yj")
+hframes = 10
+
+[node name="levelunlocks" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="levelunlocks"]
+position = Vector2(161, 146)
+texture = ExtResource("4_iq2tk")
+vframes = 4
+
+[node name="Sprite2D2" type="Sprite2D" parent="levelunlocks"]
+position = Vector2(161, 168)
+texture = ExtResource("4_iq2tk")
+vframes = 4
+frame = 1
+
+[node name="Sprite2D3" type="Sprite2D" parent="levelunlocks"]
+position = Vector2(232, 146)
+texture = ExtResource("4_iq2tk")
+vframes = 4
+frame = 2
+
+[node name="Sprite2D4" type="Sprite2D" parent="levelunlocks"]
+position = Vector2(232, 168)
+texture = ExtResource("4_iq2tk")
+vframes = 4
+frame = 3
+
+[node name="Sprite2D5" type="Sprite2D" parent="levelunlocks"]
+position = Vector2(125, 192)
+texture = ExtResource("5_x3vs6")
+
+[node name="starselecter" type="AnimatedSprite2D" parent="."]
+position = Vector2(136, 192)
+sprite_frames = SubResource("SpriteFrames_p3gb6")
+autoplay = "default"
+frame_progress = 0.113501
+
+[node name="starselecter2" type="AnimatedSprite2D" parent="."]
+visible = false
+position = Vector2(178, 192)
+sprite_frames = SubResource("SpriteFrames_p3gb6")
+autoplay = "default"
+frame_progress = 0.587819
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(160, 112)
+zoom = Vector2(1.16, 1.16)
+
+[connection signal="timeout" from="canselecttimer" to="." method="_on_canselecttimer_timeout"]

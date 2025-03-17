@@ -46,17 +46,20 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -30.0
+offset_top = -20.0
+offset_right = -30.0
+offset_bottom = -20.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_tpj2i")
 
 [node name="bg" type="Sprite2D" parent="."]
 position = Vector2(252, 164)
-scale = Vector2(1.1, 1.1)
 texture = ExtResource("2_vwgju")
 
 [node name="starselecter" type="AnimatedSprite2D" parent="."]
 process_mode = 2
-position = Vector2(148, 114)
+position = Vector2(155, 119)
 sprite_frames = SubResource("SpriteFrames_cyqf5")
 autoplay = "default"

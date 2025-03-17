@@ -35,5 +35,3 @@ func _process(_delta):
 		$"../AnimatedSprite2D".play("hurt")
 	elif $"..".hurt == true && $"..".mouthFull == true:
 		$"../AnimatedSprite2D".play("fat hurt")
-
-

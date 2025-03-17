@@ -2,7 +2,9 @@ extends CharacterBody2D
 
 var SPEED = 80.0
 var SPEEDELTA = 4
-var frenval
+
+var frenval #this isnt used for anything???
+var friendlist = []
 
 var overrideX = false
 var overrideY = false
@@ -97,7 +99,7 @@ func _input(event):
 	if event.is_action_released(JUMP) && is_jumping:
 		jump_timer = jump_time_max
 	
-		#inhale input and function call
+	#inhale input and function call
 	if Input.is_action_just_pressed(A) && abilityCooldown == false && slide == false:
 		if canInhale == true && hasAbility == false && swim == false && crouch == false:
 			$projectileProducer.inhale()
@@ -110,6 +112,14 @@ func _input(event):
 			$projectileProducer.ability(GameUtils.ABILITYP2)
 	if Input.is_action_just_released(A) && abilitycanstop == true && hasAbility == true or Input.is_action_just_released(A) && swim == true && activeAbility == 0:
 		$projectileProducer.abilityStop() # this stops abilities and bubble blowing
+	
+	if Input.is_action_just_pressed("c"):
+		if friendlist:
+			frenval = friendlist[0].frenval #sets the player's frenval equal to idlefrend's so that they summon teh correct friend
+			swim = friendlist[0].swim
+			get_parent().summonfren(self,frenval,swim) #summons friend with func in the player script
+			friendlist[0].queue_free()
+			self.queue_free()
 
 #stop inhaling
 	if Input.is_action_just_released(A) && hasAbility == false && swim == false:

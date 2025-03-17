@@ -8,3 +8,8 @@
 script = ExtResource("1_a3qfe")
 starFire = ExtResource("2_hk3a0")
 dropabilitystar = ExtResource("4_uf23q")
+
+[node name="CoyoteTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="CoyoteTimer" to="." method="_on_coyote_timer_timeout"]

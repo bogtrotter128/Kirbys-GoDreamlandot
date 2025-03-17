@@ -56,13 +56,13 @@ func fly():
 
 func fallphysics():
 	$"..".falling = true
-	$"..".canJump = false
+	$"..".canjump = false
 	$"..".is_jumping = true
 	$"..".velocity.y = move_toward($"..".velocity.y, 200, 7)
 
 func inhale():
 	$"..".overrideX = true
-	$"..".canJump = false
+	$"..".canjump = false
 	$"..".velocity.x = 0
 
 func spitup(v):
@@ -108,7 +108,7 @@ func abilityStop():
 	$"..".activeAbility = 0
 	$"..".velocity.x = 0
 	bubblestart = true
-	$"..".canJump = true
+	$"..".canjump = true
 	$"..".overrideX = false
 	$"..".overrideY = false
 	$"../normalhitbox".call_deferred("set", "disabled", false)

@@ -1,8 +1,9 @@
 extends Node
-@onready var room = load(GameUtils.roomloaded)
+var room = load(GameUtils.roomloaded)
 var tempcollectablelist = []
 
 func _ready():
+	room = load("res://debug_world.tscn")
 	loadroom()
 
 func setcameralimits(campos):
@@ -12,10 +13,9 @@ func setcameralimits(campos):
 	$playerloadinscene/Camera2D.set_limit(SIDE_RIGHT, campos.w)
 
 func setplayerposition(pos):
+	for node in get_tree().get_nodes_in_group("player"):
+		node.position = pos
 	$playerloadinscene/Camera2D.position = pos
-	$playerloadinscene/Player1.position = pos
-	if GameUtils.SECONDPLAYER == true:
-		$playerloadinscene/Player2.position = pos - Vector2(20,20)
 
 func clearcollectables():
 	for i in tempcollectablelist.size():

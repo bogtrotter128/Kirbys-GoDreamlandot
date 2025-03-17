@@ -1782,8 +1782,7 @@ position = Vector2(0, 8)
 shape = SubResource("RectangleShape2D_h55w7")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
-position = Vector2(-1.19209e-08, 49)
-scale = Vector2(1e-05, 3.2)
+scale = Vector2(2.7, 3.2)
 script = ExtResource("71_lvd8u")
 
 [connection signal="timeout" from="jumpcooldown" to="jumpcooldown" method="_on_timeout"]
@@ -1792,9 +1791,11 @@ script = ExtResource("71_lvd8u")
 [connection signal="timeout" from="runCooloff" to="." method="_on_run_cooloff_timeout"]
 [connection signal="area_entered" from="damDect" to="damDect" method="_on_area_entered"]
 [connection signal="body_entered" from="damDect" to="damDect" method="_on_body_entered"]
+[connection signal="body_exited" from="damDect" to="damDect" method="_on_body_exited"]
 [connection signal="timeout" from="damDect/iframetimer" to="damDect/iframetimer" method="_on_timeout"]
 [connection signal="timeout" from="damDect/frameflash" to="damDect/frameflash" method="_on_timeout"]
 [connection signal="body_entered" from="platformdetect" to="platformdetect" method="_on_body_entered"]
 [connection signal="body_entered" from="waterdetect" to="waterdetect" method="_on_body_entered"]
 [connection signal="body_exited" from="waterdetect" to="waterdetect" method="_on_body_exited"]
+[connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="VisibleOnScreenNotifier2D" method="_on_screen_entered"]
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="VisibleOnScreenNotifier2D" method="_on_screen_exited"]

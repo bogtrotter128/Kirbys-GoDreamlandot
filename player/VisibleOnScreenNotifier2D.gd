@@ -1,23 +1,24 @@
 extends VisibleOnScreenNotifier2D
-var call = false
+var rcall = false
 func _ready():
 	set_process(false)
 	await get_tree().create_timer(0.5).timeout
 	set_process(true)
 
 func _on_screen_exited():
-	call = true
-	if GameUtils.RECALL == false:
-		GameUtils.RECALL = true
-		recall()
+	if GameUtils.CANRECALL == true:
+		rcall = true
+		if GameUtils.RECALL == false:
+			GameUtils.RECALL = true
+			recall()
 
 func _on_screen_entered():
-	call = false
-
+	rcall = false
+ 
 func _process(_delta):
-	if call == true && GameUtils.RECALL == false:
+	if rcall == true && GameUtils.RECALL == false:
 		GameUtils.RECALL = true
-		call = false
+		rcall = false
 		recall()
 
 func recall():

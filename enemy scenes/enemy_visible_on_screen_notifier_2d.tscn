@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://enemy scenes/enemy_visible_on_screen_notifier_2d.gd" id="1_i6nav"]
 
 [node name="EnemyVisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D"]
+scale = Vector2(2.63161, 2.63161)
 script = ExtResource("1_i6nav")
 
 [connection signal="screen_entered" from="." to="." method="_on_screen_entered"]

@@ -4,13 +4,13 @@
 [ext_resource type="Script" path="res://enemy scenes/waterenemies/slippy/slippy.gd" id="2_it4wh"]
 [ext_resource type="Texture2D" uid="uid://ct8oteyye3ryn" path="res://kirbySprites/enemy/slippy.png" id="3_n8yve"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_7mg83"]
-atlas = ExtResource("3_n8yve")
-region = Rect2(19, 0, 19, 19)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_ocxpi"]
 atlas = ExtResource("3_n8yve")
 region = Rect2(0, 0, 19, 19)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7mg83"]
+atlas = ExtResource("3_n8yve")
+region = Rect2(19, 0, 19, 19)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1w28k"]
 atlas = ExtResource("3_n8yve")
@@ -36,18 +36,18 @@ region = Rect2(38, 0, 19, 19)
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_7mg83")
-}],
-"loop": true,
-"name": &"default",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
 "texture": SubResource("AtlasTexture_ocxpi")
 }],
 "loop": true,
 "name": &"hurt",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7mg83")
+}],
+"loop": true,
+"name": &"idle",
 "speed": 5.0
 }, {
 "frames": [{
@@ -100,7 +100,8 @@ script = ExtResource("2_it4wh")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_ikdsa")
-autoplay = "default"
+animation = &"idle"
+autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 2)

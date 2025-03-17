@@ -27,4 +27,3 @@ func updatescore1up():
 var upenemybar = false
 func updateenemybar():
 	upenemybar = true
-

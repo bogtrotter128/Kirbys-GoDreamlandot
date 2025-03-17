@@ -23,15 +23,14 @@ layer = 128
 script = ExtResource("4_ag0vo")
 
 [node name="Mainhud" type="Sprite2D" parent="."]
-position = Vector2(228, 209)
-scale = Vector2(1.10526, 1.10526)
+position = Vector2(176, 145)
 texture = ExtResource("1_fveks")
 
 [node name="Starbar" type="HBoxContainer" parent="."]
-offset_left = 162.0
-offset_top = 296.0
-offset_right = 296.0
-offset_bottom = 310.0
+offset_left = 110.0
+offset_top = 222.0
+offset_right = 244.0
+offset_bottom = 236.0
 theme_override_constants/separation = 3
 script = ExtResource("2_uf0wp")
 metadata/_edit_use_anchors_ = true
@@ -71,10 +70,10 @@ texture = ExtResource("3_3qbfe")
 stretch_mode = 2
 
 [node name="HPbar" type="HBoxContainer" parent="."]
-offset_left = 159.0
-offset_top = 278.0
-offset_right = 248.0
-offset_bottom = 298.0
+offset_left = 107.0
+offset_top = 206.0
+offset_right = 196.0
+offset_bottom = 226.0
 theme_override_constants/separation = 1
 script = ExtResource("4_v51j2")
 metadata/_edit_use_anchors_ = true
@@ -105,10 +104,10 @@ texture = ExtResource("5_1mr52")
 stretch_mode = 2
 
 [node name="HPbar2" type="HBoxContainer" parent="."]
-offset_left = 231.0
-offset_top = 278.0
-offset_right = 302.0
-offset_bottom = 298.0
+offset_left = 179.0
+offset_top = 206.0
+offset_right = 250.0
+offset_bottom = 226.0
 theme_override_constants/separation = 1
 script = ExtResource("6_af4nt")
 metadata/_edit_use_anchors_ = true
@@ -134,10 +133,10 @@ texture = ExtResource("7_qekpk")
 stretch_mode = 2
 
 [node name="enemybar" type="HBoxContainer" parent="."]
-offset_left = 161.0
-offset_top = 312.0
-offset_right = 303.0
-offset_bottom = 339.0
+offset_left = 109.0
+offset_top = 239.0
+offset_right = 251.0
+offset_bottom = 266.0
 theme_override_constants/separation = 1
 script = ExtResource("8_4gs5g")
 metadata/_edit_use_anchors_ = true
@@ -183,11 +182,10 @@ texture = ExtResource("9_cleeg")
 stretch_mode = 2
 
 [node name="abilitycard" type="HBoxContainer" parent="."]
-offset_left = 99.6042
-offset_top = 277.342
-offset_right = 141.604
-offset_bottom = 317.342
-scale = Vector2(1.16, 1.12)
+offset_left = 60.5
+offset_top = 208.0
+offset_right = 102.5
+offset_bottom = 248.0
 script = ExtResource("12_nty5n")
 metadata/_edit_use_anchors_ = true
 
@@ -196,11 +194,10 @@ layout_mode = 2
 texture = ExtResource("11_20qq5")
 
 [node name="abilitycard2" type="HBoxContainer" parent="."]
-offset_left = 310.604
-offset_top = 277.342
-offset_right = 352.604
-offset_bottom = 317.342
-scale = Vector2(1.16, 1.12)
+offset_left = 252.604
+offset_top = 210.342
+offset_right = 294.604
+offset_bottom = 250.342
 script = ExtResource("14_g8yml")
 metadata/_edit_use_anchors_ = true
 
@@ -209,7 +206,7 @@ layout_mode = 2
 texture = ExtResource("11_20qq5")
 
 [node name="Score" type="Node2D" parent="."]
-position = Vector2(0, 4)
+position = Vector2(-52, -70)
 script = ExtResource("15_jep07")
 metadata/_edit_use_anchors_ = true
 

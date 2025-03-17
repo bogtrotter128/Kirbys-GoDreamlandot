@@ -14,7 +14,7 @@ var normaldamageguard = false
 
 #jumps^^^^^^^^^^^^^^^^^^^^^^^
 var is_jumping = false
-var canJump = true
+var canjump = true
 const JUMP_VELOCITY_STEP = 0.09
 var jump_power_initial = -150
 var jump_power = 0
@@ -153,7 +153,7 @@ func _process(_delta):
 #i n p u t p r o c e s s e s
 	if crouch == false && overrideY == false && swim == false:
 		#handles jump input and calls jump function
-		if Input.is_action_pressed(JUMP) && is_jumping == false && canJump == true && overrideX == false && falling == false:
+		if Input.is_action_pressed(JUMP) && is_jumping == false && canjump == true && overrideX == false && falling == false:
 			$animalfriendcode.jump()
 		#while jump is held, jumptimer increases
 		if Input.is_action_pressed(JUMP) && is_jumping == true && jump_timer < jump_time_max:
@@ -241,7 +241,7 @@ func groundphys(delta):
 func landed():
 	falling = false
 	flight = false
-	canJump = true
+	canjump = true
 	jump_timer = 0.0
 	is_jumping = false
 
@@ -256,7 +256,7 @@ func inhale():
 
 func inhaleStop():
 	inhaling = false
-	canJump = true
+	canjump = true
 	canInhale = true
 	overrideX = false
 	abilityCooldown = true
@@ -270,7 +270,7 @@ func docrouch():
 		velocity.x = 0
 		crouch = true
 		overrideX = true
-		canJump = false
+		canjump = false
 		canInhale = false
 		$normalhitbox.call_deferred("set", "disabled", true)
 	
@@ -278,7 +278,7 @@ func uncrouch():
 	crouch = false
 	overrideX = false
 	canInhale = true
-	canJump = true
+	canjump = true
 	$normalhitbox.call_deferred("set", "disabled", false)
 
 func swallow():
@@ -314,7 +314,7 @@ func spitCascade():
 	overrideX = false
 	abilityCooldown = false
 	canInhale = true
-	canJump = true
+	canjump = true
 
 func heal(v):
 	if is_in_group("player1"):

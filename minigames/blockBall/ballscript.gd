@@ -2,8 +2,9 @@ extends CharacterBody2D
 #ty CyberPotato for the tutorial
 #https://www.youtube.com/@CyberPotatoDev
 @onready var main = $".."
-const VELOCITY_LIMIT = 13
-var SPEED = 10
+var playerballval = 1
+const VELOCITY_LIMIT = 11
+var SPEED = 9
 var damage = 1
 var damtype = "normal" #"normal", "powered", "ability"
 var powered = false
@@ -21,6 +22,9 @@ var start_pos: Vector2
 
 func _ready():
 	start_pos = position
+	$AnimatedSprite2D.play(str(playerballval)+"default")
+	if playerballval == 2:
+		self.add_to_group("ball2") #only used to delete p2 balls
 
 func _physics_process(delta):
 	var collision = move_and_collide(velocity * SPEED * delta)
@@ -32,16 +36,14 @@ func _physics_process(delta):
 		collider.breakblock(damage,damtype)
 	if collider.is_in_group("paddle"): #used for paddles and bumpers
 		collider.catch()
-	
 	if collider.is_in_group("block") or collider.is_in_group("paddle"):
 		ball_collision(collider)
 	else:
 		velocity = velocity.bounce(collision.get_normal())
-	
 	turnani()
 
 func grabballpos():
-	if $".".is_in_group("ball2"):
+	if playerballval == 2:
 		main.ball2pos = position
 	else:
 		main.ball1pos = position
@@ -50,7 +52,6 @@ func ball_collision(collider):
 	var ball_center_x = position.x
 	var collider_width = collider.get_width()
 	var collider_center_x = collider.position.x
-	
 	
 	var velocity_xy = velocity.length()
 	
@@ -87,20 +88,20 @@ func powerup():
 	damage = 3
 	SPEED = 12
 	damtype = "powered"
-	$AnimatedSprite2D.play("power")
+	$AnimatedSprite2D.play(str(playerballval)+"power")
 	$powertimer.start()
 func _on_powertimer_timeout():
 	if powered == true:
 		powerdown()
 
 func powerdown():
-	if $AnimatedSprite2D.animation != "shrink":
+	if $AnimatedSprite2D.animation != (str(playerballval)+"shrink"):
 		damage = 1
 		await get_tree().create_timer(0.5).timeout
 		Sfxhandler.play_sfx(sfx["powerdown"],main)
-		$AnimatedSprite2D.play("shrink")
+		$AnimatedSprite2D.play(str(playerballval)+"shrink")
 		await $AnimatedSprite2D.animation_finished
-		$AnimatedSprite2D.play("default")
+		$AnimatedSprite2D.play(str(playerballval)+"default")
 		SPEED = 9
 		damtype = "normal"
 		powered = false
@@ -112,14 +113,18 @@ func loseball():
 		$CollisionShape2D.call_deferred("set","disabled", true)
 		loseani()
 		await get_tree().create_timer(0.6).timeout
+		if playerballval == 1:
+			main.ballcountP1 -= 1
+		else:
+			main.ballcountP2 -= 1
 		main.lose()
 		queue_free()
 func loseani():
-	if main.ballcount > 1:
+	if main.ballcountP1 > 1 && playerballval == 1 or main.ballcountP2 > 1 && playerballval == 2:
 		$AnimatedSprite2D.play("star")
 		Sfxhandler.play_sfx(sfx["stardrop"],main)
-	else:
-		$AnimatedSprite2D.play("lose")
+	elif main.ballcountP1 < 1 && playerballval == 1 or main.ballcountP2 < 1 && playerballval == 2:
+		$AnimatedSprite2D.play(str(playerballval)+"lose")
 		Sfxhandler.play_sfx(sfx["die"],main)
 
 func _on_interaction_area_entered(area):

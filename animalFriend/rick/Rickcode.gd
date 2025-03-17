@@ -26,7 +26,7 @@ func multijump():
 
 func fallphysics():
 	$"..".falling = true
-	$"..".canJump = false
+	$"..".canjump = false
 	$"..".is_jumping = true
 	if wallcling == false:
 		$"..".velocity.y = move_toward($"..".velocity.y, 200, 7)
@@ -53,7 +53,7 @@ func _input(_event):
 		walljump = false
 	if Input.is_action_just_pressed($"..".JUMP) && walljump == true:
 		wallcling = false
-		$"..".canJump = true
+		$"..".canjump = true
 		$"..".is_jumping = false
 		$"..".velocity.x += -45 * $"..".DIR
 		jump()
@@ -106,7 +106,7 @@ func abilityStop():
 	$"..".activeAbility = 0
 	$"..".velocity.x = 0
 	bubblestart = true
-	$"..".canJump = true
+	$"..".canjump = true
 	$"..".overrideX = false
 	$"..".overrideY = false
 	$"../normalhitbox".call_deferred("set", "disabled", false)

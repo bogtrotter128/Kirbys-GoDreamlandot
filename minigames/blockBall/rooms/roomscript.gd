@@ -6,7 +6,10 @@ extends Node2D
 @export var ybounds = [-30,38]
 
 func _ready():
+	main.blockgoal = 0
 	main.xbounds = xbounds
 	main.ybounds = ybounds
 	main.updatepaddles(Ypaddles)
 	main.stagescore = stagescore
+	await get_tree().create_timer(0.3).timeout
+	main.fade_from_black()

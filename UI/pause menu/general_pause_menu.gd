@@ -32,14 +32,8 @@ func _input(_event):
 
 func movestart():
 	Sfxhandler.play_sfx(sfx["menuselect"],get_parent())
-	if selected == 1:
-		$starselecter.position.y = 114
-	if selected == 2:
-		$starselecter.position.y = 150
-	if selected == 3:
-		$starselecter.position.y = 180
-	if selected == 4:
-		$starselecter.position.y = 210
+	var poslist = [119,147,176]
+	$starselecter.position.y = poslist[selected -1]
 func select():
 	if selected == 1:
 		cont()

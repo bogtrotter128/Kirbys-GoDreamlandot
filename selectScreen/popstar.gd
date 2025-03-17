@@ -8,6 +8,7 @@ var popstar = true
 var darkstar = false
 var selected = 0
 var extras = false
+var caninput = true
 var extracoords = [Vector2(-1,-120),
 	Vector2(-116,-90),Vector2(-169,-16),Vector2(-108,98),
 	Vector2(103,92),Vector2(148,12),Vector2(85,-100)]
@@ -22,6 +23,8 @@ var sfx = {
 }
 
 func _ready():
+	$screentransition/ColorRect.show()
+	$screentransition/AnimationPlayer.play("fade_from_black")
 	levelscore = GameUtils.levelval
 	$popstar.rotation_degrees -= 72 * (GameUtils.levelval - 1)
 	targetdegree = $popstar.rotation_degrees
@@ -30,35 +33,46 @@ func _ready():
 	updateextrastars()
 
 func _input(_event):
+	
+	#debug room
+	if Input.is_action_just_pressed("debug0"):
+		GameUtils.roomloaded = "res://debug_world.tscn"
+		get_tree().change_scene_to_file("res://main_world_scene.tscn")
+	
 	if Input.is_action_pressed("left") or Input.is_action_pressed("P2left"):
 		if popstar == true:
 			popstarinput(-1)
 		if extras == true:
 			extrainput(1)
+		for i in $playersprites.get_child_count():
+			$playersprites.get_child(i).flip_h = true
 	if Input.is_action_pressed("right") or Input.is_action_pressed("P2right"):
 		if popstar == true:
 			popstarinput(1)
 		if extras == true:
 			extrainput(-1)
+		for i in $playersprites.get_child_count():
+			$playersprites.get_child(i).flip_h = false
 	#level select
 	if Input.is_action_just_pressed("a") or Input.is_action_just_pressed("P2a") or Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("P2jump"):
-		if popstar == true:
+		if popstar == true && caninput:
+			caninput = false
 			Sfxhandler.play_sfx(sfx["enter_select"],get_parent())
 			GameUtils.levelval = levelscore
 			await get_tree().create_timer(0.1).timeout
 			stageswitchscene()
-		if darkstar == true:
+		elif darkstar == true:
 			print("level 6")
-		if extras == true:
-			if selected < GameUtils.levelmax or GameUtils.levelmax > 5:
+		elif extras == true:
+			if selected != 0 && selected < GameUtils.levelmax or selected != 0 && GameUtils.levelmax > 5:
 				Sfxhandler.play_sfx(sfx["enter_select"],get_parent())
 				await get_tree().create_timer(0.1).timeout
 				extraswitchscene(selected)
-			if selected > GameUtils.levelmax:
+			elif selected > GameUtils.levelmax:
 				Sfxhandler.play_sfx(sfx["cantselect"],get_parent())
 			
 	#moves up around the menu
-	if Input.is_action_just_pressed("up") or Input.is_action_just_pressed("P2up"):
+	if (Input.is_action_just_pressed("up") or Input.is_action_just_pressed("P2up") && caninput):
 		if popstar == true:
 			$playersprites.position.y -= 40
 			popstar = false
@@ -193,9 +207,9 @@ func showeye():
 var cantween = true
 func tweener():
 	var tween = create_tween()
-	tween.tween_property($popstar,"position",Vector2(1,1),0.2)
+	tween.tween_property($popstar,"position",Vector2(2,2),0.2)
 	tween.tween_property($popstar,"position",Vector2(0,0),0.2)
-	tween.tween_property($popstar,"position",Vector2(1,-1),0.2)
+	tween.tween_property($popstar,"position",Vector2(2,-2),0.2)
 	cantween = false
 	$tweentimer.start()
 
@@ -225,6 +239,9 @@ func reupdate_darkstar():
 		$darkeye.play("small")
 
 func stageswitchscene():
+	$screentransition/AnimationPlayer.play("fade_to_black")
+	await $screentransition/AnimationPlayer.animation_finished
 	get_tree().change_scene_to_file("res://selectScreen/stageSelect.tscn")
 func extraswitchscene(select):
-	print(select)
+	GameUtils.minigameval = select
+	get_tree().change_scene_to_file("res://selectScreen/minigame_select_screen.tscn")

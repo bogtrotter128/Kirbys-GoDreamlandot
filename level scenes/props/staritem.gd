@@ -13,11 +13,9 @@ func _ready():
 #functions that DOES THE THINGGGGG
 func _on_area_detect_body_entered(body):
 	if body.is_in_group("player"):
-		GameUtils.tempcollectablelist.append(self)
 		self.queue_free()
 		GameUtils.STARS += starValue
 		Hud.updatestarbar()
-		print(GameUtils.tempcollectablelist)
 		
 
 func _physics_process(_delta):

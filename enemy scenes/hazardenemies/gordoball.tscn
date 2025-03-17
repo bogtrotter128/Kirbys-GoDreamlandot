@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=3 uid="uid://blvoc6lsnm5rb"]
 
 [ext_resource type="Texture2D" uid="uid://dugiarvjhi8wk" path="res://kirbySprites/enemy/gordoball.png" id="1_jwjqf"]
-[ext_resource type="Script" path="res://enemy scenes/gordoball.gd" id="1_xces3"]
+[ext_resource type="Script" path="res://enemy scenes/hazardenemies/gordoball.gd" id="1_xces3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vkbu3"]
 

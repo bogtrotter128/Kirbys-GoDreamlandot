@@ -1,8 +1,6 @@
-[gd_scene load_steps=15 format=3 uid="uid://dtvr2wnp0tar4"]
+[gd_scene load_steps=13 format=3 uid="uid://dtvr2wnp0tar4"]
 
-[ext_resource type="Script" path="res://minigames/blockBall/blocks/wide_block_export_vars.gd" id="1_484ud"]
-[ext_resource type="PackedScene" uid="uid://cl66tkah5ptf2" path="res://minigames/blockBall/blocks/tiny_block.tscn" id="2_8qrgk"]
-[ext_resource type="Script" path="res://minigames/blockBall/blocks/wide_block.gd" id="3_4v017"]
+[ext_resource type="Script" path="res://minigames/blockBall/blocks/block.gd" id="1_b4pko"]
 [ext_resource type="Texture2D" uid="uid://drpbl8m122dqn" path="res://kirbySprites/tiles/minigames/blockballblocks.png" id="4_s74oa"]
 [ext_resource type="Texture2D" uid="uid://bfkx83asp68wf" path="res://kirbySprites/props/blocks/breakanimation.png" id="5_u8ac3"]
 
@@ -66,45 +64,23 @@ animations = [{
 "speed": 12.0
 }]
 
-[node name="wideblockcluster" type="Node2D"]
-script = ExtResource("1_484ud")
-
-[node name="tiny block" parent="." instance=ExtResource("2_8qrgk")]
-script = ExtResource("3_4v017")
-blockpoints = [100, 200, 500]
-
-[node name="tiny block2" parent="." instance=ExtResource("2_8qrgk")]
-position = Vector2(8, 0)
-script = ExtResource("3_4v017")
-blockpoints = [100, 200, 500]
-
-[node name="tiny block3" parent="." instance=ExtResource("2_8qrgk")]
-position = Vector2(0, 8)
-script = ExtResource("3_4v017")
-blockpoints = [100, 200, 500]
-
-[node name="tiny block4" parent="." instance=ExtResource("2_8qrgk")]
-position = Vector2(8, 8)
-script = ExtResource("3_4v017")
-blockpoints = [100, 200, 500]
-
-[node name="wide block" type="StaticBody2D" parent="." groups=["block"]]
+[node name="wide block" type="StaticBody2D" groups=["block"]]
 collision_layer = 3
 collision_mask = 3
-script = ExtResource("3_4v017")
+script = ExtResource("1_b4pko")
 
-[node name="Sprite2D" type="Sprite2D" parent="wide block"]
+[node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(8, 8)
 texture = ExtResource("4_s74oa")
 hframes = 8
 vframes = 3
 frame = 1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="wide block"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(7.375, 7.375)
 shape = SubResource("RectangleShape2D_k481s")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="wide block"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 visible = false
 position = Vector2(7, 7)
 sprite_frames = SubResource("SpriteFrames_uml21")

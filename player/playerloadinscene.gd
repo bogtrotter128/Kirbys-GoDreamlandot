@@ -73,6 +73,8 @@ func summonfren(player,frenval,swimcheck): #only used by the players, not animal
 		animalfriend.add_to_group("player2")
 		friendsprite = load(friendspritelist2[frenval -1]).instantiate()
 	print(swimcheck)
+	animalfriend.canjump = false
+	animalfriend.velocity = player.velocity
 	animalfriend.swim = swimcheck
 	print(animalfriend.swim)
 	animalfriend.add_child(friendcode) #adds the code node to the animalfriend
@@ -86,10 +88,13 @@ func dropanimalfriend(playerl,friendval,pos,dir,swimcheck):
 	var animalfrienddrop = dropfriend.instantiate()
 	var player = playerl.instantiate()
 	animalfrienddrop.frenval = friendval
-	animalfrienddrop.position = pos
+	animalfrienddrop.position = pos - Vector2(0,20)
 	animalfrienddrop.swim = swimcheck
-	call_deferred("add_child", animalfrienddrop)
+	for node in get_tree().get_nodes_in_group("room"):
+		node.call_deferred("add_child", animalfrienddrop)
 	player.position = pos
+	player.canJump = false
+	#player.velocity = player.velocity
 	player.swim = swimcheck
 	if friendval == 4: #makes kine spit out kirby
 		player.velocity.x += 200 * dir

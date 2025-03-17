@@ -2,7 +2,6 @@ extends StaticBody2D
 
 @onready var main = $".."
 @onready var ball1 = preload("res://minigames/blockBall/ball.tscn")
-@onready var ball2 = preload("res://minigames/blockBall/p_2_ball.tscn")
 var ballangle : Vector2
 @export var MAINPADDLE = true #this determins if this paddle summons a ball
 @export var xdircheck = true
@@ -29,7 +28,10 @@ func _ready():
 	pinput()
 	if MAINPADDLE == true:
 		start = false
-		main.ballcount += 1
+		if playernum == 1:
+			main.ballcountP1 = 1
+		else:
+			main.ballcountP2 = 1
 	else:
 		start = true
 		$ballaimsprite.hide()
@@ -37,7 +39,10 @@ func _ready():
 func new_ball():
 	if MAINPADDLE == true:
 		start = false
-		main.ballcount += 1
+		if playernum == 1:
+			main.ballcountP1 += 1
+		else:
+			main.ballcountP2 += 1
 		rotplace = 0
 		$ballaimsprite.show()
 		$ballaimsprite.play("aim"+str(playernum))
@@ -62,7 +67,7 @@ func pinput():
 	$paddlesprite.play("default"+str(playernum))
 	$ballaimsprite.play("aim"+str(playernum))
 
-func _process(_delta):
+func _physics_process(_delta):
 	if xdircheck == true:
 		xdir()
 	if xdircheck == false:
@@ -101,7 +106,8 @@ func updateangle():
 
 func throwball():
 	start = true
-	var ball = ball1.instantiate() if playernum == 1 else ball2.instantiate()
+	var ball = ball1.instantiate()
+	ball.playerballval = 1 if playernum == 1 else 2
 	ball.velocity = ballangle * 7 if playernum == 1 else ballangle * -7
 	ball.position = Vector2(position.x,position.y - 5) if playernum == 1 else Vector2(position.x,position.y + 5)
 	main.add_child(ball)

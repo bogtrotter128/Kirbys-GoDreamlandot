@@ -22,7 +22,7 @@ func damage():
 		$"..".velocity.y = -40
 	await get_tree().create_timer(0.3).timeout
 	$"..".hurt = false
-	$"..".canJump = true
+	$"..".canjump = true
 	$"..".canInhale = true
 	$"..".overrideX = false
 	$"..".overrideY = false

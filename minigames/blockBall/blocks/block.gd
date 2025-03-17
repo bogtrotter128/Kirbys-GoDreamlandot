@@ -9,7 +9,9 @@ var bubbled = false
 
 func _ready():
 	$Sprite2D.frame += blockval -1
+	await get_tree().create_timer(0.1).timeout
 	main.blockgoal += 1
+	print("blockgal: " + str(main.blockgoal))
 
 func breakblock(damage,_damtype):
 	main.pointspawn(blockpoints[blockval-1],self.position)
@@ -22,8 +24,7 @@ func breakblock(damage,_damtype):
 	update($Sprite2D.frame - 1)
 func bubble():
 	bubbled = true
-	blockval = 0
-	update(blockval)
+	#summon a bubble block and remove the block
 
 func update(val):
 	$Sprite2D.frame = val
@@ -35,8 +36,6 @@ func destroyed():
 	$Sprite2D.hide()
 	$AnimatedSprite2D.show()
 	$AnimatedSprite2D.play("default")
-	if bubbled == true:
-		main.bonusscore += 1
 	await $AnimatedSprite2D.animation_finished
 	self.queue_free()
 

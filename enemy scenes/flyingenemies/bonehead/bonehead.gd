@@ -140,4 +140,3 @@ func damage(value):
 	$hitDetect.call_deferred("set", "disabled", false)
 	await get_tree().create_timer(0.2).timeout
 	$AnimatedSprite2D.play("default")
-

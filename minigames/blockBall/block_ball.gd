@@ -2,9 +2,9 @@ extends Node2D
 
 @onready var pointnotif = preload("res://minigames/blockBall/pointcounterspawn.tscn")
 @onready var ball1 = preload("res://minigames/blockBall/ball.tscn")
-@onready var ball2 = preload("res://minigames/blockBall/p_2_ball.tscn")
 var paused = false
-@onready var pause = $CanvasLayer/general_pause_menu
+@onready var pause = $"UI elements/general_pause_menu"
+@onready var screenani = $"UI elements/screentransition/screen transition/AnimationPlayer"
 @onready var levels = {
 	11: preload("res://minigames/blockBall/rooms/room11.tscn"),
 	12: preload("res://minigames/blockBall/rooms/room12.tscn"),
@@ -26,7 +26,8 @@ var paused = false
 var xbounds = [-84,84]
 var ybounds = [-30,38]
 var ballscore = 99
-var ballcount = 0
+var ballcountP1 = 0
+var ballcountP2 = 0
 
 var blockcount = 0
 var blockgoal = 0
@@ -37,30 +38,34 @@ var score = 0
 var ball1pos = Vector2.ZERO
 var ball2pos = Vector2.ZERO
 
+var canswap = true
+
 func _ready():
-	scorecount(GameUtils.blockballstagescore[0])
-	$CanvasLayer/UI.updateUI(ballscore)
+	black()
+	scorecount(stagescore)
+	$"UI elements/UI".updateUI(ballscore)
 	roomload(stagescore)
 
 func _physics_process(_delta):
-	if blockcount == blockgoal && blockgoal > 1:
+	if blockcount == blockgoal && blockgoal > 1 && canswap == true:
+		canswap = false
 		nextlevel()
 
 func _input(_event):
 	if Input.is_action_just_pressed("start"):
 		pauseMenu()
-	if Input.is_action_just_pressed("a"):
-		nextlevel()
+	#if Input.is_action_just_pressed("a"): #debug tool
+		#nextlevel()
 
 func roomload(lvlscore):
-	blockgoal = 0
+	blockcount = 0
 	bonusscore = 0
 	var room = levels[lvlscore].instantiate()
-	ballcount = 0
+	ballcountP1 = 0
+	ballcountP2 = 0
 	get_tree().call_group("paddle", "new_ball")
 	get_tree().call_group("ball","queue_free")
 	get_tree().call_group("room","queue_free")
-	#do a screen transition
 	call_deferred("add_child",room)
 
 func updatepaddles(Ypaddlecheck):
@@ -116,29 +121,29 @@ func secondplayerrules():
 	$player2paddle.pinput()
 	$Ypaddle2.pinput()
 	if GameUtils.SECONDPLAYER == false:
-		ballcount /= 2
+		ballcountP2 = 0
 		get_tree().call_group("ball2","loseball")
 		$player2paddle.position.x = $player1paddle.position.x
 		$player2paddle.pos.x = $player1paddle.pos.x
 		$Ypaddle2.position.y = $Ypaddle1.position.y
 		$Ypaddle2.pos.y = $Ypaddle1.pos.y
+		lose() #for checking if p1 needs respawn
 
 func pointspawn(pointcount,coords):
 	score += pointcount
-	$CanvasLayer/UI.updateUI(ballscore)
+	$"UI elements/UI".updateUI(ballscore)
 	var notif = pointnotif.instantiate()
 	notif.position = coords
 	notif.score = pointcount
 	call_deferred("add_child", notif)
 
 func updateUI():
-	$CanvasLayer/UI.updateUI(ballscore)
+	$"UI elements/UI".updateUI(ballscore)
 
 func lose():
-	ballcount -= 1
-	if ballcount == 0:
+	if ballcountP1 == 0 && ballcountP2 == 0:
 		ballscore -= 1
-		$CanvasLayer/UI.updateUI(ballscore)
+		updateUI()
 		if ballscore < 0:
 			gameover()
 		else:
@@ -165,11 +170,21 @@ func nextlevel():
 	updateUI()
 	resetpaddlelocation()
 	#screen transition
+	fade_to_black()
 	if int(stagescore%10) < 5:
 		score = 0 if int(stagescore%10) > 3 else score
+		await get_tree().create_timer(0.5).timeout
 		roomload(stagescore + 1)
+		canswap = false
 	else: #change this to the main blockball menu
 		get_tree().change_scene_to_file("res://selectScreen/popstar.tscn")
+
+func black():
+	screenani.play("black")
+func fade_to_black():
+	screenani.play("fade_to_black")
+func fade_from_black():
+	screenani.play("fade_from_black")
 
 func resetpaddlelocation():
 	$player1paddle.position.x = 0
@@ -196,7 +211,8 @@ func crash():
 
 func abilityChanger():
 	pass
-	#pause ball velocity or set engine speed to 0
+	#probably put this in the ball's code for specific player input
+	#pause ball velocity
 	#shift through abilities
 	#wait for player input
 	#unpause
@@ -207,10 +223,11 @@ func flip():
 func duplicateball():
 	var ball = ball1.instantiate()
 	ball.position = ball1pos
-	ballcount += 1
+	ballcountP1 += 1
 	$".".add_child(ball)
 	if GameUtils.SECONDPLAYER == true:
-		var ball2s = ball2.instantiate()
+		var ball2s = ball1.instantiate()
 		ball2s.position = ball2pos
-		ballcount += 1
+		ball2s.playerballval = 2
+		ballcountP2 += 1
 		$".".add_child(ball2s)

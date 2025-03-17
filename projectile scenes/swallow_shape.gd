@@ -1,6 +1,7 @@
 extends Area2D
 #
 var playerval
+
 func _ready():
 	if is_in_group("player1"):
 		playerval = 1
@@ -24,7 +25,6 @@ func _on_body_entered(body):
 	if body == null: # this should hopefully fix crashes?
 		pass
 	if body.is_in_group("suckable"):
-#		target = null
 		canpull = false
 		if playerval == 2:
 			GameUtils.HELDABILITYP2 = body.copyAbilityScore

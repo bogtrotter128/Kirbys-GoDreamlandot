@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://dfagltxyeko4d"]
+[gd_scene load_steps=38 format=3 uid="uid://dfagltxyeko4d"]
 
 [ext_resource type="Texture2D" uid="uid://cf4aspftqjbv8" path="res://kirbySprites/stageselect/stageSelectMenu.png" id="1_4ldmg"]
 [ext_resource type="Script" path="res://selectScreen/stageSelect.gd" id="2_co43t"]
@@ -187,13 +187,66 @@ animations = [{
 "speed": 12.0
 }]
 
+[sub_resource type="Animation" id="Animation_6yupw"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="Animation" id="Animation_xakcq"]
+resource_name = "fade_from_black"
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.6)
+}
+
+[sub_resource type="Animation" id="Animation_tomht"]
+resource_name = "fade_to_black"
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.6)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_w4un2"]
+_data = {
+"RESET": SubResource("Animation_6yupw"),
+"fade_from_black": SubResource("Animation_xakcq"),
+"fade_to_black": SubResource("Animation_tomht")
+}
+
 [node name="Sprite2D" type="Sprite2D"]
 z_index = 3
 texture = ExtResource("1_4ldmg")
 script = ExtResource("2_co43t")
 
+[node name="selecttimer" type="Timer" parent="."]
+wait_time = 0.07
+autostart = true
+
 [node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(1.48, 1.48)
+zoom = Vector2(1.16, 1.16)
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 offset_left = -80.0
@@ -330,3 +383,20 @@ visible = false
 position = Vector2(60, 36)
 sprite_frames = SubResource("SpriteFrames_usplp")
 frame_progress = 0.863673
+
+[node name="screentransition" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="screentransition"]
+visible = false
+offset_right = 40.0
+offset_bottom = 40.0
+scale = Vector2(9.96857, 7.21904)
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="screentransition"]
+libraries = {
+"": SubResource("AnimationLibrary_w4un2")
+}
+
+[connection signal="timeout" from="selecttimer" to="." method="_on_selecttimer_timeout"]
